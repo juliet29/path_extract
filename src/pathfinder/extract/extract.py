@@ -5,27 +5,86 @@ from pathfinder.constants import ClassNames
 from pathlib import Path
 import polars as pl
 from rich import print as rprint 
+import pandas as pd
 
 def is_category_header(tag: Tag):
+	# TODO also will be a table row.. 
 	if tag.has_attr('class'):
 		if ClassNames.CATEGORY.value in tag["class"]:
 
 			return True
 		
+def is_element_row(tag: Tag):
+	if tag.has_attr('class'):
+		if len(tag["class"]) == 0:
+			return True
+		
+def is_type_header(tag: Tag):
+	if tag.has_attr('class'):
+		if ClassNames.TYPE.value in tag["class"]:
+			return True
+		
+
+def get_category_name(tag: Tag):
+	return tag.td.get_text()
+
+def get_element_name(tag: Tag):
+	td = tag.find("td", ClassNames.ELEMENT.value)
+	assert isinstance(td, Tag)
+	return td.get_text()
+
+
+		
 def extract_data(path:Path) -> pl.DataFrame:
 	soup = BeautifulSoup(open(SAMPLE_HTML), features="html.parser")
-	type_0 = soup.find("tr", class_ = ClassNames.TYPE.value)
-	print(f"cat 0: {type_0}")
-	assert isinstance(type_0, Tag)
+	all_rows = [i for i in soup.find_all("tr") if isinstance(i, Tag) ]
+	#print(f"all_rows: {all_rows}")
 
-	type_1 = type_0.find_next("tr",  class_ = ClassNames.TYPE.value)
-	print(f"cat 1: {type_1}")
-	assert isinstance(type_1, Tag)
+	# category_0 = soup.find("tr", class_ = ClassNames.CATEGORY.value)
+	# print(f"cat 0: {category_0}")
 
-	forward_categories = type_0.find_all_next("tr", class_=ClassNames.CATEGORY.value)
-	backward_categories = type_1.find_all_previous("tr", class_=ClassNames.CATEGORY.value)
-	print(f"forward: {forward_categories}")
-	print(f"backward: {backward_categories}")
+	data = {}
+	curr_category = ""
+	for row in all_rows:
+		if is_category_header(row):
+			category = get_category_name(row)
+			
+			# start new thing..
+			# rprint(f"-- CAT: {get_category_name(row)}")
+			if category not in data.keys():
+				data[category] = []
+			curr_category = category
+
+		if curr_category:
+			if is_element_row(row):
+				data[curr_category].append(get_element_name(row))
+
+		# TODO want to split the section headers.. 
+
+	rprint(data)
+
+		
+
+
+
+	# get all the table rows... 
+	# find the first TYPE table row.. 
+	# for row in row if row is not type, add to list.. 
+
+	
+
+	# type_0 = soup.find("tr", class_ = ClassNames.TYPE.value)
+	# print(f"cat 0: {type_0}")
+	# assert isinstance(type_0, Tag)
+
+	# type_1 = type_0.find_next("tr",  class_ = ClassNames.TYPE.value)
+	# print(f"cat 1: {type_1}")
+	# assert isinstance(type_1, Tag)
+
+	# forward_categories = type_0.find_all_next("tr", class_=ClassNames.CATEGORY.value)
+	# backward_categories = type_1.find_all_previous("tr", class_=ClassNames.CATEGORY.value)
+	# print(f"forward: {forward_categories}")
+	# print(f"backward: {backward_categories}")
 
 	# TODO could keep list of seen values when going backwards.. 
 		
