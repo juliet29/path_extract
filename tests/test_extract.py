@@ -1,15 +1,12 @@
 import pytest
 import polars as pl
 
-from pathfinder.constants import (
+from path_extract.constants import (
     ClassNames,
     Headings,
-    sample_categories,
-    sample_elements,
-    sample_values,
 )
-
-from pathfinder.paths import SAMPLE_HTML
+from path_extract.extract.extract import is_header_of_class_type, is_element_row, extract_data
+from path_extract.paths import SAMPLE_HTML
 from rich import print as rprint
 from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
@@ -29,7 +26,7 @@ def test_is_category_header():
     soup = BeautifulSoup(tag, features="html.parser")
     tr = soup.find("tr")
     assert isinstance(tr, Tag)
-    result = is_category_header(tr)
+    result = is_header_of_class_type(tr, ClassNames.CATEGORY)
     assert result
 
 
@@ -49,8 +46,11 @@ def test_is_element_row():
     assert result
 
 
-@pytest.mark.skip("Not here yet")
+# @pytest.mark.skip("Not here yet")
 def test_html_to_df():
+    sample_categories = ["Aggregate Asphalt Hardscape", "Brick Stone Hardscape", "Concrete Hardscape"]
+    sample_elements = ["Asphalt Curb", "Brick Paving", "Cast-in-Place Concrete Paving"]
+    sample_values = [0,0, 4082]
     # for sample df, only have `Embodied Carbon Emissions
     # TODO read our SAMPLE_HTML
 
@@ -61,12 +61,12 @@ def test_html_to_df():
         * len(sample_categories),
         ClassNames.CATEGORY.name: sample_categories,
         ClassNames.ELEMENT.name: sample_elements,
-        ClassNames.VALUE.name: [0, 0, 4_082],
+        ClassNames.VALUE.name: sample_values,
     }
     # TODO expect the rows to be in the dataframe..
     expected_df_top = pl.DataFrame(data)
 
-    assert df.select(data.keys()).head(3) == expected_df_top
+    assert df.select(data.keys()).head(3).equals(expected_df_top)
 
 
 if __name__ == "__main__":

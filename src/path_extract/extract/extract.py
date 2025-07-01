@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
-from pathfinder.paths import SAMPLE_HTML
-from pathfinder.constants import ClassNames, TableNames
+from path_extract.paths import SAMPLE_HTML
+from path_extract.constants import ClassNames, TableNames
 from pathlib import Path
 import polars as pl
 from rich import print as rprint 
@@ -10,7 +10,7 @@ from collections import Counter
 from typing import NamedTuple
 import re
 
-ValueAndUnit = NamedTuple("ValueAndUnit", [("value", int), ("unit", str)])
+ValueAndUnit = NamedTuple("ValueAndUnit", [("value", int), ("unit", str | None)])
 
 
 def is_header_of_class_type(tag: Tag, class_:ClassNames):
@@ -21,6 +21,7 @@ def is_header_of_class_type(tag: Tag, class_:ClassNames):
 
 
 def get_header_name(tag: Tag):
+	assert tag.td
 	return tag.td.get_text(strip=True)
 		
 def is_element_row(tag: Tag):
@@ -29,19 +30,19 @@ def is_element_row(tag: Tag):
 			return True
 
 def get_element_name(tag: Tag):
-	td = tag.find("td", ClassNames.ELEMENT.value)
+	td = tag.find("td", class_=ClassNames.ELEMENT.value)
 	assert isinstance(td, Tag)
 	# TODO add to obsidian [drop excess white space with regex](https://stackoverflow.com/questions/1546226/is-there-a-simple-way-to-remove-multiple-spaces-in-a-string)
 	return re.sub(' +', ' ', td.get_text(strip=True)).replace("\n", "")
 
 
 def get_element_value(tag: Tag):
-	td = tag.find("td", ClassNames.VALUE.value)
+	td = tag.find("td", class_=ClassNames.VALUE.value)
 	assert isinstance(td, Tag)
 	
 	result =  td.get_text("|", strip=True).split(" ")
 	if len(result) == 2:
-		return ValueAndUnit(*result)
+		return ValueAndUnit(int(result[0].replace(",", "")), result[1])
 	if len(result) == 1:
 		return ValueAndUnit(0, None)
 	else:
@@ -112,7 +113,7 @@ def extract_data(path:Path) -> pl.DataFrame:
         TableNames.UNIT.name: [i.unit for i in values],
     }
 
-	df = pd.DataFrame(data)
+	df = pl.DataFrame(data)
 
 	rprint(df.head(8))
 
@@ -149,25 +150,25 @@ def extract_data(path:Path) -> pl.DataFrame:
 
 
 
-def extract_data1(path:Path) -> pl.DataFrame:
-	BREAK_NUM = 10
+# def extract_data1(path:Path) -> pl.DataFrame:
+# 	BREAK_NUM = 10
 
-	soup = BeautifulSoup(open(SAMPLE_HTML), features="html.parser")
-	categories = soup.find_all("tr", class_=ClassNames.CATEGORY.value)
-	category_tags = [i for i in categories if  isinstance(i, Tag)]
+# 	soup = BeautifulSoup(open(SAMPLE_HTML), features="html.parser")
+# 	categories = soup.find_all("tr", class_=ClassNames.CATEGORY.value)
+# 	category_tags = [i for i in categories if  isinstance(i, Tag)]
 
-	for category in category_tags:
-		category_name = category.find("td").get_text()
-		rprint(f"CURRENT CATEGORY: {category_name}")
+# 	for category in category_tags:
+# 		category_name = category.find("td").get_text()
+# 		rprint(f"CURRENT CATEGORY: {category_name}")
 
-		try: 
-			rprint(f"NEXT CATEGORY: <<<{category.find_next_sibling("tr", class_=ClassNames.CATEGORY.value)}>>>")
-		except AttributeError:
-			pass
+# 		try: 
+# 			rprint(f"NEXT CATEGORY: <<<{category.find_next_sibling("tr", class_=ClassNames.CATEGORY.value)}>>>")
+# 		except AttributeError:
+# 			pass
 
 		
-		rprint(category.find_next_sibling().find("td", class_=ClassNames.ELEMENT.value))
-		# TODO get element names, except they are not nested...
+# 		rprint(category.find_next_sibling().find("td", class_=ClassNames.ELEMENT.value))
+# 		# TODO get element names, except they are not nested...
 		
 		
 
