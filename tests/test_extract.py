@@ -12,9 +12,9 @@ from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
 
 
-@pytest.mark.skip("Trivial")
-def test_setup():
-    assert 1 + 1 == 2
+# @pytest.mark.skip("Trivial")
+# def test_setup():
+#     assert 1 + 1 == 2
 
 
 def test_is_category_header():
