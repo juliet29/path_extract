@@ -1,5 +1,6 @@
 import pytest
 import polars as pl
+
 from pathfinder.constants import (
     ClassNames,
     Headings,
@@ -7,9 +8,9 @@ from pathfinder.constants import (
     sample_elements,
     sample_values,
 )
+
 from pathfinder.paths import SAMPLE_HTML
 from rich import print as rprint
-from pathfinder.extract.extract import extract_data, is_category_header, is_element_row
 from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
 
@@ -65,7 +66,7 @@ def test_html_to_df():
     # TODO expect the rows to be in the dataframe..
     expected_df_top = pl.DataFrame(data)
 
-    assert df.head(3) == expected_df_top
+    assert df.select(data.keys()).head(3) == expected_df_top
 
 
 if __name__ == "__main__":

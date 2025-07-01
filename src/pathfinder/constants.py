@@ -14,6 +14,10 @@ class ClassNames(StrEnum):
     VALUE = "element-co2"
 
 
+class TableNames(StrEnum):
+    UNIT = "units"
+
+
 # For testing! 
 sample_categories = ["Aggregate Asphalt Hardscape", "Brick Stone Hardscape", "Concrete Hardscape"]
 sample_elements = ["Asphalt Curb", "Brick Paving", "Cast-in-Place Concrete Paving"]
