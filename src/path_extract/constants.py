@@ -2,7 +2,7 @@ from enum import StrEnum
 from typing import Literal
 
 class Headings(StrEnum):
-    CARBON_IMPACT = "CARBON IMPACT"
+    CARBON_IMPACT = "Carbon Impact"
     EMBODIED_CARBON_EMISSIONS = "Embodied Carbon Emissions"
 
 

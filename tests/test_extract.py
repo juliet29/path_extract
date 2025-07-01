@@ -51,19 +51,16 @@ def test_html_to_df():
     sample_categories = ["Aggregate Asphalt Hardscape", "Brick Stone Hardscape", "Concrete Hardscape"]
     sample_elements = ["Asphalt Curb", "Brick Paving", "Cast-in-Place Concrete Paving"]
     sample_values = [0,0, 4082]
-    # for sample df, only have `Embodied Carbon Emissions
-    # TODO read our SAMPLE_HTML
+    sample_types = [Headings.EMBODIED_CARBON_EMISSIONS.value] * len(sample_categories)
 
     df = extract_data(SAMPLE_HTML)
 
     data = {
-        ClassNames.TYPE.name: [Headings.EMBODIED_CARBON_EMISSIONS.value]
-        * len(sample_categories),
+        ClassNames.TYPE.name: sample_types,
         ClassNames.CATEGORY.name: sample_categories,
         ClassNames.ELEMENT.name: sample_elements,
         ClassNames.VALUE.name: sample_values,
     }
-    # TODO expect the rows to be in the dataframe..
     expected_df_top = pl.DataFrame(data)
 
     assert df.select(data.keys()).head(3).equals(expected_df_top)
