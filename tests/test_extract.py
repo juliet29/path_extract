@@ -5,7 +5,8 @@ from path_extract.constants import (
     ClassNames,
     Headings,
 )
-from path_extract.extract.extract import is_header_of_class_type, is_element_row, extract_data
+from path_extract.extract.extract import extract_data
+from path_extract.extract.helpers import is_element_row, is_header_of_class_type
 from path_extract.paths import SAMPLE_HTML
 from rich import print as rprint
 from bs4 import BeautifulSoup

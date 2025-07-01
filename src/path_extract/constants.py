@@ -12,6 +12,7 @@ class ClassNames(StrEnum):
     CATEGORY = "category-header"
     ELEMENT = "element-name"
     VALUE = "element-co2"
+    SEQUESTERING = "seq"
 
 
 class TableNames(StrEnum):
