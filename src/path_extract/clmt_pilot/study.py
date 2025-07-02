@@ -24,23 +24,24 @@ def read_csv(path:Path, file_name: str):
 def read_json(path:Path, file_name: str):
 	_path = path / file_name
 	assert _path.exists()
-	with open(_path) as f:
-		check = f.read()
-		rprint(check)
-		# data = json.load(f)
+	with open(_path, "r") as f:
+		# check = f.read()
+		# rprint(check)
+		data = json.load(f)
 		# print(data)
-		# return data
-	return None
+		return data
+	# return None
 
 def read_exp_info(path:Path):
 	data: ExperimentInfo = read_json(path, INFO)
-	return f"{data["project"]}-{data["experiment"]}"
+	return f"{data["project"]} -- {data["experiment"]}"
 	
 def plot_experiment(path: Path, renderer="browser"):
 	name = read_exp_info(path)
-	# df = read_csv(path, P2_CSV)
-	# df2 = clean_df(df)
-	# plot_elements_by_category(df2, name, renderer)
+	# rprint(name)
+	df = read_csv(path, P2_CSV)
+	df2 = clean_df(df)
+	plot_elements_by_category(df2, name, renderer)
 
 	
 
