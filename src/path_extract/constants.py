@@ -1,5 +1,6 @@
 from enum import StrEnum
 from typing import Literal
+from typing import TypedDict
 
 class Headings(StrEnum):
     CARBON_IMPACT = "Carbon Impact"
@@ -19,4 +20,9 @@ class TableNames(StrEnum):
     UNIT = "units"
 
 
+
+class ExperimentInfo(TypedDict):
+    project: str
+    experiment: str
+    index: int
 # For testing! 

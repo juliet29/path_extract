@@ -5,6 +5,8 @@ import polars as pl
 from rich import print as rprint
 import altair as alt 
 
+
+
 def clean_df(df: pl.DataFrame):
 	# TODO check dataframe columns.. use set comaparison//
 	# set([i.name for i in ClassNames])
@@ -21,20 +23,21 @@ def clean_df(df: pl.DataFrame):
 	# group by category 
 
 
-def plot_elements_by_category(df: pl.DataFrame):
+def plot_elements_by_category(df: pl.DataFrame, title="", renderer="browser"):
+	alt.renderers.enable(renderer)
 	# chart = alt.Chart(df).mark_bar().encode(
     # x=ClassNames.ELEMENT.name,
     # y=ClassNames.VALUE.name, color=ClassNames.CATEGORY.name)
 	# chart.show()
-	chart = alt.Chart(df).mark_bar().encode(
-    x=ClassNames.CATEGORY.name,
-    y=f"sum({ClassNames.VALUE.name})", color=ClassNames.ELEMENT.name)
+	chart = alt.Chart(df, title=title).mark_bar().encode(
+    x=alt.X(ClassNames.CATEGORY.name).title("Category Names"),
+    y=alt.Y(f"sum({ClassNames.VALUE.name})").title("Equivalent Carbon Emissions [kg-Co2-e]"), color=ClassNames.ELEMENT.name, tooltip=ClassNames.ELEMENT.name)
 	chart.show()
 	
 
 
 if __name__ == "__main__":
-	alt.renderers.enable("browser")
+	# alt.renderers.enable("browser")
 	# uncomment below
 	df = extract_data(SAMPLE_HTML)
 	df2 = clean_df(df)

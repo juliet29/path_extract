@@ -1,5 +1,6 @@
 import pyprojroot
 
+
 BASE_PATH = pyprojroot.find_root(pyprojroot.has_dir(".git"))
 
 
@@ -17,5 +18,8 @@ P2_CSV = "p2.csv"
 EXP_0 = "exp_0"
 EXP_1 = "exp_1"
 EXP_2 = "exp_2"
+INFO = "info.json"
+
+
 
 SAMPLE_CLMT_HTML = PATH_TO_CLMT_PROJECTS / PIER6 / EXP_0 / P2
