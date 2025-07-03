@@ -23,7 +23,7 @@ def read_csv(path:Path, file_name: str):
 
 def read_json(path:Path, file_name: str):
 	_path = path / file_name
-	assert _path.exists()
+	assert _path.exists(), f"{_path} does not exist!"
 	with open(_path, "r") as f:
 		# check = f.read()
 		# rprint(check)

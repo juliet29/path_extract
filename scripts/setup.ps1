@@ -81,7 +81,7 @@ function New-Setup {
 
     # make a info.json in experiment folder
     $Info = @{
-        project= $Project;
+        project= $SourceName;
         experiment= $ExpName;
         index= $ExpNumber
     } 
