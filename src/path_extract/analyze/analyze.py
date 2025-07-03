@@ -1,4 +1,4 @@
-from path_extract.extract.extract import extract_data
+from path_extract.extract.breakdown import read_breakdown
 from path_extract.paths import SAMPLE_HTML, BASE_PATH
 from path_extract.constants import ClassNames, Headings
 import polars as pl 
@@ -46,7 +46,7 @@ def plot_elements_by_category(df: pl.DataFrame, title="", renderer="browser", sh
 if __name__ == "__main__":
 	# alt.renderers.enable("browser")
 	# uncomment below
-	df = extract_data(SAMPLE_HTML)
+	df = read_breakdown(SAMPLE_HTML)
 	df2 = clean_df(df)
 	plot_elements_by_category(df2)
 

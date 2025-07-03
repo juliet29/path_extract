@@ -5,12 +5,14 @@ from path_extract.constants import (
     ClassNames,
     Headings,
 )
-from path_extract.extract.extract import extract_data
+from path_extract.extract.breakdown import read_breakdown
 from path_extract.extract.helpers import is_element_row, is_header_of_class_type
 from path_extract.paths import SAMPLE_HTML
 from rich import print as rprint
 from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
+
+from path_extract.project_paths import CLMTPath
 
 
 # @pytest.mark.skip("Trivial")
@@ -48,13 +50,17 @@ def test_is_element_row():
 
 
 # @pytest.mark.skip("Not here yet")
-def test_html_to_df():
-    sample_categories = ["Aggregate Asphalt Hardscape", "Brick Stone Hardscape", "Concrete Hardscape"]
+def test_read_breakdown():
+    sample_categories = [
+        "Aggregate Asphalt Hardscape",
+        "Brick Stone Hardscape",
+        "Concrete Hardscape",
+    ]
     sample_elements = ["Asphalt Curb", "Brick Paving", "Cast-in-Place Concrete Paving"]
-    sample_values = [0,0, 4082]
+    sample_values = [0, 0, 4082]
     sample_types = [Headings.EMBODIED_CARBON_EMISSIONS.value] * len(sample_categories)
 
-    df = extract_data(SAMPLE_HTML)
+    df = read_breakdown(SAMPLE_HTML)
 
     data = {
         ClassNames.TYPE.name: sample_types,
@@ -67,5 +73,15 @@ def test_html_to_df():
     assert df.select(data.keys()).head(3).equals(expected_df_top)
 
 
+def test_clmt_paths():
+    pier_6_paths = CLMTPath("pier_6")   
+    overview_html = pier_6_paths.get_html(0, "Overview")
+    assert overview_html.exists()
+
+# def test_read_overview():
+#     pier_6_paths = CLMTPath("pier_6")   
+#     overview_html = pier_6_paths.get_html(0, "Overview")
+#     assert overview_html.exists()
+
 if __name__ == "__main__":
-    test_html_to_df()
+    test_read_breakdown()

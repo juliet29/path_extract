@@ -1,4 +1,4 @@
-from path_extract.extract.extract import extract_data
+from path_extract.extract.breakdown import read_breakdown
 from path_extract.analyze.analyze import clean_df, plot_elements_by_category
 from path_extract.paths import PIER6, NEWTOWN, P2, P2_CSV, EXP_0, INFO
 from path_extract.constants import ExperimentInfo
@@ -14,7 +14,7 @@ def create_csvs_for_p2(folder:Path):
 	for dir in dirs:
 		html_file = dir / P2
 		csv_file = dir / "p2.csv"
-		df = extract_data(html_file)
+		df = read_breakdown(html_file)
 		df.write_csv(csv_file)
 		pass
 	
