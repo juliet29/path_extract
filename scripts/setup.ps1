@@ -45,21 +45,15 @@ function New-Setup {
     $HTMLPath = Join-Path $ExpPath $HTML_FOLDER
 
 
-    # # create project and experiment folders if they dont exist 
+    # # create directories if they dont exist 
     New-Item $ProjectPath -ItemType Directory -Force 
     New-Item $ExpPath -ItemType Directory -Force
 
-    # create text and html folders 
     New-Item $TextPath -ItemType Directory -Force
     New-Item $HTMLPath -ItemType Directory -Force
 
 
-    
-    
-    
-    
-    # copy files into .txt folder from the source folder
-    # there will be two files, so need to do some string interpolation 
+
 
     $SourcePath = Join-Path $SOURCE_FOLDER_ROOT $SourceName
 
@@ -89,3 +83,4 @@ function New-Setup {
     New-Item $JSONPath -ItemType File -Value $JSONInfo -Force
 
 }
+
