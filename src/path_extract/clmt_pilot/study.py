@@ -41,7 +41,7 @@ def plot_experiment(path: Path, renderer="browser"):
 	# rprint(name)
 	df = read_csv(path, P2_CSV)
 	df2 = clean_df(df)
-	plot_elements_by_category(df2, name, renderer)
+	return plot_elements_by_category(df2, name, renderer)
 
 	
 

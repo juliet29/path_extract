@@ -23,7 +23,7 @@ def clean_df(df: pl.DataFrame):
 	# group by category 
 
 
-def plot_elements_by_category(df: pl.DataFrame, title="", renderer="browser"):
+def plot_elements_by_category(df: pl.DataFrame, title="", renderer="browser", show=False):
 	alt.renderers.enable(renderer)
 	# chart = alt.Chart(df).mark_bar().encode(
     # x=ClassNames.ELEMENT.name,
@@ -31,8 +31,15 @@ def plot_elements_by_category(df: pl.DataFrame, title="", renderer="browser"):
 	# chart.show()
 	chart = alt.Chart(df, title=title).mark_bar().encode(
     x=alt.X(ClassNames.CATEGORY.name).title("Category Names"),
-    y=alt.Y(f"sum({ClassNames.VALUE.name})").title("Equivalent Carbon Emissions [kg-Co2-e]"), color=ClassNames.ELEMENT.name, tooltip=ClassNames.ELEMENT.name)
-	chart.show()
+    y=alt.Y(f"sum({ClassNames.VALUE.name})").title("Equivalent Carbon Emissions [kg-Co2-e]"), color=alt.Color(ClassNames.ELEMENT.name).legend(None),
+	tooltip=ClassNames.ELEMENT.name
+	)
+	#tooltip=ClassNames.ELEMENT.name))
+
+	if show:
+		chart.show()
+
+	return chart 
 	
 
 
