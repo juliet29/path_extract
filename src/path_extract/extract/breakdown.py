@@ -17,8 +17,9 @@ from collections import Counter
 
 
 def read_breakdown(path: Path) -> pl.DataFrame:
-    soup = BeautifulSoup(open(path), features="html.parser", from_encoding="utf-8")
+    soup = BeautifulSoup(open(path), features="html.parser", from_encoding="utf-8") # TODO use soup strainer ..
     all_rows = [i for i in soup.find_all("tr") if isinstance(i, Tag)]
+    # rprint(soup)
 
     category_counter = Counter()
     elements = []
@@ -53,6 +54,7 @@ def read_breakdown(path: Path) -> pl.DataFrame:
         == category_counter.total()
         == len(elements)
     )
+    rprint(section_counter, type_counter)
 
     data = {
         ClassNames.SECTION.name: section_counter.elements(),
@@ -67,4 +69,5 @@ def read_breakdown(path: Path) -> pl.DataFrame:
 
 if __name__ == "__main__":
     df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
-    rprint(df.head(10))
+    rprint(df)
+    #rprint(df.head(10))

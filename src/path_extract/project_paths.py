@@ -36,13 +36,13 @@ class CLMTPath:
         return self.get_experiment_path(experiment_num) / INFO 
     
     def get_html(self, experiment_num: int, datatype: DataTypes):
-        num = 1 if datatype == "Breakdown" else 2
-        return self.get_experiment_path(experiment_num) / HTML(num) # TODO define in function 
+        num = 1 if datatype == "Overview" else 2
+        # TODO wrapper function to test for existence.. 
+        return self.get_experiment_path(experiment_num) / HTML(num)
     
     def get_csv(self, experiment_num: int, datatype: DataTypes):
-        num = 1 if datatype == "Breakdown" else 2
-        return self.get_experiment_path(experiment_num) / CSV(num) # TODO define in function 
-
+        num = 1 if datatype == "Overview" else 2
+        return self.get_experiment_path(experiment_num) / CSV(num)
 
 
 pier_6_paths = CLMTPath("pier_6")   

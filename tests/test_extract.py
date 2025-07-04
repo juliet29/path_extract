@@ -3,16 +3,17 @@ import polars as pl
 
 from path_extract.constants import (
     ClassNames,
-    Headings,
+    Headings, Emissions, Area
 )
 from path_extract.extract.breakdown import read_breakdown
+from path_extract.extract.overview import read_overview
 from path_extract.extract.helpers import is_element_row, is_header_of_class_type
 from path_extract.paths import SAMPLE_HTML
 from rich import print as rprint
 from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
 
-from path_extract.project_paths import CLMTPath
+from path_extract.project_paths import CLMTPath, SAMPLE_CLMT_OVERVIEW_HTML
 
 
 # @pytest.mark.skip("Trivial")
@@ -78,10 +79,10 @@ def test_clmt_paths():
     overview_html = pier_6_paths.get_html(0, "Overview")
     assert overview_html.exists()
 
-# def test_read_overview():
-#     pier_6_paths = CLMTPath("pier_6")   
-#     overview_html = pier_6_paths.get_html(0, "Overview")
-#     assert overview_html.exists()
+def test_read_overview():
+    result = read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
+    keys = [i.name for i in Emissions] + [i.name for i in Area]
+    assert sorted(keys) == sorted(list(result.keys()))
 
 if __name__ == "__main__":
     test_read_breakdown()

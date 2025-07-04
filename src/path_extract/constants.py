@@ -1,6 +1,18 @@
 from enum import StrEnum
-from typing import Literal
 from typing import TypedDict
+
+
+class Emissions(StrEnum):
+    EMBODIED = "Embodied Emissions"
+    OPERATIONAL = "Operational Emissions"
+    BIOGENIC = "Biogenic Emissions"
+    STORAGE = "Carbon Stored"
+
+class Area(StrEnum):
+    TOTAL = "Site"
+    PLANTED = "Planted"
+
+
 
 class Headings(StrEnum):
     CARBON_IMPACT = "Carbon Impact"
@@ -16,6 +28,9 @@ class ClassNames(StrEnum):
     SEQUESTERING = "seq"
 
 
+
+
+
 class TableNames(StrEnum):
     UNIT = "units"
 
@@ -26,3 +41,4 @@ class ExperimentInfo(TypedDict):
     experiment: str
     index: int
 # For testing! 
+
