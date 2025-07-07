@@ -69,11 +69,14 @@ def make_expressions_list(pairs):
 
 
 def plot_experiment(clmt_path: CLMTPath, experiment_num: int, renderer="browser"):
+    # TODO -> run experiments if dont exist
     name = read_exp_info(clmt_path, experiment_num)
     # rprint(name)
     df = read_csv(clmt_path.get_csv(experiment_num, "Breakdown"))
     df2 = clean_df(df)
 
+
+	# reorg df -> TODO put in different file.. 
     pairs = [("Asphalt Paving", "Category 2"), ("Stone Steps", "Cat3")]
 
     df3 = df2.with_columns(
@@ -89,21 +92,17 @@ def plot_experiment(clmt_path: CLMTPath, experiment_num: int, renderer="browser"
         pl.col(TableNames.CUSTOM_CATEGORY.name).fill_null(pl.col(ClassNames.CATEGORY.name)))
 
 
-    # TODO reorganize df..
-    rprint(df3)
+
+    # rprint(df3)
     return plot_elements_by_category(df3, name, renderer)
 
 
 if __name__ == "__main__":
-    clmt_path = CLMTPath("pier_6")
-    # create_csvs_for_breakdown(clmt_path)
-    chart = plot_experiment(clmt_path, 0)
-    chart.show()
-    # df = read_csv(PIER6/EXP_0, P2_CSV)
-    # df2 = clean_df(df)
-    # plot_elements_by_category(df2)
+    clmt_path = CLMTPath("newtown_creek")
+    create_csvs_for_breakdown(clmt_path)
+    # chart = plot_experiment(clmt_path, 0)
+    # chart.show()
+    
 
-    # rprint(df2)
-    # create_csvs_for_p2(PIER6)
-    # df = extract_data(SAMPLE_CLMT_HTML)
-    # rprint(df.head(10))
+
+

@@ -5,7 +5,7 @@ from pathlib import Path
 import polars as pl
 from rich import print as rprint
 from path_extract.project_paths import SAMPLE_CLMT_OVERVIEW_HTML
-from path_extract.constants import Emissions, Area
+from path_extract.constants import Emissions, Area, overview_map
 from typing import NamedTuple
 from path_extract.extract.helpers import ValueAndUnit
 import re
@@ -47,13 +47,24 @@ def process_data_row(tag: Tag):
     #rprint(f"name: {name}")
     rprint(f"value: {value[0]}, unit: {value[1]}")
 
-    # rprint(f"res: {value_and_unit}. value: {match_value(VALUE_MATCH, value_and_unit)} | unit: {match_value(UNIT_MATCH, value_and_unit)}")
     integer_value = int(value[0].replace(",", ""))
     value_and_unit = ValueAndUnit(integer_value, value[1])
     if value_and_unit.unit == "Metric":
         value_and_unit = ValueAndUnit(integer_value, "Metric Tons")
 
     return name, value_and_unit
+
+def process_overview(result_dict:dict):
+    data = {
+        "Names":[overview_map[i].value for i in result_dict.keys()],
+        "Values": [i.value for i in result_dict.values()],
+        "Unit": [i.unit for i in result_dict.values()],
+    }
+    # rprint(data)
+
+    return pl.DataFrame(data)
+
+
 
 
 def read_overview(path: Path):
@@ -78,7 +89,7 @@ def read_overview(path: Path):
     rprint(result_dict)
     # TODO make into dataframe, differentiate betwen areas and not.. 
 
-    return result_dict
+    return process_overview(result_dict) 
 
 
 
@@ -96,5 +107,6 @@ def read_overview(path: Path):
     
 
 if __name__ == "__main__":
-    read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
+    res = read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
+    rprint(res)
     # rprint(df)

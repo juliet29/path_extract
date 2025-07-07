@@ -12,6 +12,31 @@ class Area(StrEnum):
     TOTAL = "Site"
     PLANTED = "Planted"
 
+class Other(StrEnum):
+    NET = "Net"
+    EMIT_PA = "Emissions per Area"
+    SEQ_PA = "Seq per Area"
+
+
+
+overview_map = {
+    'Net Impact over 60 years': Other.NET,
+    'Total Embodied Emissions': Emissions.EMBODIED,
+    'Total Biogenic(Sequestration + Emissions)': Emissions.BIOGENIC,
+    'Total Operational Emissions': Emissions.OPERATIONAL,
+    'Total Carbon Stored': Emissions.STORAGE,
+    'Site Area': Area.TOTAL,
+    'Planted Area': Area.PLANTED,
+    'Emissions per Area': Other.EMIT_PA,
+    'Sequestration per Area': Other.SEQ_PA
+}
+
+# class OverviewNames(StrEnum):
+#     EMBODIED = "Total Embodied Emissions"
+#     OPERATIONAL = "Total Biogenic(Sequestration + Emissions)"
+#     BIOGENIC = "Biogenic"
+#     STORAGE = "Carbon Stored"
+
 
 
 class Headings(StrEnum):
