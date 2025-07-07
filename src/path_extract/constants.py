@@ -1,7 +1,7 @@
 from enum import StrEnum
 from typing import TypedDict
 
-
+# TODO can do "linked str enums.. "
 class Emissions(StrEnum):
     EMBODIED = "Embodied"
     OPERATIONAL = "Operational"
@@ -31,8 +31,10 @@ class ClassNames(StrEnum):
 
 
 
+
 class TableNames(StrEnum):
     UNIT = "units"
+    CUSTOM_CATEGORY = "custom_category"
 
 
 

@@ -8,7 +8,7 @@ DataTypes =  Literal["Breakdown", "Overview"]
 BREAKDOWN = 2
 OVERVIEW = 1
 CLMT_PROJECTS = "250701_CLMT_Pilot_Sprint"
-PILOT_PROJECTS = ["pier_6", "newtown_creek"] # TODO can use path lib to get names.. 
+PILOT_PROJECTS = ["pier_6", "newtown_creek"] # TODO can use path lib to get names.. TODO make enum?
 INFO = "info.json"
 def EXP(x): return f"exp_{x}"
 def HTML(x): return Path("html") / f"_{x}.html"
