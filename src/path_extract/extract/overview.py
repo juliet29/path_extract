@@ -5,9 +5,9 @@ from pathlib import Path
 import polars as pl
 from rich import print as rprint
 from path_extract.project_paths import SAMPLE_CLMT_OVERVIEW_HTML
-from path_extract.constants import Emissions, Area, overview_map
+from path_extract.constants import Emissions, Area, overview_map, ClassNames, TableNames
 from typing import NamedTuple
-from path_extract.extract.helpers import ValueAndUnit
+from path_extract.extract.helpers import ValueAndUnit, Comparison
 import re
 # key information
 
@@ -54,11 +54,11 @@ def process_data_row(tag: Tag):
 
     return name, value_and_unit
 
-def process_overview(result_dict:dict):
+def process_overview(result_dict:dict): # TODO use constants! 
     data = {
-        "Names":[overview_map[i].value for i in result_dict.keys()],
-        "Values": [i.value for i in result_dict.values()],
-        "Unit": [i.unit for i in result_dict.values()],
+        TableNames.NAME.name:[overview_map[i].value for i in result_dict.keys()],
+        ClassNames.VALUE.name: [i.value for i in result_dict.values()],
+        TableNames.UNIT.name: [i.unit for i in result_dict.values()],
     }
     # rprint(data)
 
@@ -104,9 +104,17 @@ def read_overview(path: Path):
 
 
     # COMPARE overview with breakdown! 
+
+def get_overview_comparison(df):
+    embodied = df.filter(pl.col(TableNames.NAME.name) == Emissions.EMBODIED.value)[ClassNames.VALUE.name].sum()
+    biogenic = df.filter(pl.col(TableNames.NAME.name) == Emissions.BIOGENIC.value)[ClassNames.VALUE.name].sum()
+    return Comparison(embodied, biogenic)
+
+
     
 
 if __name__ == "__main__":
-    res = read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
-    rprint(res)
-    # rprint(df)
+    df = read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
+    rprint(df)
+    f = get_overview_comparison(df)
+    rprint(f)

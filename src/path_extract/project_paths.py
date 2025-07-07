@@ -56,6 +56,6 @@ class CLMTPath:
         return self.get_experiment_path(experiment_num) / CSV(num)
 
 
-pier_6_paths = CLMTPath("pier_6")   
-SAMPLE_CLMT_OVERVIEW_HTML = pier_6_paths.get_html(0, "Overview")
-SAMPLE_CLMT_BREAKDOWN_HTML = pier_6_paths.get_html(0, "Breakdown")
+SAMPLE_CLMT_PATH = CLMTPath("pier_6")   
+SAMPLE_CLMT_OVERVIEW_HTML = SAMPLE_CLMT_PATH.get_html(0, "Overview")
+SAMPLE_CLMT_BREAKDOWN_HTML = SAMPLE_CLMT_PATH.get_html(0, "Breakdown")

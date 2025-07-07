@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from path_extract.extract.helpers import (
+    Comparison,
     ValueAndUnit,
     create_list_of_class_type,
     get_element_name,
@@ -8,7 +9,7 @@ from path_extract.extract.helpers import (
     is_element_row,
 )
 from path_extract.project_paths import SAMPLE_CLMT_BREAKDOWN_HTML
-from path_extract.constants import ClassNames, TableNames
+from path_extract.constants import ClassNames, TableNames, Headings
 from pathlib import Path
 import polars as pl
 from rich import print as rprint
@@ -67,8 +68,14 @@ def read_breakdown(path: Path) -> pl.DataFrame:
     }
     return pl.DataFrame(data)
 
+def get_breakdown_comparison(df):
+    embodied = df.filter(pl.col(ClassNames.TYPE.name) == Headings.EMBODIED_CARBON_EMISSIONS)[ClassNames.VALUE.name].sum()
+    biogenic = df.filter(pl.col(ClassNames.TYPE.name) == Headings.BIOGENIC)[ClassNames.VALUE.name].sum()
+    return Comparison(embodied, biogenic)
+
 
 if __name__ == "__main__":
     df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
     rprint(df)
-    #rprint(df.head(10))
+    f = get_breakdown_comparison(df)
+    rprint(f)

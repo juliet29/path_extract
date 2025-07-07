@@ -42,6 +42,7 @@ overview_map = {
 class Headings(StrEnum):
     CARBON_IMPACT = "Carbon Impact"
     EMBODIED_CARBON_EMISSIONS = "Embodied Carbon Emissions"
+    BIOGENIC = "Biogenic (Sequestration + Emissions)"
 
 
 class ClassNames(StrEnum):
@@ -60,6 +61,7 @@ class ClassNames(StrEnum):
 class TableNames(StrEnum):
     UNIT = "units"
     CUSTOM_CATEGORY = "custom_category"
+    NAME = "names"
 
 
 

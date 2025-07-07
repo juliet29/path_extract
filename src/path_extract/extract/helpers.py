@@ -3,6 +3,24 @@ from bs4.element import Tag
 import re
 from rich import print as rprint
 from path_extract.constants import ClassNames
+import numpy as np
+
+
+class Comparison(NamedTuple):
+    embodied: int
+    biogenic: int
+
+    def __eq__(self, other: object) -> bool:
+        TOL = 1e-5
+        if not isinstance(other, Comparison):
+            raise Exception("Invalid object for comparision")
+        embodied_check = np.isclose(self.embodied, other.embodied, rtol=TOL)
+        if not embodied_check:
+            raise Warning(f"Embodied check failed: {self.embodied} != {other.embodied}")
+        biogenic_check = np.isclose(abs(self.biogenic), abs(other.biogenic), rtol=TOL)
+        if not biogenic_check:
+            raise Warning(f"Biogenic check failed: {self.biogenic} != {other.biogenic}")
+        return bool(embodied_check) & bool(biogenic_check)
 
 
 def is_element_row(tag: Tag):
