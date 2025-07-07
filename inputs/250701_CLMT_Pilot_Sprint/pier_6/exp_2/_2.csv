@@ -1,0 +1,79 @@
+SECTION,TYPE,CATEGORY,ELEMENT,VALUE,UNIT
+Carbon Impact,Embodied Carbon Emissions,Aggregate Asphalt Hardscape,Rip-rap (Armor Rock),298086,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Aggregate Asphalt Hardscape,"Stabilized Crushed Stone Paving - 4"" (100mm) Depth",11885,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Aggregate Asphalt Hardscape,Compacted Aggregate Base,26084,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Brick Stone Hardscape,Stone Steps,5061,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Brick Stone Hardscape,Stone Paving or Pavers,8166,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Cast-in-Place Concrete Paving,324769,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Precast Concrete Unit Pavers,43546,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Cast-in-Place Concrete Paving,78609,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Welded Wire Mesh (Fabric) Reinforcement,20359,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Salvaged Concrete Paving,3922,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Salvaged Concrete Steps,1907,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Salvaged Concrete Wall,3358,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Cast-in-Place Concrete Wall,3823,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Salvaged Concrete Paving,10148,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Precast Concrete Stairs,60525,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Cast-in-Place Concrete Spread Footing (Foundation),166264,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Concrete Hardscape,Cast-in-Place Concrete Wall,4092,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Demolition Site Preparation,Concrete Paving or Slab Demolition,8308,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Demolition Site Preparation,Clearing and Grubbing,91285,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Demolition Site Preparation,Site Regrading,17803,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Demolition Site Preparation,Removal of Site Soil (off-haul),8034,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Demolition Site Preparation,Trenching and Backfilling,2225,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Exterior Lighting,Light Pole Luminaire,25155,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Exterior Lighting,Galvanized Steel Light Pole,18816,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Furnishings,"STRIPES bench (semi-circle, closed)",2222,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Furnishings,CITY litter bin (150L curved),2199,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Furnishings,BERG picnic table,1648,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Green Infrastructure,Swale,144227,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Infrastructure Subsurface,Gravel,99982,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Infrastructure Subsurface,Electrical Conduit,11077,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Infrastructure Subsurface,Irrigation Lateral Line,4788,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Metal Wood Hardscape,Steel Guardrail,14345,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Metal Wood Hardscape,Steel Handrail,1119,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Metal Wood Hardscape,Decking,25565,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Metal Wood Hardscape,Wood Post,20762,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Metal Wood Hardscape,Salvaged Wood,342,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Metal Wood Hardscape,Steel Guardrail,6735,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Planting Accessories,Metal Edge Restraint,9130,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Site Elements,Stone Boulders,4613,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Soil Amendments,Amended Planting Soil,88228,kgCO₂e
+Carbon Impact,Embodied Carbon Emissions,Soil Amendments,Biofiltration Soil 70-15-15,48058,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Ecosystem Restoration,Temperate Continental Forest,-384523,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Lawn,Moderate Management Lawn,55593,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Perennials Perennial Grasses,Perennials / Perennial Grasses,-297923,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Perennials Perennial Grasses,Perennials / Perennial Grasses,-74328,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Shrubs,Deciduous Large Shrub,-167760,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Shrubs,Evergreen Large Shrub,-23340,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Trees,Deciduous Large Tree,-423290,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Trees,Deciduous Medium Tree,-10720,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Trees,Evergreen Medium Tree,-41745,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Trees,Deciduous Large Tree,-90998,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Trees,Evergreen Large Tree,-59275,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Trees Existing To Protect,Deciduous Large (~16-20yrs),-675130,kgCO₂e
+Carbon Impact,Biogenic (Sequestration + Emissions),Trees Existing To Protect,Evergreen Medium (~11-15yrs),-4820,kgCO₂e
+Benefits,Biodiversity,Ecosystem Protection,Native Ecosystems Protected,0,%
+Benefits,Biodiversity,Ecosystem Protection,Native Ecosystems Removed,0,%
+Benefits,Biodiversity,Biodiversity Net Impact,Native Ecosystem Impact,100,%
+Benefits,Biodiversity,Biodiversity Net Impact,Native Ecosystem Restored,5953,m2
+Benefits,Biodiversity,Biodiversity Net Impact,Native Ecosystem Removed,0,m2
+Benefits,Biodiversity,Biodiversity Net Impact,Native Planting Impact,100,%
+Benefits,Biodiversity,Biodiversity Net Impact,Native Tres Planted,335,%
+Benefits,Biodiversity,Biodiversity Net Impact,Native Trees Removed,0,
+Benefits,Biodiversity,Biodiversity Net Impact,Native Shrubs Planted,0,
+Benefits,Biodiversity,Biodiversity Net Impact,Native Perennials Planted,0,m2
+Benefits,Water,Evapotranspiration,Average Annual Potential Evapotranspiration (ETo),1490,mm/yr
+Benefits,Water,Landscape Water Use,Total Planted Area,0,m²
+Benefits,Water,Landscape Water Use,Annual Baseline,0,L/y
+Benefits,Water,Landscape Water Use,Maximum Water Allowance,0,L/yr
+Benefits,Water,Landscape Water Use,Annual Site Water Usage,0,L/yr
+Benefits,Water,Landscape Water Use,Reduction From Baseline,0,%
+Benefits,Cooling,Heat Island,Severe Heat Area,0,
+Benefits,Cooling,Shade,Broad Biome,0,
+Benefits,Cooling,Shade,Total Area Shaded By Trees,66932,m²
+Benefits,Cooling,Shade,Percentage of Site Shaded By Trees,293,%
+Benefits,Cooling,Shade,Total Area of Shade Structures,0,m²
+Benefits,Cooling,Shade,Percent of Area Shaded by Structures,0,%
+Benefits,Equity,Overburdened and Underserved Communities,Underserved Community,0,
+Benefits,Equity,Overburdened and Underserved Communities,Community Engagement,0,

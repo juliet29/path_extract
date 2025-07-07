@@ -76,6 +76,9 @@ def read_overview(path: Path):
         result_dict[name] = value_and_unit
 
     rprint(result_dict)
+    # TODO make into dataframe, differentiate betwen areas and not.. 
+
+    return result_dict
 
 
 
