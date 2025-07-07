@@ -3,6 +3,7 @@ from rich import print as rprint
 from path_extract.file_utils import read_csv
 from path_extract.project_paths import CLMTPath, SAMPLE_CLMT_PATH
 import polars as pl
+from path_extract.clmt_pilot.revised_categories import revised_categories, create_pairs
 
 
 def get_emissions_df(df: pl.DataFrame):
@@ -16,11 +17,15 @@ def get_emissions_df(df: pl.DataFrame):
 
 
 def reorganize_categories(df: pl.DataFrame):
-    pairs = [("Asphalt Paving", "Category 2"), ("Stone Steps", "Cat3")]
+    rprint("Hi revising!")
+    # pairs = [("Asphalt Paving", "Category 2"), ("Stone Steps", "Cat3")]
+    pairs = create_pairs(revised_categories)
+    rprint(pairs)
 
     d = df.with_columns(
         (
             pl.coalesce(
+                # this syntax should allow to fail smoothly if element is NOT in dataframe.. 
                 pl.when(pl.col(ClassNames.ELEMENT.name) == cond).then(pl.lit(result))
                 for cond, result in pairs
             )
@@ -41,5 +46,6 @@ def edit_breakdown_df(df):
 if __name__ == "__main__":
     clmt_path = CLMTPath("newtown_creek")
     df = read_csv(SAMPLE_CLMT_PATH.get_csv(0, "Breakdown"))
+    # rprint(sorted(list(df[ClassNames.ELEMENT.name].unique())))
     d = edit_breakdown_df(df)
     rprint(d)

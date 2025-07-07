@@ -1,0 +1,34 @@
+---
+title: "CLMT Pilot Results"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+# Project Comparisons
+
+#### TODO! 
+
+# Experiments within Projects
+
+## Pier 6 
+
+```{python}
+
+from path_extract.clmt_pilot.main import plot_all_project_experiments
+from path_extract.project_paths import CLMTPath
+
+clmt_path = CLMTPath("pier_6")
+chart = plot_all_project_experiments(clmt_path, renderer="html")
+chart.interactive()
+```
+
+
+## Newtown Creek
+```{python}
+
+clmt_path = CLMTPath("newtown_creek")
+chart = plot_all_project_experiments(clmt_path, renderer="html")
+chart.interactive()
+```

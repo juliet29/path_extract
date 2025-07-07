@@ -1,6 +1,12 @@
 from path_extract.extract.breakdown import get_breakdown_comparison, read_breakdown
 from path_extract.extract.overview import get_overview_comparison, read_overview
-from path_extract.project_paths import BREAKDOWN, HTML, OVERVIEW, CLMTPath, get_exp_num
+from path_extract.project_paths import (
+    BREAKDOWN,
+    HTML,
+    OVERVIEW,
+    CLMTPath,
+    get_exp_num_from_path,
+)
 
 
 def create_csvs_for_project(clmt_path: CLMTPath):
@@ -15,7 +21,7 @@ def create_csvs_for_project(clmt_path: CLMTPath):
         return df, get_overview_comparison(df)
 
     for exp_dir in clmt_path.experiment_paths:
-        exp_num = get_exp_num(exp_dir)
+        exp_num = get_exp_num_from_path(exp_dir)
 
         breakdown_df, breakdown_comp = make_breakdown()
         overview_df, overview_comp = make_overview()

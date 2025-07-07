@@ -1,0 +1,71 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"CLMT Pilot Results\"\n",
+        "format:\n",
+        "  html:\n",
+        "    code-fold: true\n",
+        "jupyter: python3\n",
+        "---\n",
+        "\n",
+        "# Project Comparisons\n",
+        "\n",
+        "#### TODO! \n",
+        "\n",
+        "# Experiments within Projects\n",
+        "\n",
+        "## Pier 6 "
+      ],
+      "id": "4128b05d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from path_extract.clmt_pilot.main import plot_all_project_experiments\n",
+        "from path_extract.project_paths import CLMTPath\n",
+        "\n",
+        "clmt_path = CLMTPath(\"pier_6\")\n",
+        "chart = plot_all_project_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.interactive()"
+      ],
+      "id": "a3630b16",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Newtown Creek"
+      ],
+      "id": "a6b3bdbf"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "clmt_path = CLMTPath(\"newtown_creek\")\n",
+        "chart = plot_all_project_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.interactive()"
+      ],
+      "id": "88d55312",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "c:\\Users\\juliet.intern\\_SCAPECode\\pathfinder\\.venv\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

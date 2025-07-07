@@ -1,9 +1,10 @@
 import polars as pl
-
-
+import json
 from pathlib import Path
 
 
+
+# TODO combine this repetion! BUt also make sure do have both behaviors ... maybe try to consolidate?
 def read_csv(path: Path, file_name: str | None = None):
     if file_name:
         _path = path / file_name

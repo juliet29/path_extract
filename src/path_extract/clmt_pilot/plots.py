@@ -14,10 +14,6 @@ def plot_elements_by_category(
     df: pl.DataFrame, title="", renderer="browser", show=False
 ):
     alt.renderers.enable(renderer)
-    # chart = alt.Chart(df).mark_bar().encode(
-    # x=ClassNames.ELEMENT.name,
-    # y=ClassNames.VALUE.name, color=ClassNames.CATEGORY.name)
-    # chart.show()
     chart = (
         alt.Chart(df, title=title)
         .mark_bar()
@@ -30,7 +26,6 @@ def plot_elements_by_category(
             tooltip=ClassNames.ELEMENT.name,
         )
     )
-    # tooltip=ClassNames.ELEMENT.name))
 
     if show:
         chart.show()
