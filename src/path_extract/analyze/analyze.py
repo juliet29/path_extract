@@ -1,6 +1,6 @@
 from path_extract.extract.breakdown import read_breakdown
 from path_extract.paths import SAMPLE_HTML, BASE_PATH
-from path_extract.constants import ClassNames, Headings
+from path_extract.constants import ClassNames, Headings, TableNames
 import polars as pl 
 from rich import print as rprint
 import altair as alt 
@@ -30,7 +30,7 @@ def plot_elements_by_category(df: pl.DataFrame, title="", renderer="browser", sh
     # y=ClassNames.VALUE.name, color=ClassNames.CATEGORY.name)
 	# chart.show()
 	chart = alt.Chart(df, title=title).mark_bar().encode(
-    x=alt.X(ClassNames.CATEGORY.name).title("Category Names"),
+    x=alt.X(TableNames.CUSTOM_CATEGORY.name).title("Category Names"),
     y=alt.Y(f"sum({ClassNames.VALUE.name})").title("Equivalent Carbon Emissions [kg-Co2-e]"), color=alt.Color(ClassNames.ELEMENT.name).legend(None),
 	tooltip=ClassNames.ELEMENT.name
 	)
