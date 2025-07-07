@@ -3,9 +3,9 @@ from typing import TypedDict
 
 
 class Emissions(StrEnum):
-    EMBODIED = "Embodied Emissions"
-    OPERATIONAL = "Operational Emissions"
-    BIOGENIC = "Biogenic Emissions"
+    EMBODIED = "Embodied"
+    OPERATIONAL = "Operational"
+    BIOGENIC = "Biogenic"
     STORAGE = "Carbon Stored"
 
 class Area(StrEnum):
