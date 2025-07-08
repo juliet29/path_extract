@@ -85,10 +85,10 @@ class CLMTPath:
     
     def get_all_experiment_csvs(self):
         experiment_nums = [get_exp_num_from_path(i) for i in self.experiment_paths]
-        return {i: self.get_csv(i, DataType.BREAKDOWN) for i in experiment_nums}
+        return [self.get_csv(i, DataType.BREAKDOWN) for i in experiment_nums]
 
 
 
 SAMPLE_CLMT_PATH = CLMTPath("pier_6")
-SAMPLE_CLMT_OVERVIEW_HTML = SAMPLE_CLMT_PATH.get_html(0, "Overview")
-SAMPLE_CLMT_BREAKDOWN_HTML = SAMPLE_CLMT_PATH.get_html(0, "Breakdown")
+SAMPLE_CLMT_OVERVIEW_HTML = SAMPLE_CLMT_PATH.get_html(0, DataType.OVERVIEW)
+SAMPLE_CLMT_BREAKDOWN_HTML = SAMPLE_CLMT_PATH.get_html(0, DataType.BREAKDOWN)
