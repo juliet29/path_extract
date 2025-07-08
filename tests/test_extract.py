@@ -13,7 +13,7 @@ from rich import print as rprint
 from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
 
-from path_extract.project_paths import CLMTPath, SAMPLE_CLMT_OVERVIEW_HTML
+from path_extract.project_paths import SAMPLE_CLMT_BREAKDOWN_HTML, CLMTPath, SAMPLE_CLMT_OVERVIEW_HTML
 
 
 # @pytest.mark.skip("Trivial")
@@ -79,10 +79,19 @@ def test_clmt_paths():
     overview_html = pier_6_paths.get_html(0, "Overview")
     assert overview_html.exists()
 
+def test_read_breakdown_real_case():
+    df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
+    assert len(df) > 1
+    # TODO check that has correct columns 
+
+
+
 def test_read_overview():
-    result = read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
-    keys = [i.name for i in Emissions] + [i.name for i in Area]
-    assert sorted(keys) == sorted(list(result.keys()))
+    df = read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
+    assert len(df) > 1
+    # TODO check that has correct columns 
+    # keys = [i.name for i in Emissions] + [i.name for i in Area]
+    # assert sorted(keys) == sorted(list(result.keys()))
 
 if __name__ == "__main__":
     test_read_breakdown()

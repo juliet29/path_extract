@@ -6,29 +6,51 @@ format:
 jupyter: python3
 ---
 
-# Project Comparisons
+## Project Comparisons
 
 #### TODO! 
 
-# Experiments within Projects
+## Experiments within Projects
 
-## Pier 6 
+### Pier 6 
+
 
 ```{python}
+#| fig-cap: "Project Summary"
 
-from path_extract.clmt_pilot.main import plot_all_project_experiments
+from path_extract.clmt_pilot.main import plot_all_project_experiments, plot_all_experiment_summaries
 from path_extract.project_paths import CLMTPath
 
 clmt_path = CLMTPath("pier_6")
+chart = plot_all_experiment_summaries(clmt_path, renderer="html")
+chart.interactive()
+```
+
+
+
+```{python}
+# | fig-cap: "Project Breakdown"
 chart = plot_all_project_experiments(clmt_path, renderer="html")
 chart.interactive()
 ```
 
 
-## Newtown Creek
+### Newtown Creek
+
 ```{python}
 
+#| fig-cap: "Project Summary"
+
 clmt_path = CLMTPath("newtown_creek")
+chart = plot_all_experiment_summaries(clmt_path, renderer="html")
+chart.interactive()
+```
+
+
+
+```{python}
+
+#| fig-cap: "Project Breakdown"
 chart = plot_all_project_experiments(clmt_path, renderer="html")
 chart.interactive()
 ```

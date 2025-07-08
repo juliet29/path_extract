@@ -18,20 +18,6 @@ class DataRow(NamedTuple):
     name: Tag  
     data: Tag
 
-VALUE_MATCH = r"(((\d+),?)+)"
-UNIT_MATCH = r"((([a-zA-Z/\u00B2\u2082]+)\s*)+)"
-
-def match_value(pattern_str: str, text:str):
-    # TODO write tests for this.. 
-    pattern = re.compile(pattern_str)
-    # find the first 
-    res = pattern.match(text)
-    assert res is not None, f"Invalid text: {text}"
-    # rprint(res)
-    return res.group()
-
-
-
 
 def process_data_row(tag: Tag):
     # TODO helper tag filter.. 
@@ -45,7 +31,7 @@ def process_data_row(tag: Tag):
     value = data_row.data.get_text().split(" ")#ValueAndUnit()
     assert len(value) >= 2, f"Unexpected format of `data-row` subtag. Should have at least length 2 for a value and a unit, but has len {len(value)}:  `{value}`"
     #rprint(f"name: {name}")
-    rprint(f"value: {value[0]}, unit: {value[1]}")
+    # rprint(f"value: {value[0]}, unit: {value[1]}")
 
     integer_value = int(value[0].replace(",", ""))
     value_and_unit = ValueAndUnit(integer_value, value[1])
@@ -74,36 +60,17 @@ def read_overview(path: Path):
         from_encoding="utf-8",
         parse_only=SoupStrainer(id=MAIN_WRAPPER),
     )
-    # rprint(soup.prettify())
-    # keys = [i for i in Emissions] + [i for i in Area]
-    # key_values = [i.value for i in keys]
+
     tags = [i for i in soup.find_all("div", class_="data-row") if isinstance(i, Tag)]
 
-    # rprint([i.prettify() for i in tags], "\n")
     result_dict = {}
 
     for tag in tags:
         name, value_and_unit = process_data_row(tag)
         result_dict[name] = value_and_unit
-
-    rprint(result_dict)
-    # TODO make into dataframe, differentiate betwen areas and not.. 
-
     return process_overview(result_dict) 
 
 
-
-    # # each has two sub elements..
-    # test_res = res[0]
-    # # TODO assert length of child is 2 
-    # for child in test_res.contents:
-    #     rprint(child)
-
-
-    # extract all data -> use regexes for the Area values.. filter out stuff not needed 
-
-
-    # COMPARE overview with breakdown! 
 
 def get_overview_comparison(df):
     embodied = df.filter(pl.col(TableNames.NAME.name) == Emissions.EMBODIED.value)[ClassNames.VALUE.name].sum()

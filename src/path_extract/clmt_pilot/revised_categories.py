@@ -7,7 +7,7 @@ class NewCategories(StrEnum):
     WOOD = "Wood"
     STEEL = "Steel"
 
-# TODO move to json file? 
+# TODO move to json file? -> element -> category mapping 
 revised_categories = {
     NewCategories.STONE: [
         "Rip-rap (Armor Rock)",

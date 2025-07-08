@@ -43,6 +43,7 @@ class Headings(StrEnum):
     CARBON_IMPACT = "Carbon Impact"
     EMBODIED_CARBON_EMISSIONS = "Embodied Carbon Emissions"
     BIOGENIC = "Biogenic (Sequestration + Emissions)"
+    OPERATIONAL = "Operational Emissions"
 
 
 class ClassNames(StrEnum):

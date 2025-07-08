@@ -17,11 +17,7 @@ def get_emissions_df(df: pl.DataFrame):
 
 
 def reorganize_categories(df: pl.DataFrame):
-    rprint("Hi revising!")
-    # pairs = [("Asphalt Paving", "Category 2"), ("Stone Steps", "Cat3")]
     pairs = create_pairs(revised_categories)
-    rprint(pairs)
-
     d = df.with_columns(
         (
             pl.coalesce(
@@ -45,7 +41,7 @@ def edit_breakdown_df(df):
 
 if __name__ == "__main__":
     clmt_path = CLMTPath("newtown_creek")
-    df = read_csv(SAMPLE_CLMT_PATH.get_csv(0, "Breakdown"))
+    df = read_csv(SAMPLE_CLMT_PATH.get_csv(0))
     # rprint(sorted(list(df[ClassNames.ELEMENT.name].unique())))
     d = edit_breakdown_df(df)
     rprint(d)

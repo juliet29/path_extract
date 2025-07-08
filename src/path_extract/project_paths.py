@@ -2,12 +2,25 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 from path_extract.paths import PATH_TO_FIGURES, PATH_TO_INPUTS
+from path_extract.utils import get_path_subdirectories
+from enum import StrEnum, Enum 
 
 # TODO move clmt pilot stuff to folder.. / make super object if have many ..
-DataTypes = Literal["Breakdown", "Overview"]
-BREAKDOWN = 2
-OVERVIEW = 1
 CLMT_PROJECTS = "250701_CLMT_Pilot_Sprint"
+CLMT_PROJECTS_INPUTS = PATH_TO_INPUTS / CLMT_PROJECTS
+
+class DataType(Enum):
+    OVERVIEW = 1
+    BREAKDOWN = 2
+
+# class ProjectNames(StrEnum):
+#     PIER_6 = "pier_6"
+
+
+# DataTypes = Literal["Breakdown", "Overview"]
+ProjectNames = Literal["pier_6", "newtown_creek"]
+# BREAKDOWN = 2
+# OVERVIEW = 1
 PILOT_PROJECTS = [
     "pier_6",
     "newtown_creek",
@@ -52,7 +65,7 @@ class CLMTPath:
 
     @property
     def experiment_paths(self):
-        dirs = [i for i in self.input_path.iterdir() if i.is_dir()]
+        dirs = get_path_subdirectories(self.input_path)
         return dirs
 
     def get_experiment_path(self, experiment_num):
@@ -63,15 +76,17 @@ class CLMTPath:
     def get_json(self, experiment_num: int):
         return self.get_experiment_path(experiment_num) / INFO
 
-    def get_html(self, experiment_num: int, datatype: DataTypes):
-        num = OVERVIEW if datatype == "Overview" else BREAKDOWN
+    def get_html(self, experiment_num: int, datatype: DataType=DataType.BREAKDOWN):
         # TODO wrapper function to test for existence..
-        return self.get_experiment_path(experiment_num) / HTML(num)
+        return self.get_experiment_path(experiment_num) / HTML(datatype.value)
 
-    def get_csv(self, experiment_num: int, datatype: DataTypes):
-        # TODO USE ENUM for breakdown / overview!
-        num = OVERVIEW if datatype == "Overview" else BREAKDOWN
-        return self.get_experiment_path(experiment_num) / CSV(num)
+    def get_csv(self, experiment_num: int, datatype: DataType=DataType.BREAKDOWN):
+        return self.get_experiment_path(experiment_num) / CSV(datatype.value)
+    
+    def get_all_experiment_csvs(self):
+        experiment_nums = [get_exp_num_from_path(i) for i in self.experiment_paths]
+        return {i: self.get_csv(i, DataType.BREAKDOWN) for i in experiment_nums}
+
 
 
 SAMPLE_CLMT_PATH = CLMTPath("pier_6")
