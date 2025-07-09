@@ -6,51 +6,59 @@ format:
 jupyter: python3
 ---
 
-## Project Comparisons
+## Project Direct Comparisons
 
-#### TODO! 
+TODO! -> compare years to positive? best performing for each case?
 
 ## Experiments within Projects
 
 ### Pier 6 
 
-
+**Overview**
 ```{python}
-#| fig-cap: "Project Summary"
 
-from path_extract.clmt_pilot.main import plot_all_project_experiments, plot_all_experiment_summaries
+from path_extract.clmt_pilot.main import (
+    plot_all_project_experiments,
+    plot_all_experiment_summaries,
+    plot_all_use_experiments,
+)
 from path_extract.project_paths import CLMTPath
 
 clmt_path = CLMTPath("pier_6")
 chart = plot_all_experiment_summaries(clmt_path, renderer="html")
-chart.interactive()
+chart.show()
 ```
 
-
+**Breakdown by Category**
+```{python}
+chart = plot_all_use_experiments(clmt_path, renderer="html")
+chart.show()
+```
+**Breakdown by Element**
 
 ```{python}
-# | fig-cap: "Project Breakdown"
 chart = plot_all_project_experiments(clmt_path, renderer="html")
-chart.interactive()
+chart.show()
 ```
 
 
 ### Newtown Creek
-
+**Overview**
 ```{python}
-
-#| fig-cap: "Project Summary"
-
 clmt_path = CLMTPath("newtown_creek")
 chart = plot_all_experiment_summaries(clmt_path, renderer="html")
-chart.interactive()
+chart.show()
 ```
 
-
+**Breakdown by Category**
 
 ```{python}
+chart = plot_all_use_experiments(clmt_path, renderer="html")
+chart.show()
+```
+**Breakdown by Element**
 
-#| fig-cap: "Project Breakdown"
+```{python}
 chart = plot_all_project_experiments(clmt_path, renderer="html")
-chart.interactive()
+chart.show()
 ```

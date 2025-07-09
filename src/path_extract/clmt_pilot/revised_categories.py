@@ -1,5 +1,8 @@
-from enum import StrEnum
+from enum import StrEnum, Enum
 from rich import print as rprint
+from typing import TypeVar
+
+
 
 
 class NewCategories(StrEnum):
@@ -21,12 +24,14 @@ revised_categories = {
 }
 
 # TODO map to pairs.. # TODO what if cant find?
+T = TypeVar('T', bound=Enum)
+J = TypeVar('J', bound=str)
 
-def create_pairs(mapping:dict):
+def create_pairs(mapping:dict[T, list[J]]):
     lst = []
-    for key, value in revised_categories.items():
+    for key, value in mapping.items():
         for element in value:
-            lst.append((element, key.value))
+            lst.append((element, key))
     return lst
 
 if __name__ == "__main__":

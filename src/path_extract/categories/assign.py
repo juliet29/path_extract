@@ -26,13 +26,13 @@ assign_dict: AssignDict = {
         "Brick Stone Hardscape",
         "Aggregate Asphalt Hardscape",
     ],
-    UseCategories.NEW_PlANTING: [
+    UseCategories.NEW_PLANTING: [
         "Perennials Perennial Grasses",
         "Shrubs",
         "Lawn",
         "Trees",
     ],
-    UseCategories.GREEN_INFRA: ["Green Infrastructure"],
+    UseCategories.GREEN_INFRA: ["Green Infrastructure"], # also on structure things.. green roof etc
     UseCategories.ACCESSORIES: [
         "Exterior Lighting",
         "Playground Athletic",
@@ -46,13 +46,13 @@ assign_dict: AssignDict = {
 # checks -> all categories are used, none are used twice
 
 
-def check_assign_dict(categories: list[PathFinderCategories], assign_dict: AssignDict):
+def check_assign_dict():
     values = chain_flatten([v for v in assign_dict.values()])
     for name, cnt in Counter(values).items():
         if cnt > 1:
             raise Exception(f"`{name}` occurs {cnt} times! It should only occur once!")
         
-    diff = set_difference(categories, values)
+    diff = set_difference(pathfinder_categories, values)
     if diff:
         raise Exception(f"Missing items: {diff}")
 
@@ -60,4 +60,5 @@ def check_assign_dict(categories: list[PathFinderCategories], assign_dict: Assig
 
 
 if __name__ == "__main__":
-    check_assign_dict(pathfinder_categories, assign_dict)
+    check_assign_dict()
+    # rprint(UseCategories["OPERATIONS"])

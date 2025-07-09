@@ -1,16 +1,20 @@
 from typing import Literal
-from enum import StrEnum
+from enum import Enum
 
-class UseCategories(StrEnum):
-    DEMO = "Demolition"
-    PREP = "Preparation"
-    PRESERVED_PLANTING = "Preserved Planting / Restoration"
-    NEW_PlANTING = "New Planting"  # TODO 'on-structure'
-    SUBSTRUCTURE = "Substructure"
-    GREEN_INFRA = "Green Infrasturcture"  # these are composites..
-    HARDSCAPE = "Hardscape"
-    ACCESSORIES = "Accessories"
-    OPERATIONS = "Operations"
+class UseCategories(Enum):
+
+    PRESERVED_PLANTING = 0,# "Preserved Planting / Restoration"
+    DEMO = 1,# "Demolition"
+    PREP = 2,# "Preparation"
+    SUBSTRUCTURE = 3,#"Substructure"
+    HARDSCAPE = 4,#"Hardscape"
+    NEW_PLANTING = 5,# "New Planting"  # TODO 'on-structure'
+    GREEN_INFRA = 6,# "Green Infrasturcture"  # these are composites..
+    ACCESSORIES = 7,# "Accessories"
+    OPERATIONS = 8,# "Operations"
+
+    def title(self):
+        return " ".join(self.name.title().split("_"))
 
 
 
