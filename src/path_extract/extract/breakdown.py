@@ -18,7 +18,9 @@ from collections import Counter
 
 
 def read_breakdown(path: Path) -> pl.DataFrame:
-    soup = BeautifulSoup(open(path), features="html.parser", from_encoding="utf-8") # TODO use soup strainer .. this can also check the html, if the soup is empty, then fail immediately
+    
+    with open(path, "r") as file:
+        soup = BeautifulSoup(file, features="html.parser", from_encoding="utf-8") # TODO use soup strainer .. this can also check the html, if the soup is empty, then fail immediately
     all_rows = [i for i in soup.find_all("tr") if isinstance(i, Tag)]
     # rprint(soup)
 

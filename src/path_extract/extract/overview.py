@@ -54,12 +54,13 @@ def process_overview(result_dict:dict): # TODO use constants!
 
 
 def read_overview(path: Path):
-    soup = BeautifulSoup(
-        open(path),
-        features="html.parser",
-        from_encoding="utf-8",
-        parse_only=SoupStrainer(id=MAIN_WRAPPER),
-    )
+    with open(path, "r") as file:
+        soup = BeautifulSoup(
+            file,
+            features="html.parser",
+            from_encoding="utf-8",
+            parse_only=SoupStrainer(id=MAIN_WRAPPER),
+        )
 
     tags = [i for i in soup.find_all("div", class_="data-row") if isinstance(i, Tag)]
 

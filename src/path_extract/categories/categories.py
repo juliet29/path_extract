@@ -1,22 +1,22 @@
 from typing import Literal
 from enum import Enum
-from path_extract.vega_colors import continuous_colors
+from path_extract.vega_colors import vega_colors
+
 
 class UseCategories(Enum):
-
-    PRESERVED_PLANTING = 0,# "Preserved Planting / Restoration"
-    DEMO = 1,# "Demolition"
-    PREP = 2,# "Preparation"
-    SUBSTRUCTURE = 3,#"Substructure"
-    HARDSCAPE = 4,#"Hardscape"
-    NEW_PLANTING = 5,# "New Planting"  # TODO 'on-structure'
-    GREEN_INFRA = 6,# "Green Infrasturcture"  # these are composites..
-    ACCESSORIES = 7,# "Accessories"
-    OPERATIONS = 8,# "Operations"
+    PRESERVED_PLANTING = (0,)  # "Preserved Planting / Restoration"
+    DEMO = (1,)  # "Demolition"
+    PREP = (2,)  # "Preparation"
+    SUBSTRUCTURE = (3,)  # "Substructure"
+    HARDSCAPE = (4,)  # "Hardscape"
+    NEW_PLANTING = (5,)  # "New Planting"  # TODO 'on-structure'
+    GREEN_INFRA = (6,)  # "Green Infrasturcture"  # these are composites..
+    ACCESSORIES = (7,)  # "Accessories"
+    OPERATIONS = (8,)  # "Operations"
 
     def title(self):
         return " ".join(self.name.title().split("_"))
-    
+
 
 PathFinderCategories = Literal[
     "Exterior Lighting",
@@ -43,7 +43,7 @@ PathFinderCategories = Literal[
 ]
 
 
-pathfinder_categories:list[PathFinderCategories] = [
+pathfinder_categories: list[PathFinderCategories] = [
     "Exterior Lighting",
     "Demolition Site Preparation",
     "Perennials Perennial Grasses",

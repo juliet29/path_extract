@@ -5,7 +5,7 @@ from path_extract.constants import ClassNames, TableNames, Emissions, Headings
 import polars as pl
 from rich import print as rprint
 import altair as alt
-from path_extract.vega_colors import VegaColors, continuous_colors, make_list_of_colors
+from path_extract.vega_colors import VegaColors, vega_colors, get_dict_of_colors
 from path_extract.categories.categories import UseCategories
 
 
@@ -91,60 +91,57 @@ def plot_elements_by_category(
 
 use_category_map: dict[UseCategories, VegaColors] = {
     UseCategories.PRESERVED_PLANTING: "greens",
-    UseCategories.DEMO: "browns", # orange 
-    UseCategories.PREP: "yellowOrangeBrown", # orange 
-    UseCategories.SUBSTRUCTURE: "warmGreys", # brown 
-    UseCategories.HARDSCAPE: "greys", # grey
+    UseCategories.DEMO: "browns",  # orange
+    UseCategories.PREP: "yellowOrangeBrown",  # orange
+    UseCategories.SUBSTRUCTURE: "warmGreys",  # brown
+    UseCategories.HARDSCAPE: "greys",  # grey
     UseCategories.NEW_PLANTING: "greens",
     UseCategories.GREEN_INFRA: "teals",
-    UseCategories.ACCESSORIES: "darkGold", # pink 
-    UseCategories.OPERATIONS: "purples", # yellow 
-
+    UseCategories.ACCESSORIES: "darkGold",  # pink
+    UseCategories.OPERATIONS: "purples",  # yellow
 }
 
+
 def map_use_category_colors(df: pl.DataFrame):
-    # TODO assert that df has correct shape.. 
-    # NOTE: df should be sorted using the Enum values.. -> maybe just add to df so its explicit.. 
+    # TODO assert that df has correct shape..
+    # NOTE: df should be sorted using the Enum values.. -> maybe just add to df so its explicit..
     # scheme = "greens"
     # n_colors = 6
     # colors = make_list_of_colors(scheme)
     # rprint(colors)
-    # coloring the 'true' categories.. but also potentially the elements.. 
-    domains = df[ClassNames.CATEGORY.name].unique(maintain_order=True)
-    rprint(domains)
-    tracker:dict[VegaColors, int] = {}
+    # coloring the 'true' categories.. but also potentially the elements..
+    domains = df[ClassNames.CATEGORY.name].unique(maintain_order=True).to_list()
+    # rprint(domains)
+    # tracker: dict[VegaColors, int] = {}
     range_ = []
+
+    dict_of_colors = get_dict_of_colors()
+    
     for row in df.iter_rows(named=True):
         use_category_name = row[TableNames.CUSTOM_CATEGORY.name]
         color_scheme = use_category_map[UseCategories[use_category_name]]
+        curr_color = next(dict_of_colors[color_scheme])
         # rprint(color_scheme, use_category_name)
-        if color_scheme not in tracker.keys():
-            tracker[color_scheme] = 0
-        else:
-            tracker[color_scheme] +=1
-            
-        range_.append()
+        # if color_scheme not in tracker.keys():
+        #     tracker[color_scheme] = 0
+        # else:
+        #     tracker[color_scheme] += 1
 
-        rprint(use_category_name, color_scheme, tracker[color_scheme])
+        range_.append(curr_color)
 
-    
-
-        
-
-
-   
+        # rprint(use_category_name, color_scheme, curr_color)
 
     # assign use categories to a range of colors -> ideally pre-existing list
     # for each element in df, pick a color from this family of shades..and cycle over//
-    # keep a pointer to each item in the list so that have max diversity// 
-    pass
+    # keep a pointer to each item in the list so that have max diversity//
+    return domains, range_
 
 
 def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
-
-    df = edit_breakdown_df(_df)
-    rprint(df)
     alt.renderers.enable(renderer)
+    df = edit_breakdown_df(_df)
+    domain, range_ = map_use_category_colors(df)
+    rprint(df)
     # rprint(list(df[ClassNames.CATEGORY.name].unique(maintain_order=True)))
     chart = (
         alt.Chart(df, title=title)
@@ -155,9 +152,7 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
                 "Equivalent Carbon Emissions [kg-Co2-e]"
             ),
             color=alt.Color(ClassNames.CATEGORY.name)
-            .scale(scheme="tableau20")
-            .sort(None),
-            # .scale(domain=domain, range=range_)
+            .sort(None).scale(domain=domain, range=range_),
             tooltip=ClassNames.CATEGORY.name,
         )
     )
@@ -167,7 +162,7 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
 
 def plot_use_categories_and_elements(_df: pl.DataFrame, title: str, renderer="browser"):
     df = edit_breakdown_df(_df)
-    rprint(df)
+    # rprint(df)
     alt.renderers.enable(renderer)
 
     chart = (
@@ -188,6 +183,6 @@ def plot_use_categories_and_elements(_df: pl.DataFrame, title: str, renderer="br
 
 if __name__ == "__main__":
     df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
-    # chart = plot_use_categories(df, "example")
-    # chart.show()
-    map_use_category_colors(edit_breakdown_df(df))
+    chart = plot_use_categories(df, "example")
+    chart.show()
+    # map_use_category_colors(edit_breakdown_df(df))
