@@ -1,5 +1,6 @@
 from typing import Literal
 from enum import Enum
+from path_extract.vega_colors import continuous_colors
 
 class UseCategories(Enum):
 
@@ -15,9 +16,7 @@ class UseCategories(Enum):
 
     def title(self):
         return " ".join(self.name.title().split("_"))
-
-
-
+    
 
 PathFinderCategories = Literal[
     "Exterior Lighting",

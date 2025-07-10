@@ -24,10 +24,10 @@ revised_categories = {
 }
 
 # TODO map to pairs.. # TODO what if cant find?
-T = TypeVar('T', bound=Enum)
-J = TypeVar('J', bound=str)
+TEnum = TypeVar('TEnum', bound=Enum)
+Tstr = TypeVar('Tstr', bound=str)
 
-def create_pairs(mapping:dict[T, list[J]]):
+def create_pairs(mapping:dict[TEnum, list[Tstr]]):
     lst = []
     for key, value in mapping.items():
         for element in value:

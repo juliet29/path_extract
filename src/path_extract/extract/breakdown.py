@@ -56,7 +56,7 @@ def read_breakdown(path: Path) -> pl.DataFrame:
         == category_counter.total()
         == len(elements)
     )
-    rprint(section_counter, type_counter)
+    # rprint(section_counter, type_counter)
 
     data = {
         ClassNames.SECTION.name: section_counter.elements(),
