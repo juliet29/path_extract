@@ -1,4 +1,4 @@
-# . .\setup.ps1
+. .\setup.ps1
 # $pier_6 = @{
 #     0 = 'EDC original scope'
 #     1 = 'Entire project'
@@ -19,4 +19,19 @@
 #     New-Setup "Newtown Creek" "Newtown-Creek-page_{0}.txt" $value $i;
 # }
 
+# $BPCR = @{
+#     0 = 'paving'
+# }
+# for (($i = 0);  ($i -lt $BPCR.Count);, ($i++)){
+#     $value = $BPCR[$i]
+#     New-Setup "BPCR" "BPCR_Scorecard_Paving_P{0}.txt" $value $i;
+# }
 
+
+# $SAGINAW = @{
+#     0 = 'Baseline'
+# }
+# for (($i = 0);  ($i -lt $SAGINAW.Count);, ($i++)){
+#     $value = $SAGINAW[$i]
+#     New-Setup "Saginaw" "$value\Saginaw Riverfront Park-Page {0}.txt" $value $i;
+# }
