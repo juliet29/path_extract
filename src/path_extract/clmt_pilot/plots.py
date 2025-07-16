@@ -60,33 +60,13 @@ def plot_experiment_summary(
                 "Equivalent Carbon Emissions [kg-Co2-e]"
             ),
             color=alt.Color(TableNames.NAME.name).title("Emissions Type"),
+            tooltip=[TableNames.NAME.name, alt.Tooltip(ClassNames.VALUE.name, format='.2s')],
         )
     )
     return chart
 
 
-# def plot_elements_by_category(
-#     df: pl.DataFrame, title="", renderer="browser", show=False
-# ):
-#     # consider sequestration!
-#     # TODO should be making its own dataframe edits..
-#     alt.renderers.enable(renderer)
-#     chart = (
-#         alt.Chart(df, title=title)
-#         .mark_bar()
-#         .encode(
-#             x=alt.X(ClassNames.CATEGORY.name).title("Category Names"),
-#             y=alt.Y(f"sum({ClassNames.VALUE.name})").title(
-#                 "Equivalent Carbon Emissions [kg-Co2-e]"
-#             ),
-#             color=alt.Color(ClassNames.ELEMENT.name)
-#             .sort(None)
-#             .scale(scheme="tableau20"),
-#             tooltip=ClassNames.ELEMENT.name,
-#         )
-#     )
 
-#     return chart
 
 
 # TODO move this elsewhere..

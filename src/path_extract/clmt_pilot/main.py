@@ -25,7 +25,7 @@ def get_experiment_data(clmt_path: CLMTPath, experiment_num: int, renderer="brow
 
 
 # TODO this is all very redundant... 
-def plot_all_experiment_summaries(clmt_path: CLMTPath, renderer="browser"):
+def plot_all_summaries(clmt_path: CLMTPath, renderer="browser"):
     charts = []
     for path in clmt_path.experiment_paths:
         exp_num = get_exp_num_from_path(path)

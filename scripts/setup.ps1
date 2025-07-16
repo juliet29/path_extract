@@ -4,6 +4,7 @@ $INFO_JSON = 'info.json'
 $TEXT_FOLDER = 'text'
 $HTML_FOLDER = 'html'
 
+# "R:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects\Analysis"
 
 function New-Setup {
 
