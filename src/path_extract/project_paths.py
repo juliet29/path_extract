@@ -47,7 +47,7 @@ def get_exp_num_from_path(exp_path: Path):
 
 @dataclass
 class CLMTPath:
-    name: Literal["pier_6", "newtown_creek"]
+    name: Literal["pier_6", "newtown_creek", "bpcr", "saginaw"]
 
     @property
     def input_path(self):

@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from bs4.filter import SoupStrainer
 from bs4.element import Tag
 from path_extract.extract.helpers import (
     Comparison,
@@ -16,13 +17,21 @@ from rich import print as rprint
 
 from collections import Counter
 
+# just read main
+MAIN_WRAPPER = "main-wrapper"
+SCORECARD = "score-card"
+
+
 
 def read_breakdown(path: Path) -> pl.DataFrame:
+    assert path.exists()
     
     with open(path, "r") as file:
-        soup = BeautifulSoup(file, features="html.parser", from_encoding="utf-8") # TODO use soup strainer .. this can also check the html, if the soup is empty, then fail immediately
+        soup = BeautifulSoup(file, features="html.parser", from_encoding="utf-8", parse_only=SoupStrainer(class_=SCORECARD) ) # TODO use soup strainer .. this can also check the html, if the soup is empty, then fail immediately
+
     all_rows = [i for i in soup.find_all("tr") if isinstance(i, Tag)]
-    # rprint(soup)
+    if not all_rows:
+        raise Exception(f"Invalid file! `{path}` does not have a top-level class of `{SCORECARD}")
 
     category_counter = Counter()
     elements = []
@@ -79,5 +88,5 @@ def get_breakdown_comparison(df):
 if __name__ == "__main__":
     df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
     rprint(df)
-    f = get_breakdown_comparison(df)
-    rprint(f)
+    # f = get_breakdown_comparison(df)
+    # rprint(f)

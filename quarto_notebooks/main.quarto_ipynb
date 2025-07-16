@@ -1,0 +1,221 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"CLMT Pilot Results\"\n",
+        "format:\n",
+        "  html:\n",
+        "    code-fold: true\n",
+        "jupyter: python3\n",
+        "---\n",
+        "\n",
+        "## Project Direct Comparisons\n",
+        "\n",
+        "TODO! -> compare years to positive? best performing for each case?\n",
+        "\n",
+        "## Experiments within Projects\n",
+        "\n",
+        "### Pier 6 \n",
+        "\n",
+        "**Overview**"
+      ],
+      "id": "8ca0113e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from path_extract.clmt_pilot.main import (\n",
+        "    plot_all_project_experiments,\n",
+        "    plot_all_experiment_summaries,\n",
+        "    plot_all_use_experiments,\n",
+        ")\n",
+        "from path_extract.project_paths import CLMTPath\n",
+        "\n",
+        "clmt_path = CLMTPath(\"pier_6\")\n",
+        "chart = plot_all_experiment_summaries(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "dfddf38a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Breakdown by Category**"
+      ],
+      "id": "1b50346e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = plot_all_use_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "86452d5a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Breakdown by Element**"
+      ],
+      "id": "ecd300c5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = plot_all_project_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "4aa611ce",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Newtown Creek\n",
+        "**Overview**"
+      ],
+      "id": "894856b6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "clmt_path = CLMTPath(\"newtown_creek\")\n",
+        "chart = plot_all_experiment_summaries(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "a6381209",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Breakdown by Category**"
+      ],
+      "id": "eb51542c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = plot_all_use_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "553bf63f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Breakdown by Element**"
+      ],
+      "id": "225e369f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = plot_all_project_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "b4181698",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Saginaw\n",
+        "**Overview**"
+      ],
+      "id": "773817f3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "clmt_path = CLMTPath(\"saginaw\")\n",
+        "chart = plot_all_experiment_summaries(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "cd028adc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Breakdown by Category**"
+      ],
+      "id": "cadcdd94"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = plot_all_use_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "e88760c8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Breakdown by Element**"
+      ],
+      "id": "5b4f8836"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = plot_all_project_experiments(clmt_path, renderer=\"html\")\n",
+        "chart.show()"
+      ],
+      "id": "da3a9955",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### BPCR"
+      ],
+      "id": "a054a04a"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\juliet.intern\\_SCAPECode\\pathfinder\\.venv\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

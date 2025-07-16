@@ -116,8 +116,14 @@ def map_use_category_colors(df: pl.DataFrame):
     range_ = []
 
     dict_of_colors = get_dict_of_colors()
-    
-    for row in df.iter_rows(named=True):
+
+    category_groups = df.group_by(
+        [ClassNames.CATEGORY.name, TableNames.CUSTOM_CATEGORY.name],
+        maintain_order=True,
+    ).agg()
+
+    for row in category_groups.iter_rows(named=True):
+        # category_name = row[ClassNames.CATEGORY.name]
         use_category_name = row[TableNames.CUSTOM_CATEGORY.name]
         color_scheme = use_category_map[UseCategories[use_category_name]]
         curr_color = next(dict_of_colors[color_scheme])
@@ -129,7 +135,7 @@ def map_use_category_colors(df: pl.DataFrame):
 
         range_.append(curr_color)
 
-        # rprint(use_category_name, color_scheme, curr_color)
+        # rprint(use_category_name, category_name, color_scheme, curr_color)
 
     # assign use categories to a range of colors -> ideally pre-existing list
     # for each element in df, pick a color from this family of shades..and cycle over//
@@ -140,8 +146,15 @@ def map_use_category_colors(df: pl.DataFrame):
 def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
     alt.renderers.enable(renderer)
     df = edit_breakdown_df(_df)
-    domain, range_ = map_use_category_colors(df)
-    rprint(df)
+
+    # group = df.group_by(
+    #     [ClassNames.CATEGORY.name, TableNames.CUSTOM_CATEGORY.name],
+    #     maintain_order=True,
+    # ).agg().iter
+    # rprint(group)
+    domains, range_ = map_use_category_colors(df)
+    # rprint([(i, j) for i, j in zip(domains, range_)])
+    # rprint(df)
     # rprint(list(df[ClassNames.CATEGORY.name].unique(maintain_order=True)))
     chart = (
         alt.Chart(df, title=title)
@@ -152,7 +165,8 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
                 "Equivalent Carbon Emissions [kg-Co2-e]"
             ),
             color=alt.Color(ClassNames.CATEGORY.name)
-            .sort(None).scale(domain=domain, range=range_),
+            .sort(None)
+            .scale(domain=domains, range=range_),
             tooltip=ClassNames.CATEGORY.name,
         )
     )

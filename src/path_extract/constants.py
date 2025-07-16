@@ -1,6 +1,8 @@
 from enum import StrEnum
 from typing import TypedDict
 
+MAIN_WRAPPER = "main-wrapper"
+
 # TODO can do "linked str enums.. "
 class Emissions(StrEnum):
     EMBODIED = "Embodied"

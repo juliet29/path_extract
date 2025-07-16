@@ -63,6 +63,8 @@ def read_overview(path: Path):
         )
 
     tags = [i for i in soup.find_all("div", class_="data-row") if isinstance(i, Tag)]
+    if not tags:
+        raise Exception(f"Invalid file! `{path}` does not have a top-level class of `{MAIN_WRAPPER}")
 
     result_dict = {}
 
