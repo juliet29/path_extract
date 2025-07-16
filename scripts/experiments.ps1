@@ -1,4 +1,7 @@
 . .\setup.ps1
+$SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\pathfinder\src\path_extract"
+
+
 # $pier_6 = @{
 #     0 = 'EDC original scope'
 #     1 = 'Entire project'
@@ -48,7 +51,9 @@ $newtown_creek = @{
 }
 New-Setup "Newtown Creek" "Newtown-Creek-page_{0}.txt" $newtown_creek[0] 0;
 New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study 1- Depth-Reduction-page_{0}.txt" $newtown_creek[1] 1;
-New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study 1- Depth-Reduction-page_{0}.txt" $newtown_creek[2] 2;
-New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study 1- Depth-Reduction-page_{0}.txt" $newtown_creek[3] 3;
-# ideally run the project at the same -> to create the csv upon import .. 
-# "R:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects\Newtown Creek\250715_Study\Newtown-Pave-Study 1- Depth-Reduction-page_2.txt"
+New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-2-Area-Reduction-page_{0}.txt" $newtown_creek[2] 2;
+New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-3-Depth+Area-Reduction-page_{0}.txt" $newtown_creek[3] 3;
+uv run "$SRC_PATH\extract\extract.py" "newtown_creek"
+
+
+# "R:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects\Newtown Creek\250715_Study\Newtown-Pave-Study-2-Area-Reduction-page_2.txt"t"
