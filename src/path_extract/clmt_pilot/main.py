@@ -1,5 +1,5 @@
 from path_extract.extract.extract import create_csvs_for_project
-from path_extract.clmt_pilot.plots import plot_elements_by_category, plot_experiment_summary, plot_use_categories
+from path_extract.clmt_pilot.plots import plot_elements, plot_experiment_summary, plot_use_categories
 from path_extract.clmt_pilot.dataframes import edit_breakdown_df
 from path_extract.constants import ExperimentInfo
 from path_extract.file_utils import read_csv
@@ -42,7 +42,10 @@ def plot_all_use_categories(clmt_path: CLMTPath, renderer="browser"):
         df, name = get_experiment_data(clmt_path, exp_num, renderer)
         chart =  plot_use_categories(df, name, renderer)
         charts.append(chart)
-    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend()
+    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend().configure_legend(
+        orient="left",
+        direction="vertical"
+    )
     return all_chart
 
 
@@ -51,9 +54,14 @@ def plot_all_elements(clmt_path: CLMTPath, renderer="browser"):
     for path in clmt_path.experiment_paths:
         exp_num = get_exp_num_from_path(path)
         df, name = get_experiment_data(clmt_path, exp_num, renderer)
-        chart =  plot_elements_by_category(df, name, renderer) # TODO 
+        chart =  plot_elements(df, name, renderer) # TODO 
         charts.append(chart)
-    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend()
+    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend().configure_legend(
+        orient="bottom",
+        columns=5,
+        symbolLimit=100, 
+        direction="vertical"
+    )
     return all_chart
 
 
@@ -70,5 +78,5 @@ if __name__ == "__main__":
     # chart = plot_all_project_experiments(clmt_path)
     # chart.show()
 
-    chart = plot_all_elements(clmt_path)
+    chart = plot_all_use_categories(clmt_path)
     chart.show()

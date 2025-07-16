@@ -65,28 +65,28 @@ def plot_experiment_summary(
     return chart
 
 
-def plot_elements_by_category(
-    df: pl.DataFrame, title="", renderer="browser", show=False
-):
-    # consider sequestration!
-    # TODO should be making its own dataframe edits..
-    alt.renderers.enable(renderer)
-    chart = (
-        alt.Chart(df, title=title)
-        .mark_bar()
-        .encode(
-            x=alt.X(ClassNames.CATEGORY.name).title("Category Names"),
-            y=alt.Y(f"sum({ClassNames.VALUE.name})").title(
-                "Equivalent Carbon Emissions [kg-Co2-e]"
-            ),
-            color=alt.Color(ClassNames.ELEMENT.name)
-            .sort(None)
-            .scale(scheme="tableau20"),
-            tooltip=ClassNames.ELEMENT.name,
-        )
-    )
+# def plot_elements_by_category(
+#     df: pl.DataFrame, title="", renderer="browser", show=False
+# ):
+#     # consider sequestration!
+#     # TODO should be making its own dataframe edits..
+#     alt.renderers.enable(renderer)
+#     chart = (
+#         alt.Chart(df, title=title)
+#         .mark_bar()
+#         .encode(
+#             x=alt.X(ClassNames.CATEGORY.name).title("Category Names"),
+#             y=alt.Y(f"sum({ClassNames.VALUE.name})").title(
+#                 "Equivalent Carbon Emissions [kg-Co2-e]"
+#             ),
+#             color=alt.Color(ClassNames.ELEMENT.name)
+#             .sort(None)
+#             .scale(scheme="tableau20"),
+#             tooltip=ClassNames.ELEMENT.name,
+#         )
+#     )
 
-    return chart
+#     return chart
 
 
 # TODO move this elsewhere..
@@ -106,7 +106,7 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
             color=alt.Color(ClassNames.CATEGORY.name)
             .sort(None)
             .scale(domain=domains, range=range_),
-            tooltip=ClassNames.CATEGORY.name,
+            tooltip=[ClassNames.CATEGORY.name, alt.Tooltip(f"sum({ClassNames.VALUE.name})", format='.2s')],
         )
     )
 
@@ -128,7 +128,7 @@ def plot_elements(_df: pl.DataFrame, title: str, renderer="browser"):
             ),
             color=alt.Color(ClassNames.ELEMENT.name).sort(None)
             .scale(domain=domains, range=range_),
-            tooltip=ClassNames.ELEMENT.name,
+            tooltip=[ClassNames.ELEMENT.name, alt.Tooltip(ClassNames.VALUE.name, format='.2s')],
         )
         # .facet(column=TableNames.CUSTOM_CATEGORY.name)
     )
