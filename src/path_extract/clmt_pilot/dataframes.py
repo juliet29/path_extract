@@ -3,7 +3,7 @@ from rich import print as rprint
 from path_extract.file_utils import read_csv
 from path_extract.project_paths import CLMTPath, SAMPLE_CLMT_PATH
 import polars as pl
-from path_extract.clmt_pilot.revised_categories import revised_categories, create_pairs
+from path_extract.clmt_pilot.revised_categories import create_pairs
 from path_extract.categories.assign import assign_dict, check_assign_dict
 from path_extract.categories.categories import UseCategories
 
@@ -18,22 +18,6 @@ def get_emissions_df(df: pl.DataFrame):
     return d
 
 
-def reorganize_element_categories(df: pl.DataFrame):
-    pairs = create_pairs(revised_categories)
-    d = df.with_columns(
-        (
-            pl.coalesce(
-                # this syntax should allow to fail smoothly if element is NOT in dataframe.. 
-                pl.when(pl.col(ClassNames.ELEMENT.name) == cond).then(pl.lit(result))
-                for cond, result in pairs
-            )
-        ).alias(TableNames.CUSTOM_CATEGORY.name)
-    ).with_columns(
-        pl.col(TableNames.CUSTOM_CATEGORY.name).fill_null(
-            pl.col(ClassNames.CATEGORY.name)
-        )
-    )
-    return d
 
 def include_use_categories(df: pl.DataFrame):
     check_assign_dict()

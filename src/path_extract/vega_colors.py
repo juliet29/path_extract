@@ -2,6 +2,9 @@ from rich import print as rprint
 from typing import Iterable, Iterator, Literal
 from itertools import cycle
 from pypalettes import load_cmap
+
+# TODO use pypalettes
+
 # color schemes used in vega-altair
 # https://github.com/vega/vega/blob/main/packages/vega-scale/src/palettes.js
 # code based on https://www.xoolive.org/2021/09/27/vega-colorschemes.html
@@ -39,7 +42,7 @@ vega_colors: dict[VegaColors, str] = {
 }
 
 
-def make_list_of_colors(scheme: VegaColors):
+def make_cycle_of_colors(scheme: VegaColors):
     LEN_OF_HEX_COLOR = 6
     curr_scheme = vega_colors[scheme]
     return iter(cycle(
@@ -50,7 +53,7 @@ def make_list_of_colors(scheme: VegaColors):
 
 
 def get_dict_of_colors() -> dict[VegaColors, Iterator[str]]:
-    return {k: make_list_of_colors(k) for k in vega_colors.keys()}
+    return {k: make_cycle_of_colors(k) for k in vega_colors.keys()}
 
 
 if __name__ == "__main__":

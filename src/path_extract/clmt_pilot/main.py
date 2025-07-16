@@ -11,10 +11,6 @@ from path_extract.project_paths import (
 import altair as alt
 
 
-# return None
-
-# TODO think about sort order.. of columns.. 
-
 
 def read_exp_info(clmt_path: CLMTPath, experiment_num: int):
     data: ExperimentInfo = read_json(clmt_path.get_json(experiment_num))
@@ -23,38 +19,12 @@ def read_exp_info(clmt_path: CLMTPath, experiment_num: int):
 
 def get_experiment_data(clmt_path: CLMTPath, experiment_num: int, renderer="browser"):
     name = read_exp_info(clmt_path, experiment_num)
-
     df = read_csv(clmt_path.get_csv(experiment_num, DataType.BREAKDOWN))
     df_to_plot = edit_breakdown_df(df)
     return df_to_plot, name
 
-    # rprint(df3)
-    return plot_elements_by_category(df_to_plot, name, renderer)
 
-def plot_all_use_experiments(clmt_path: CLMTPath, renderer="browser"):
-    charts = []
-    for path in clmt_path.experiment_paths:
-        exp_num = get_exp_num_from_path(path)
-        df, name = get_experiment_data(clmt_path, exp_num, renderer)
-        #chart =  plot_elements_by_category(df, name, renderer)
-        chart =  plot_use_categories(df, name, renderer)
-        charts.append(chart)
-    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend()
-    return all_chart
-
-
-def plot_all_project_experiments(clmt_path: CLMTPath, renderer="browser"):
-    charts = []
-    for path in clmt_path.experiment_paths:
-        exp_num = get_exp_num_from_path(path)
-        df, name = get_experiment_data(clmt_path, exp_num, renderer)
-        chart =  plot_elements_by_category(df, name, renderer) # TODO plot_use_categories_and_elements for consistency...
-        #chart =  plot_use_categories(df, name, renderer)
-        charts.append(chart)
-    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend()
-    return all_chart
-
-
+# TODO this is all very redundant... 
 def plot_all_experiment_summaries(clmt_path: CLMTPath, renderer="browser"):
     charts = []
     for path in clmt_path.experiment_paths:
@@ -64,6 +34,30 @@ def plot_all_experiment_summaries(clmt_path: CLMTPath, renderer="browser"):
         charts.append(chart)
     all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend()
     return all_chart
+
+def plot_all_use_categories(clmt_path: CLMTPath, renderer="browser"):
+    charts = []
+    for path in clmt_path.experiment_paths:
+        exp_num = get_exp_num_from_path(path)
+        df, name = get_experiment_data(clmt_path, exp_num, renderer)
+        chart =  plot_use_categories(df, name, renderer)
+        charts.append(chart)
+    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend()
+    return all_chart
+
+
+def plot_all_elements(clmt_path: CLMTPath, renderer="browser"):
+    charts = []
+    for path in clmt_path.experiment_paths:
+        exp_num = get_exp_num_from_path(path)
+        df, name = get_experiment_data(clmt_path, exp_num, renderer)
+        chart =  plot_elements_by_category(df, name, renderer) # TODO 
+        charts.append(chart)
+    all_chart = alt.hconcat(*charts).resolve_scale(y="shared").resolve_legend()
+    return all_chart
+
+
+
 
 
 
@@ -76,5 +70,5 @@ if __name__ == "__main__":
     # chart = plot_all_project_experiments(clmt_path)
     # chart.show()
 
-    chart = plot_all_use_experiments(clmt_path)
+    chart = plot_all_elements(clmt_path)
     chart.show()
