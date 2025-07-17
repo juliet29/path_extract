@@ -1,24 +1,18 @@
-from path_extract.clmt_pilot.colors import (
+from path_extract.study.colors import (
     map_use_category_colors,
     map_use_category_colors_to_elements,
 )
-from path_extract.clmt_pilot.dataframes import get_emissions_df
 from path_extract.extract.breakdown import read_breakdown
-from path_extract.paths import SAMPLE_HTML, BASE_PATH
 from path_extract.constants import ClassNames, Columns, Emissions, Headings
 import polars as pl
-from rich import print as rprint
 import altair as alt
-from path_extract.vega_colors import vega_colors
 
 
-from path_extract.extract.overview import read_overview
 from path_extract.project_paths import (
-    SAMPLE_CLMT_OVERVIEW_HTML,
     SAMPLE_CLMT_BREAKDOWN_HTML,
 )
 
-from path_extract.clmt_pilot.dataframes import edit_breakdown_df
+from path_extract.study.dataframes import edit_breakdown_df
 
 
 # group by category

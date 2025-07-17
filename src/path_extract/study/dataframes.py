@@ -1,12 +1,11 @@
-from path_extract.constants import Columns, Headings, Columns
+from path_extract.constants import Headings, Columns
 from rich import print as rprint
 from path_extract.file_utils import read_csv
-from path_extract.project_paths import CLMTPath, SAMPLE_CLMT_PATH
+from path_extract.project_paths import CLMTPath
 import polars as pl
 from path_extract.study.revised_categories import create_pairs
 from path_extract.categories.assign import assign_dict, check_assign_dict
 from path_extract.categories.categories import UseCategories
-from path_extract.utils import set_difference, set_symmetric_difference
 
 
 def get_emissions_df(df: pl.DataFrame):
@@ -76,10 +75,9 @@ def edit_breakdown_df(df: pl.DataFrame):
 def get_net_emissions(df: pl.DataFrame):
     # TODO assert that have edited breakdown df..
     # TODO write tests here! 
-    with pl.Config(tbl_rows=-1): 
-        rprint(df)
+    # with pl.Config(tbl_rows=-1): 
+    #     rprint(df)
     res = df[Columns.VALUE].sum()
-    rprint(res)
     return res
     
 
@@ -150,6 +148,9 @@ def compare_two_experiments(baseline: pl.DataFrame, alternative: pl.DataFrame):
         rprint(df2)
 
     return df2
+
+
+
 
 
 if __name__ == "__main__":

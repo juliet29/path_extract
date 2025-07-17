@@ -1,12 +1,9 @@
-from itertools import chain
 import altair as alt
 import polars as pl
 from rich import print as rprint
 from path_extract.constants import Columns
 from enum import StrEnum
 
-from path_extract.extract.breakdown import read_breakdown
-from path_extract.file_utils import read_csv
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.study.dataframes import (
     compare_two_experiments,
@@ -73,7 +70,11 @@ def make_waterfall_chart(df: pl.DataFrame, renderer="browser"):
     calc_prev_sum = alt.expr.if_(label == wfc.END.value, 0, window_sum_amount - amount)
     calc_amount = alt.expr.if_(label == wfc.END.value, window_sum_amount, amount)
     calc_text_amount = (
-        alt.expr.if_((label != wfc.BEGIN.value) & (label != wfc.END.value) & calc_amount > 0, "+", "")
+        alt.expr.if_(
+            (label != wfc.BEGIN.value) & (label != wfc.END.value) & calc_amount > 0,
+            "+",
+            "",
+        )
         + calc_amount
     )
 
@@ -100,7 +101,11 @@ def make_waterfall_chart(df: pl.DataFrame, renderer="browser"):
             ),
         )
         .encode(
-            x=alt.X("label:O", axis=alt.Axis(title=wfc.X_LABEL.value, labelAngle=LABEL_ANGLE), sort=None)
+            x=alt.X(
+                "label:O",
+                axis=alt.Axis(title=wfc.X_LABEL.value, labelAngle=LABEL_ANGLE),
+                sort=None,
+            )
         )
     )
 
@@ -139,13 +144,17 @@ def make_waterfall_chart(df: pl.DataFrame, renderer="browser"):
         color=alt.value("white"),
     )
 
-    chart = alt.layer(
-        bar,
-        rule,
-        text_pos_values_top_of_bar,
-        text_neg_values_bot_of_bar,
-        text_bar_values_mid_of_bar,
-    ).properties(width=800, height=450).configure_axisX(labelAngle=LABEL_ANGLE)
+    chart = (
+        alt.layer(
+            bar,
+            rule,
+            text_pos_values_top_of_bar,
+            text_neg_values_bot_of_bar,
+            text_bar_values_mid_of_bar,
+        )
+        .properties(width=800, height=450)
+        .configure_axisX(labelAngle=LABEL_ANGLE)
+    )
 
     return chart
 

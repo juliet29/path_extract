@@ -61,6 +61,7 @@ class CLMTPath:
     @property
     def figures_path(self):
         # TODO might not exist, make it if it doesnt.. -> put function in utils.py
+        # TODO local and presentation paths ..
         p = PATH_TO_FIGURES / CLMT_PROJECTS / self.name
         if not p.exists():
             p.mkdir()
@@ -91,6 +92,10 @@ class CLMTPath:
             return read_csv(p)
         else:
             return p
+
+    @property
+    def get_all_experiment_nums(self):
+        return [get_exp_num_from_path(i) for i in self.experiment_paths]
 
     def get_all_experiment_csvs(self):
         experiment_nums = [get_exp_num_from_path(i) for i in self.experiment_paths]
