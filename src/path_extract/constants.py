@@ -61,14 +61,14 @@ class ClassNames(StrEnum):
 class Columns(
     StrEnum
 ):  # TODO make better datatype, so donthave to put .name everywhere..
-    SECTION = "section-header"
-    TYPE = "type-header"
-    CATEGORY = "category-header"
-    ELEMENT = "element-name"
-    VALUE = "element-co2"
-    UNIT = "units"
-    CUSTOM_CATEGORY = "custom_category"
-    NAME = "names"
+    SECTION = "SECTION"
+    TYPE = "TYPE"
+    CATEGORY = "CATEGORY"
+    ELEMENT = "ELEMENT"
+    VALUE = "VALUE"
+    UNIT = "UNITS"
+    CUSTOM_CATEGORY = "CUSTOM_CATEGORY"
+    NAME = "NAMES"
     VALUE_ALT = "VALUE_ALT"
     VALUE_DIFF = "VALUE_DIFF"
     BASELINE = "BASELINE"
