@@ -15,3 +15,10 @@ def chain_flatten(lst: Iterable[Iterable[T]]) -> list[T]:
 
 def set_difference(s_large: Iterable, s2: Iterable):
     return list(set(s_large).difference(set(s2)))
+
+
+# def set_intersection(s_large: Iterable, s2: Iterable):
+#     return list(set(s_large).difference(set(s2)))
+
+def set_symmetric_difference(s1: Iterable, s2: Iterable):
+    return list(set(s1).symmetric_difference(set(s2)))

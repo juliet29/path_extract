@@ -10,7 +10,7 @@ from path_extract.extract.helpers import (
     is_element_row,
 )
 from path_extract.project_paths import SAMPLE_CLMT_BREAKDOWN_HTML
-from path_extract.constants import ClassNames, TableNames, Headings
+from path_extract.constants import ClassNames, Columns, Headings
 from pathlib import Path
 import polars as pl
 from rich import print as rprint
@@ -22,16 +22,22 @@ MAIN_WRAPPER = "main-wrapper"
 SCORECARD = "score-card"
 
 
-
 def read_breakdown(path: Path) -> pl.DataFrame:
     assert path.exists()
-    
+
     with open(path, "r") as file:
-        soup = BeautifulSoup(file, features="html.parser", from_encoding="utf-8", parse_only=SoupStrainer(class_=SCORECARD) ) # TODO use soup strainer .. this can also check the html, if the soup is empty, then fail immediately
+        soup = BeautifulSoup(
+            file,
+            features="html.parser",
+            from_encoding="utf-8",
+            parse_only=SoupStrainer(class_=SCORECARD),
+        )  # TODO use soup strainer .. this can also check the html, if the soup is empty, then fail immediately
 
     all_rows = [i for i in soup.find_all("tr") if isinstance(i, Tag)]
     if not all_rows:
-        raise Exception(f"Invalid file! `{path}` does not have a top-level class of `{SCORECARD}")
+        raise Exception(
+            f"Invalid file! `{path}` does not have a top-level class of `{SCORECARD}"
+        )
 
     category_counter = Counter()
     elements = []
@@ -46,7 +52,9 @@ def read_breakdown(path: Path) -> pl.DataFrame:
 
     for row in all_rows:
         # type_counter = Counter()
-        curr_section = create_list_of_class_type(ClassNames.SECTION, row, curr_section) # TODO rename function ..  # TODO put in its own loop? break out to different function.. 
+        curr_section = create_list_of_class_type(
+            ClassNames.SECTION, row, curr_section
+        )  # TODO rename function ..  # TODO put in its own loop? break out to different function..
         curr_type = create_list_of_class_type(ClassNames.TYPE, row, curr_type)
         curr_category = create_list_of_class_type(
             ClassNames.CATEGORY, row, curr_category
@@ -75,13 +83,18 @@ def read_breakdown(path: Path) -> pl.DataFrame:
         ClassNames.CATEGORY.name: category_counter.elements(),
         ClassNames.ELEMENT.name: elements,
         ClassNames.VALUE.name: [i.value for i in values],
-        TableNames.UNIT.name: [i.unit for i in values],
+        Columns.UNIT.name: [i.unit for i in values],
     }
     return pl.DataFrame(data)
 
+
 def get_breakdown_comparison(df):
-    embodied = df.filter(pl.col(ClassNames.TYPE.name) == Headings.EMBODIED_CARBON_EMISSIONS)[ClassNames.VALUE.name].sum()
-    biogenic = df.filter(pl.col(ClassNames.TYPE.name) == Headings.BIOGENIC)[ClassNames.VALUE.name].sum()
+    embodied = df.filter(
+        pl.col(ClassNames.TYPE.name) == Headings.EMBODIED_CARBON_EMISSIONS
+    )[ClassNames.VALUE.name].sum()
+    biogenic = df.filter(pl.col(ClassNames.TYPE.name) == Headings.BIOGENIC)[
+        ClassNames.VALUE.name
+    ].sum()
     return Comparison(embodied, biogenic)
 
 

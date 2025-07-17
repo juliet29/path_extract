@@ -3,6 +3,7 @@ from typing import TypedDict
 
 MAIN_WRAPPER = "main-wrapper"
 
+
 # TODO can do "linked str enums.. "
 class Emissions(StrEnum):
     EMBODIED = "Embodied"
@@ -10,9 +11,11 @@ class Emissions(StrEnum):
     BIOGENIC = "Biogenic"
     STORAGE = "Carbon Stored"
 
+
 class Area(StrEnum):
     TOTAL = "Site"
     PLANTED = "Planted"
+
 
 class Other(StrEnum):
     NET = "Net"
@@ -20,17 +23,16 @@ class Other(StrEnum):
     SEQ_PA = "Seq per Area"
 
 
-
 overview_map = {
-    'Net Impact over 60 years': Other.NET,
-    'Total Embodied Emissions': Emissions.EMBODIED,
-    'Total Biogenic(Sequestration + Emissions)': Emissions.BIOGENIC,
-    'Total Operational Emissions': Emissions.OPERATIONAL,
-    'Total Carbon Stored': Emissions.STORAGE,
-    'Site Area': Area.TOTAL,
-    'Planted Area': Area.PLANTED,
-    'Emissions per Area': Other.EMIT_PA,
-    'Sequestration per Area': Other.SEQ_PA
+    "Net Impact over 60 years": Other.NET,
+    "Total Embodied Emissions": Emissions.EMBODIED,
+    "Total Biogenic(Sequestration + Emissions)": Emissions.BIOGENIC,
+    "Total Operational Emissions": Emissions.OPERATIONAL,
+    "Total Carbon Stored": Emissions.STORAGE,
+    "Site Area": Area.TOTAL,
+    "Planted Area": Area.PLANTED,
+    "Emissions per Area": Other.EMIT_PA,
+    "Sequestration per Area": Other.SEQ_PA,
 }
 
 # class OverviewNames(StrEnum):
@@ -38,7 +40,6 @@ overview_map = {
 #     OPERATIONAL = "Total Biogenic(Sequestration + Emissions)"
 #     BIOGENIC = "Biogenic"
 #     STORAGE = "Carbon Stored"
-
 
 
 class Headings(StrEnum):
@@ -57,20 +58,27 @@ class ClassNames(StrEnum):
     SEQUESTERING = "seq"
 
 
-
-
-
-
-class TableNames(StrEnum):
+class Columns(
+    StrEnum
+):  # TODO make better datatype, so donthave to put .name everywhere..
+    SECTION = "section-header"
+    TYPE = "type-header"
+    CATEGORY = "category-header"
+    ELEMENT = "element-name"
+    VALUE = "element-co2"
     UNIT = "units"
     CUSTOM_CATEGORY = "custom_category"
     NAME = "names"
-
+    VALUE_ALT = "VALUE_ALT"
+    VALUE_DIFF = "VALUE_DIFF"
+    BASELINE = "BASELINE"
+    ALT = "ALT"
 
 
 class ExperimentInfo(TypedDict):
     project: str
     experiment: str
     index: int
-# For testing! 
 
+
+# For testing!

@@ -1,8 +1,11 @@
-from path_extract.clmt_pilot.colors import map_use_category_colors, map_use_category_colors_to_elements
+from path_extract.clmt_pilot.colors import (
+    map_use_category_colors,
+    map_use_category_colors_to_elements,
+)
 from path_extract.clmt_pilot.dataframes import get_emissions_df
 from path_extract.extract.breakdown import read_breakdown
 from path_extract.paths import SAMPLE_HTML, BASE_PATH
-from path_extract.constants import ClassNames, TableNames, Emissions, Headings
+from path_extract.constants import ClassNames, Columns, Emissions, Headings
 import polars as pl
 from rich import print as rprint
 import altair as alt
@@ -45,9 +48,7 @@ def plot_experiment_summary(
             )
         )
     )
-    df3 = df2.unpivot(
-        variable_name=TableNames.NAME.name, value_name=ClassNames.VALUE.name
-    )
+    df3 = df2.unpivot(variable_name=Columns.NAME.name, value_name=ClassNames.VALUE.name)
 
     # rprint(df3)
 
@@ -55,18 +56,18 @@ def plot_experiment_summary(
         alt.Chart(df3, title=title)
         .mark_bar()
         .encode(
-            x=alt.X(TableNames.NAME.name).title("Emissions Type"),
+            x=alt.X(Columns.NAME.name).title("Emissions Type"),
             y=alt.Y(ClassNames.VALUE.name).title(
                 "Equivalent Carbon Emissions [kg-Co2-e]"
             ),
-            color=alt.Color(TableNames.NAME.name).title("Emissions Type"),
-            tooltip=[TableNames.NAME.name, alt.Tooltip(ClassNames.VALUE.name, format='.2s')],
+            color=alt.Color(Columns.NAME.name).title("Emissions Type"),
+            tooltip=[
+                Columns.NAME.name,
+                alt.Tooltip(ClassNames.VALUE.name, format=".2s"),
+            ],
         )
     )
     return chart
-
-
-
 
 
 # TODO move this elsewhere..
@@ -79,14 +80,17 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
         alt.Chart(df, title=title)
         .mark_bar()
         .encode(
-            x=alt.X(TableNames.CUSTOM_CATEGORY.name).title("Use Categories").sort(None),
+            x=alt.X(Columns.CUSTOM_CATEGORY.name).title("Use Categories").sort(None),
             y=alt.Y(f"sum({ClassNames.VALUE.name})").title(
                 "Equivalent Carbon Emissions [kg-Co2-e]"
             ),
             color=alt.Color(ClassNames.CATEGORY.name)
             .sort(None)
             .scale(domain=domains, range=range_),
-            tooltip=[ClassNames.CATEGORY.name, alt.Tooltip(f"sum({ClassNames.VALUE.name})", format='.2s')],
+            tooltip=[
+                ClassNames.CATEGORY.name,
+                alt.Tooltip(f"sum({ClassNames.VALUE.name})", format=".2s"),
+            ],
         )
     )
 
@@ -102,13 +106,17 @@ def plot_elements(_df: pl.DataFrame, title: str, renderer="browser"):
         alt.Chart(df, title=title)
         .mark_bar()
         .encode(
-            x=alt.X(TableNames.CUSTOM_CATEGORY.name).title("Category").sort(None),
+            x=alt.X(Columns.CUSTOM_CATEGORY.name).title("Category").sort(None),
             y=alt.Y(f"sum({ClassNames.VALUE.name})").title(
                 "Equivalent Carbon Emissions [kg-Co2-e]"
             ),
-            color=alt.Color(ClassNames.ELEMENT.name).sort(None)
+            color=alt.Color(ClassNames.ELEMENT.name)
+            .sort(None)
             .scale(domain=domains, range=range_),
-            tooltip=[ClassNames.ELEMENT.name, alt.Tooltip(ClassNames.VALUE.name, format='.2s')],
+            tooltip=[
+                ClassNames.ELEMENT.name,
+                alt.Tooltip(ClassNames.VALUE.name, format=".2s"),
+            ],
         )
         # .facet(column=TableNames.CUSTOM_CATEGORY.name)
     )

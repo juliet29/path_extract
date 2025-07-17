@@ -1,6 +1,6 @@
 import polars as pl
 from path_extract.categories.categories import UseCategories
-from path_extract.constants import ClassNames, TableNames
+from path_extract.constants import ClassNames, Columns
 from path_extract.vega_colors import get_dict_of_colors
 from path_extract.vega_colors import VegaColors
 
@@ -25,12 +25,12 @@ def map_use_category_colors(df: pl.DataFrame):
     dict_of_colors = get_dict_of_colors()
 
     category_groups = df.group_by(
-        [ClassNames.CATEGORY.name, TableNames.CUSTOM_CATEGORY.name],
+        [ClassNames.CATEGORY.name, Columns.CUSTOM_CATEGORY.name],
         maintain_order=True,
     ).agg()
 
     for row in category_groups.iter_rows(named=True):
-        use_category_name = row[TableNames.CUSTOM_CATEGORY.name]
+        use_category_name = row[Columns.CUSTOM_CATEGORY.name]
         color_scheme = use_category_map[UseCategories[use_category_name]]
         curr_color = next(dict_of_colors[color_scheme])
         range_.append(curr_color)
@@ -45,12 +45,12 @@ def map_use_category_colors_to_elements(df: pl.DataFrame):
     dict_of_colors = get_dict_of_colors()
 
     category_groups = df.group_by(
-        [ClassNames.ELEMENT.name, TableNames.CUSTOM_CATEGORY.name],
+        [ClassNames.ELEMENT.name, Columns.CUSTOM_CATEGORY.name],
         maintain_order=True,
     ).agg()
 
     for row in category_groups.iter_rows(named=True):
-        use_category_name = row[TableNames.CUSTOM_CATEGORY.name]
+        use_category_name = row[Columns.CUSTOM_CATEGORY.name]
         color_scheme = use_category_map[UseCategories[use_category_name]]
         curr_color = next(dict_of_colors[color_scheme])
         range_.append(curr_color)
