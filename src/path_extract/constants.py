@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import TypedDict
+from typing import Literal, TypedDict
 
 MAIN_WRAPPER = "main-wrapper"
 
@@ -82,3 +82,8 @@ class ExperimentInfo(TypedDict):
 
 
 # For testing!
+LABEL_ANGLE = -20
+NUMBER_FORMAT = ".2s"
+RendererTypes = Literal["browser", "html"]
+BROWSER = "browser"
+HTML = "html"

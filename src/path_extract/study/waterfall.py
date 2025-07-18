@@ -3,6 +3,7 @@ import polars as pl
 from rich import print as rprint
 from path_extract.constants import Columns
 from enum import StrEnum
+from pathlib import Path
 
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.study.dataframes import (
@@ -10,6 +11,7 @@ from path_extract.study.dataframes import (
     edit_breakdown_df,
     get_net_emissions,
 )
+from path_extract.constants import HTML, BROWSER, RendererTypes
 
 FINAL_VALUE = 0
 LABEL_ANGLE = -20
@@ -58,7 +60,7 @@ def prep_dataframe(
 
 
 # @pa.check_types
-def make_waterfall_chart(df: pl.DataFrame, renderer="browser"):
+def make_waterfall_chart(df: pl.DataFrame, renderer:RendererTypes = BROWSER):
     alt.renderers.enable(renderer)
     # values
     amount = alt.datum.amount

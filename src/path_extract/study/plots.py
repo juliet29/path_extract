@@ -3,7 +3,7 @@ from path_extract.study.colors import (
     map_use_category_colors_to_elements,
 )
 from path_extract.extract.breakdown import read_breakdown
-from path_extract.constants import ClassNames, Columns, Emissions, Headings
+from path_extract.constants import ClassNames, Columns, Emissions, Headings, LABEL_ANGLE, NUMBER_FORMAT
 import polars as pl
 import altair as alt
 
@@ -75,7 +75,7 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
         .mark_bar()
         .encode(
             x=alt.X(Columns.CUSTOM_CATEGORY.name).title("Use Categories").sort(None),
-            y=alt.Y(f"sum({ClassNames.VALUE.name})").title(
+            y=alt.Y(f"sum({ClassNames.VALUE.name})", axis=alt.Axis(format=NUMBER_FORMAT)).title(
                 "Equivalent Carbon Emissions [kg-Co2-e]"
             ),
             color=alt.Color(ClassNames.CATEGORY.name)
@@ -85,13 +85,13 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
                 ClassNames.CATEGORY.name,
                 alt.Tooltip(f"sum({ClassNames.VALUE.name})", format=".2s"),
             ],
-        )
+        ).properties(width=250, height=220).configure_axisX(labelAngle=LABEL_ANGLE)
     )
 
     return chart
 
 
-def plot_elements(_df: pl.DataFrame, title: str, renderer="browser"):
+def plot_elements(_df: pl.DataFrame, title: str = "", renderer="browser"):
     alt.renderers.enable(renderer)
     df = edit_breakdown_df(_df)
     domains, range_ = map_use_category_colors_to_elements(df)

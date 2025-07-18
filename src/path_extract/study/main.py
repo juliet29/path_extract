@@ -67,7 +67,7 @@ def plot_all_elements(clmt_path: CLMTPath, renderer="browser"):
 
 
 
-
+# TODO rename -> analysis nb 
 
 
 # TODO compare overview of project experiments.. -> calc byself? 
