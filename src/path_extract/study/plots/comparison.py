@@ -55,12 +55,12 @@ def prep_df(project_name: ProjectNames, exps: list[ExpeMetaData]):
         .with_columns(
             pl.col(VAL)
             .cumulative_eval(pl.element().last() / pl.element().first(), min_samples=2)
-            .round(2)
+            .round_sig_figs(2)
             .alias(X_CHANGE)
         )
         .with_columns(pl.col(X_CHANGE).fill_null(0))
         .with_columns(
-            pl.col(VAL).map_elements(lambda x: f"{Float(x):.2h}").alias(FORMATTED_VALUE)
+            pl.col(VAL).map_elements(lambda x: f"{Float(x):.2H}").alias(FORMATTED_VALUE)
         )
     )
 
@@ -95,17 +95,6 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
         .properties(**DEF_DIMENSIONS)
     )
 
-    change = (
-            chart.encode(
-                x=alt.datum(ALTERNATIVE),
-                y=alt.Y(f"{VAL}:Q").aggregate("mean"),
-                text=alt.value("Change: "),
-            )
-            .mark_text(
-                dx=-font_size,
-                fontSize=font_size_plus,
-            )
-        )
 
     prc_change = (
         chart.encode(
@@ -114,7 +103,7 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
             text=alt.Text("max(xchange)"),
         )
         .mark_text(
-            dx=3.7*font_size,
+            dx=-2*font_size,
             fontSize=font_size_plus,
         )
     )
@@ -137,17 +126,17 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
         )
     )
 
-    chart = line + change + prc_change  + label
+    chart = line +  prc_change  + label
 
     chart.show()
 
 
 if __name__ == "__main__":
-    as_designed = ExpeMetaData(1, BASELINE)
-    better_alt = ExpeMetaData(0, ALTERNATIVE)
-    df = prep_df("pier_6", [as_designed, better_alt])
+    # as_designed = ExpeMetaData(1, BASELINE)
+    # better_alt = ExpeMetaData(0, ALTERNATIVE)
+    # df = prep_df("pier_6", [as_designed, better_alt])
 
-    # as_designed = ExpeMetaData(0, BASELINE)
-    # better_alt = ExpeMetaData(2, ALTERNATIVE)
-    # df = prep_df("newtown_creek", [as_designed, better_alt])
+    as_designed = ExpeMetaData(0, BASELINE)
+    better_alt = ExpeMetaData(3, ALTERNATIVE)
+    df = prep_df("newtown_creek", [as_designed, better_alt])
     plot_comparison(df)

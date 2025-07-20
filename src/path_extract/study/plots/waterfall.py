@@ -8,12 +8,12 @@ from pathlib import Path
 
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.study.dataframes import (
-    compare_two_experiments,
     edit_breakdown_df,
     get_net_emissions,
 )
 from path_extract.study.plots.constants import HTML
 from path_extract.study.plots.constants import RendererTypes
+from path_extract.study.plots.data_waterfall import compare_two_experiments
 
 FINAL_VALUE = 0
 LABEL_ANGLE = -20

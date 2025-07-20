@@ -1,5 +1,4 @@
 from path_extract.constants import Headings, Columns
-from rich import print as rprint
 from path_extract.file_utils import read_csv
 from path_extract.project_paths import CLMTPath
 import polars as pl
@@ -79,75 +78,6 @@ def get_net_emissions(df: pl.DataFrame):
     #     rprint(df)
     res = df[Columns.VALUE].sum()
     return res
-
-
-def compare_two_experiments(baseline: pl.DataFrame, alternative: pl.DataFrame):
-    # TODO assert that have edited breakdown df.
-
-    # baseline_elements = baseline[Columns.ELEMENT.name].unique()
-    # alternative_elements = alternative[Columns.ELEMENT.name].unique()
-    # missing_from_baseline = set_difference(baseline_elements, alternative_elements)
-    # missing_from_alternative = set_difference(alternative_elements, baseline_elements)
-    # rprint(
-    #     f"missing from baseline: {missing_from_baseline} missing from alternative: {missing_from_alternative}"
-    # )
-    # TODO check that the missing are all in the joined df..
-
-    df = (
-        baseline.join(
-            alternative,
-            on=[
-                Columns.SECTION.name,
-                Columns.TYPE.name,
-                Columns.CATEGORY.name,
-                Columns.ELEMENT.name,
-                Columns.UNIT.name,
-                Columns.CUSTOM_CATEGORY.name,
-            ],
-            how="right",
-            suffix="_ALT",
-        )
-        .with_columns(pl.col(Columns.VALUE.name).fill_null(strategy="zero"))
-        .rename(
-            {
-                Columns.VALUE.name: Columns.BASELINE.name,
-                Columns.VALUE_ALT.name: Columns.ALT.name,
-            }
-        )
-    )
-
-    # new_in_baseline = baseline.filter(pl.col(Columns.ELEMENT.name).is_in(missing_from_baseline))
-    # with pl.Config(tbl_rows=-1):
-    #     rprint(f"baseline elements: {baseline[Columns.ELEMENT.name].unique().sort()}")
-    # rprint("new in baseline:", new_in_baseline) # TODO make some modifications to this to make it approp..
-
-    # col_diff =  set_difference(missing_from_alternative + missing_from_baseline, df[Columns.ELEMENT.name].unique().to_list())
-    # rprint(f"\ncol diff: {col_diff}")
-
-    # rprint(
-    #     f"baseline: {baseline.shape}, alternative: {alternative.shape}, joined: {df.shape}"
-    # )
-
-    df2 = (
-        df.with_columns(
-            VALUE_DIFF=pl.col(Columns.ALT.name) - pl.col(Columns.BASELINE.name)
-        )
-        .filter(pl.col(Columns.VALUE_DIFF.name) != 0)
-        .select(
-            [
-                pl.col(Columns.CUSTOM_CATEGORY.name),
-                pl.col(Columns.CATEGORY.name),
-                pl.col(Columns.ELEMENT.name),
-                pl.col(Columns.VALUE_DIFF.name),
-            ]
-        )
-        .sort(by=Columns.CUSTOM_CATEGORY.name)
-    )
-
-    with pl.Config(tbl_rows=-1):
-        rprint(df2)
-
-    return df2
 
 
 if __name__ == "__main__":
