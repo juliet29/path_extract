@@ -35,4 +35,5 @@ def are_sets_equal(_s1: Iterable, _s2: Iterable):
     s2 = set(_s2)
     assert len(s1) == len(s2), "Sets are not equal - do not have metching len"
     assert s1.intersection(s2) == s1, "Sets are not equal - their intersection does not match s1"
+    return True
 
