@@ -1,7 +1,7 @@
 from typing import Literal, NamedTuple, TypedDict
 
 ## Markers
-POINT_SIZE = 400
+POINT_SIZE = 1000
 
 
 ## Axes

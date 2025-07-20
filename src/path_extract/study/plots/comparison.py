@@ -19,7 +19,7 @@ EXP_NUM = "num"
 EXP_NAME = "name"
 VAL = "value"
 FORMATTED_VALUE = "formatted_val"
-PCT_CHANGE = "pct_change"
+X_CHANGE = "xchange"
 
 BASELINE = "As Designed"
 ALTERNATIVE = "Alternative"
@@ -52,8 +52,13 @@ def prep_df(project_name: ProjectNames, exps: list[ExpeMetaData]):
     res = dict({VAL: emissions}, **exp_meta_data)  # TODO want value sat the end?
     df = (
         pl.DataFrame(res)
-        .with_columns(pl.col(VAL).pct_change().alias(PCT_CHANGE))
-        .with_columns(pl.col(PCT_CHANGE).fill_null(strategy="max"))
+        .with_columns(
+            pl.col(VAL)
+            .cumulative_eval(pl.element().last() / pl.element().first(), min_samples=2)
+            .round(2)
+            .alias(X_CHANGE)
+        )
+        .with_columns(pl.col(X_CHANGE).fill_null(0))
         .with_columns(
             pl.col(VAL).map_elements(lambda x: f"{Float(x):.2h}").alias(FORMATTED_VALUE)
         )
@@ -68,53 +73,54 @@ def prep_df(project_name: ProjectNames, exps: list[ExpeMetaData]):
     # return df
 
 
-def create_interm_df(df: pl.DataFrame):
-    # TODO make schema
-    # get first row
-    # new values is the average..
-    mean = df[VAL].mean()
-    d = df.filter(pl.col(EXP_NAME) == BASELINE).with_columns(pl.lit(mean).alias(VAL))
-    # rprint(d)
-
-    # rprint(df[VAL].mean())
-
-    return d
-
-
-def calc_percentage_change(original, new):
-    # return ((new - original) / original) * 100
-    return new * 10
-
-
 def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
     alt.renderers.enable(renderer)  # TODO make this a base fx..
     # need to compute where the text should be.. => halfway between the two values..
 
     font_size = 20
     font_size_plus = font_size + 10
+    text_align = "left"
 
     chart = alt.Chart(df)
 
     line = (
         chart.mark_line(point=alt.OverlayMarkDef(size=POINT_SIZE))
         .encode(
-            x=alt.X(f"{EXP_NAME}:O").sort(None).axis(labels=False).title(EXPERIMENT_NAMES),
+            x=alt.X(f"{EXP_NAME}:O")
+            .sort(None)
+            .axis(labels=False)
+            .title(EXPERIMENT_NAMES),
             y=alt.Y(f"{VAL}:Q").axis(format=NUMBER_FORMAT).title(CARBON_EMIT_LABEL),
         )
         .properties(**DEF_DIMENSIONS)
     )
 
-    prc_change = chart.encode(
-        x=alt.datum(ALTERNATIVE),
-        y=alt.Y(f"{VAL}:Q").aggregate("mean"),
-        text=alt.Text(f"{PCT_CHANGE}:Q").format("+,.0%"),
-    ).mark_text(
-        dx=-20,
-        fontSize=font_size_plus,
+    change = (
+            chart.encode(
+                x=alt.datum(ALTERNATIVE),
+                y=alt.Y(f"{VAL}:Q").aggregate("mean"),
+                text=alt.value("Change: "),
+            )
+            .mark_text(
+                dx=-font_size,
+                fontSize=font_size_plus,
+            )
+        )
+
+    prc_change = (
+        chart.encode(
+            x=alt.datum(ALTERNATIVE),
+            y=alt.Y(f"{VAL}:Q").aggregate("mean"),
+            text=alt.Text("max(xchange)"),
+        )
+        .mark_text(
+            dx=3.7*font_size,
+            fontSize=font_size_plus,
+        )
     )
 
-    init_dx = -0
-    init_dy = 20
+    init_dx = font_size
+    init_dy = 0
     text_align = "left"
 
     label = (
@@ -131,7 +137,7 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
         )
     )
 
-    chart = line  + prc_change  + label
+    chart = line + change + prc_change  + label
 
     chart.show()
 
@@ -140,14 +146,8 @@ if __name__ == "__main__":
     as_designed = ExpeMetaData(1, BASELINE)
     better_alt = ExpeMetaData(0, ALTERNATIVE)
     df = prep_df("pier_6", [as_designed, better_alt])
-    plot_comparison(df)
-
-
 
     # as_designed = ExpeMetaData(0, BASELINE)
     # better_alt = ExpeMetaData(2, ALTERNATIVE)
     # df = prep_df("newtown_creek", [as_designed, better_alt])
-
-
-    
-
+    plot_comparison(df)
