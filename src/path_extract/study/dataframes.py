@@ -3,7 +3,7 @@ from rich import print as rprint
 from path_extract.file_utils import read_csv
 from path_extract.project_paths import CLMTPath
 import polars as pl
-from path_extract.study.revised_categories import create_pairs
+from path_extract.study.plots.revised_categories import create_pairs
 from path_extract.categories.assign import assign_dict, check_assign_dict
 from path_extract.categories.categories import UseCategories
 
@@ -74,15 +74,15 @@ def edit_breakdown_df(df: pl.DataFrame):
 
 def get_net_emissions(df: pl.DataFrame):
     # TODO assert that have edited breakdown df..
-    # TODO write tests here! 
-    # with pl.Config(tbl_rows=-1): 
+    # TODO write tests here!
+    # with pl.Config(tbl_rows=-1):
     #     rprint(df)
     res = df[Columns.VALUE].sum()
     return res
-    
+
 
 def compare_two_experiments(baseline: pl.DataFrame, alternative: pl.DataFrame):
-     # TODO assert that have edited breakdown df.
+    # TODO assert that have edited breakdown df.
 
     # baseline_elements = baseline[Columns.ELEMENT.name].unique()
     # alternative_elements = alternative[Columns.ELEMENT.name].unique()
@@ -150,9 +150,6 @@ def compare_two_experiments(baseline: pl.DataFrame, alternative: pl.DataFrame):
     return df2
 
 
-
-
-
 if __name__ == "__main__":
     # TODO make test -> typical use case
     # df = read_csv(SAMPLE_CLMT_PATH.get_csv(0))
@@ -161,7 +158,7 @@ if __name__ == "__main__":
 
     # compare two experiments
     clmt_path = CLMTPath("pier_6")
-    baseline = edit_breakdown_df(read_csv(clmt_path.get_csv(0)))
-    alternative = edit_breakdown_df(read_csv(clmt_path.get_csv(1)))
+    baseline = edit_breakdown_df(clmt_path.read_csv(0))
+    alternative = edit_breakdown_df(clmt_path.read_csv(1))
     get_net_emissions(baseline)
     # compare_two_experiments(baseline, alternative)

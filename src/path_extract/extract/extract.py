@@ -10,7 +10,7 @@ from rich import print as rprint
 import sys
 
 
-# TODO create csvs for breakdown only.. 
+# TODO create csvs for breakdown only..
 
 
 def create_csvs_for_project(clmt_path: CLMTPath):
@@ -32,17 +32,18 @@ def create_csvs_for_project(clmt_path: CLMTPath):
 
         try:
             overview_df, overview_comp = make_overview()
-        except Exception: 
-            rprint(f"The Overview HTML for {exp_num} of {clmt_path.name} is invalid.. Writing only the breakdown csv ")
-            breakdown_df.write_csv(clmt_path.get_csv(exp_num, DataType.BREAKDOWN))
-            continue 
-        
+        except Exception:
+            rprint(
+                f"The Overview HTML for {exp_num} of {clmt_path.name} is invalid.. Writing only the breakdown csv "
+            )
+            breakdown_df.write_csv(clmt_path.read_csv(exp_num, DataType.BREAKDOWN))
+            continue
 
         assert overview_comp == breakdown_comp, (
             f"Invalid comparisons! Breakdown: {breakdown_comp}. Overview: {overview_comp}"
         )
-        breakdown_df.write_csv(clmt_path.get_csv(exp_num, DataType.BREAKDOWN))
-        overview_df.write_csv(clmt_path.get_csv(exp_num, DataType.OVERVIEW))
+        breakdown_df.write_csv(clmt_path.read_csv(exp_num, DataType.BREAKDOWN))
+        overview_df.write_csv(clmt_path.read_csv(exp_num, DataType.OVERVIEW))
 
 
 if __name__ == "__main__":
@@ -52,5 +53,7 @@ if __name__ == "__main__":
     else:
         project = "newtown_creek"
     rprint(f"project to process: {project}")
-    clmt_path = CLMTPath(project) # TODO fix the literal.. => do some checks on the class 
+    clmt_path = CLMTPath(
+        project
+    )  # TODO fix the literal.. => do some checks on the class
     create_csvs_for_project(clmt_path)

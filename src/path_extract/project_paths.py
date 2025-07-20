@@ -85,13 +85,17 @@ class CLMTPath:
         return self.get_experiment_path(experiment_num) / HTML(datatype.value)
 
     def get_csv(
-        self, experiment_num: int, datatype: DataType = DataType.BREAKDOWN, READ=False
+        self, experiment_num: int, datatype: DataType = DataType.BREAKDOWN
     ):
-        p = self.get_experiment_path(experiment_num) / CSV(datatype.value)
-        if READ:
-            return read_csv(p)
-        else:
-            return p
+        return self.get_experiment_path(experiment_num) / CSV(datatype.value)
+
+        
+    def read_csv(
+        self, experiment_num: int, datatype: DataType = DataType.BREAKDOWN
+    ):
+        return read_csv(self.get_csv(experiment_num, datatype))
+        
+        
 
     @property
     def get_all_experiment_nums(self):
@@ -99,7 +103,7 @@ class CLMTPath:
 
     def get_all_experiment_csvs(self):
         experiment_nums = [get_exp_num_from_path(i) for i in self.experiment_paths]
-        return [self.get_csv(i, DataType.BREAKDOWN) for i in experiment_nums]
+        return [self.read_csv(i, DataType.BREAKDOWN) for i in experiment_nums]
 
 
 SAMPLE_CLMT_PATH = CLMTPath("pier_6")

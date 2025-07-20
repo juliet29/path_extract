@@ -1,9 +1,14 @@
-from path_extract.study.colors import (
+from path_extract.study.plots.colors import (
     map_use_category_colors,
     map_use_category_colors_to_elements,
 )
 from path_extract.extract.breakdown import read_breakdown
-from path_extract.constants import ClassNames, Columns, Emissions, Headings, LABEL_ANGLE, NUMBER_FORMAT
+from path_extract.constants import (
+    ClassNames,
+    Columns,
+    Emissions,
+    Headings,
+)
 import polars as pl
 import altair as alt
 
@@ -13,6 +18,7 @@ from path_extract.project_paths import (
 )
 
 from path_extract.study.dataframes import edit_breakdown_df
+from path_extract.study.plots.constants import CARBON_EMIT_LABEL, LABEL_ANGLE, NUMBER_FORMAT
 
 
 # group by category
@@ -75,9 +81,9 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
         .mark_bar()
         .encode(
             x=alt.X(Columns.CUSTOM_CATEGORY.name).title("Use Categories").sort(None),
-            y=alt.Y(f"sum({ClassNames.VALUE.name})", axis=alt.Axis(format=NUMBER_FORMAT)).title(
-                "Equivalent Carbon Emissions [kg-Co2-e]"
-            ),
+            y=alt.Y(
+                f"sum({ClassNames.VALUE.name})", axis=alt.Axis(format=NUMBER_FORMAT)
+            ).title(CARBON_EMIT_LABEL),
             color=alt.Color(ClassNames.CATEGORY.name)
             .sort(None)
             .scale(domain=domains, range=range_),
@@ -85,7 +91,9 @@ def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
                 ClassNames.CATEGORY.name,
                 alt.Tooltip(f"sum({ClassNames.VALUE.name})", format=".2s"),
             ],
-        ).properties(width=250, height=220).configure_axisX(labelAngle=LABEL_ANGLE)
+        )
+        .properties(width=250, height=220)
+        .configure_axisX(labelAngle=LABEL_ANGLE)
     )
 
     return chart

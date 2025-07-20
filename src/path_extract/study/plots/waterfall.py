@@ -1,6 +1,7 @@
 import altair as alt
 import polars as pl
 from rich import print as rprint
+from path_extract.BROWSER import BROWSER
 from path_extract.constants import Columns
 from enum import StrEnum
 from pathlib import Path
@@ -11,7 +12,8 @@ from path_extract.study.dataframes import (
     edit_breakdown_df,
     get_net_emissions,
 )
-from path_extract.constants import HTML, BROWSER, RendererTypes
+from path_extract.study.plots.constants import HTML
+from path_extract.study.plots.constants import RendererTypes
 
 FINAL_VALUE = 0
 LABEL_ANGLE = -20
@@ -31,8 +33,8 @@ def prep_dataframe(
     project_name: ProjectNames, baseline_exp_num: int, alternative_exp_num: int
 ):
     clmt_path = CLMTPath(project_name)
-    baseline = edit_breakdown_df(clmt_path.get_csv(baseline_exp_num, READ=True))
-    alternative = edit_breakdown_df(clmt_path.get_csv(alternative_exp_num, READ=True))
+    baseline = edit_breakdown_df(clmt_path.read_csv(baseline_exp_num))
+    alternative = edit_breakdown_df(clmt_path.read_csv(alternative_exp_num))
     df = (
         compare_two_experiments(baseline, alternative)
         .rename(
@@ -60,7 +62,7 @@ def prep_dataframe(
 
 
 # @pa.check_types
-def make_waterfall_chart(df: pl.DataFrame, renderer:RendererTypes = BROWSER):
+def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
     alt.renderers.enable(renderer)
     # values
     amount = alt.datum.amount

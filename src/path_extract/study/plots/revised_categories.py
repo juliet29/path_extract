@@ -24,6 +24,7 @@ revised_categories = {
 }
 
 # TODO map to pairs.. # TODO what if cant find?
+# TODO now this is overly general.. 
 TEnum = TypeVar('TEnum', bound=Enum)
 Tstr = TypeVar('Tstr', bound=str)
 
