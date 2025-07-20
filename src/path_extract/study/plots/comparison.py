@@ -11,16 +11,19 @@ from path_extract.study.plots.constants import (
     POINT_SIZE,
 )
 from typing import NamedTuple, TypedDict
+from prefixed import Float
 
 from path_extract.study.plots.constants import RendererTypes, DEF_DIMENSIONS
 
 EXP_NUM = "num"
 EXP_NAME = "name"
-VAL = "values"
+VAL = "value"
+FORMATTED_VALUE = "formatted_val"
 PCT_CHANGE = "pct_change"
 
 BASELINE = "As Designed"
 ALTERNATIVE = "Alternative"
+EXPERIMENT_NAMES = "Experiment Names"
 
 
 class ExpeMetaData(NamedTuple):
@@ -51,6 +54,9 @@ def prep_df(project_name: ProjectNames, exps: list[ExpeMetaData]):
         pl.DataFrame(res)
         .with_columns(pl.col(VAL).pct_change().alias(PCT_CHANGE))
         .with_columns(pl.col(PCT_CHANGE).fill_null(strategy="max"))
+        .with_columns(
+            pl.col(VAL).map_elements(lambda x: f"{Float(x):.2h}").alias(FORMATTED_VALUE)
+        )
     )
 
     rprint(df)
@@ -84,45 +90,64 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
     alt.renderers.enable(renderer)  # TODO make this a base fx..
     # need to compute where the text should be.. => halfway between the two values..
 
+    font_size = 20
+    font_size_plus = font_size + 10
+
     chart = alt.Chart(df)
 
     line = (
         chart.mark_line(point=alt.OverlayMarkDef(size=POINT_SIZE))
         .encode(
-            x=alt.X(f"{EXP_NAME}:O").sort(None),
+            x=alt.X(f"{EXP_NAME}:O").sort(None).axis(labels=False).title(EXPERIMENT_NAMES),
             y=alt.Y(f"{VAL}:Q").axis(format=NUMBER_FORMAT).title(CARBON_EMIT_LABEL),
         )
         .properties(**DEF_DIMENSIONS)
     )
 
-    # amount = alt.datum[PCT_CHANGE]
-    # calc_text_amount = (
-    #     alt.expr.if_(
-    #         amount > 0,
-    #         "+",
-    #         "",
-    #     )
-    #     + amount
-    # )
-
-    label = chart.encode(
+    prc_change = chart.encode(
         x=alt.datum(ALTERNATIVE),
         y=alt.Y(f"{VAL}:Q").aggregate("mean"),
-        text=alt.Text(f"{PCT_CHANGE}:Q").format(".0%"),
+        text=alt.Text(f"{PCT_CHANGE}:Q").format("+,.0%"),
     ).mark_text(
         dx=-20,
-        fontSize=30,
+        fontSize=font_size_plus,
     )
-    chart = line + label
+
+    init_dx = -0
+    init_dy = 20
+    text_align = "left"
+
+    label = (
+        line.transform_calculate(
+            label_name="datum.name + ': '+ datum.formatted_val + ' kg-CO2-eq'"
+        )
+        .encode(text=alt.Text("label_name:N"))
+        .mark_text(
+            lineBreak=r"\n",
+            align=text_align,
+            dx=init_dx,
+            dy=init_dy,
+            fontSize=font_size,
+        )
+    )
+
+    chart = line  + prc_change  + label
+
     chart.show()
 
 
 if __name__ == "__main__":
     as_designed = ExpeMetaData(1, BASELINE)
-    worse_alt = ExpeMetaData(0, ALTERNATIVE)
-
-    df = prep_df("pier_6", [as_designed, worse_alt])
-    # create_interm_df(df)
+    better_alt = ExpeMetaData(0, ALTERNATIVE)
+    df = prep_df("pier_6", [as_designed, better_alt])
     plot_comparison(df)
-    # c = plot_comparison(df)
-    # c.show()
+
+
+
+    # as_designed = ExpeMetaData(0, BASELINE)
+    # better_alt = ExpeMetaData(2, ALTERNATIVE)
+    # df = prep_df("newtown_creek", [as_designed, better_alt])
+
+
+    
+
