@@ -1,10 +1,14 @@
-from path_extract.project_paths import ProjectNames
+from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.study.plots.comparison import rprint
 from path_extract.study.plots.constants import (
     BROWSER,
+    HTML,
     NUMBER_FORMAT,
     RendererTypes,
-    get_exp_df, AS_DESIGNED, ALTERNATIVE
+    get_exp_df,
+    AS_DESIGNED,
+    ALTERNATIVE,
+    save_fig,
 )
 import polars as pl
 import altair as alt
@@ -58,42 +62,43 @@ def plot_pie(df: pl.DataFrame, title="", renderer: RendererTypes = BROWSER):
         color=alt.Color(f"{SCOPE}:N").legend(None)
     )
 
-    dr = 50
+    dr = 100
     scope_text = (
         base.mark_text(radius=outer_radius + dr, size=20)
         .transform_calculate(
             formattedNum=alt.expr.format(alt.datum[Columns.VALUE.name], NUMBER_FORMAT)
         )
         .transform_calculate(
-            txt="split(datum.Scope + ':, ' + datum.formattedNum + ' kg-Co2-eq', ',')" # TODO better if can do w/ altair..
+            txt="split(datum.Scope + ':, ' + datum.formattedNum + ' kg-Co2-eq', ',')"  # TODO better if can do w/ altair..
         )
         .encode(text=alt.Text("txt:N"))
     )
 
     chart = pie + scope_text
+    return chart
+
+
+def make_pier_6_pie(
+    renderer: RendererTypes = BROWSER,
+):
+    clmt_path = CLMTPath("pier_6")
+    pie_as_designed = plot_pie(
+        prep_df("pier_6", 1), title=AS_DESIGNED, renderer=renderer
+    )
+    pie_worse_alt = plot_pie(prep_df("pier_6", 0), title=ALTERNATIVE, renderer=renderer)
+
+    chart = pie_as_designed | pie_worse_alt
+
+    if renderer == HTML:
+        fig_name = f"exp{1}_{0}_pie.png"
+        save_fig(chart, clmt_path, fig_name)
+    else:
+        chart.show()
+
     return chart 
-
-
-def pier_6_pie():
-    pie_as_designed = plot_pie(prep_df("pier_6", 1), title=AS_DESIGNED)
-    pie_worse_alt = plot_pie(prep_df("pier_6", 0), title=ALTERNATIVE)
-
-    chart =  pie_as_designed | pie_worse_alt
-
-    chart.show()
-
-
-
 
 
 
 if __name__ == "__main__":
-    # df = prep_df("pier_6", 1)
-    # rprint(df)
-    # plot_pie(df)
+    make_pier_6_pie()
 
-    pier_6_pie()
-
-    # df = prep_df("pier_6", 0)
-    # rprint(df)
-    # plot_pie(df)

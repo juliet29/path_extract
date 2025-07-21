@@ -7,6 +7,7 @@ from path_extract.categories.assign import assign_dict, check_assign_dict
 from path_extract.categories.categories import UseCategories
 
 
+
 def get_emissions_df(df: pl.DataFrame):
     d = df.filter(pl.col(Columns.VALUE.name) != 0).filter(
         pl.col(Columns.SECTION.name) == Headings.CARBON_IMPACT.value
@@ -65,6 +66,7 @@ def include_use_categories(df: pl.DataFrame):
 
 
 def edit_breakdown_df(df: pl.DataFrame):
+    
     df1 = get_emissions_df(df)
     # df2 = reorganize_element_categories(df1)
     df2 = include_use_categories(df1)

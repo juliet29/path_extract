@@ -1,5 +1,4 @@
 from path_extract.study.plots.colors import (
-    map_use_category_colors,
     map_use_category_colors_to_elements,
 )
 from path_extract.extract.breakdown import read_breakdown
@@ -18,7 +17,6 @@ from path_extract.project_paths import (
 )
 
 from path_extract.study.dataframes import edit_breakdown_df
-from path_extract.study.plots.constants import CARBON_EMIT_LABEL, LABEL_ANGLE, NUMBER_FORMAT
 
 
 # group by category
@@ -71,34 +69,6 @@ def plot_experiment_summary(
 
 
 # TODO move this elsewhere..
-def plot_use_categories(_df: pl.DataFrame, title: str, renderer="browser"):
-    alt.renderers.enable(renderer)
-    df = edit_breakdown_df(_df)
-
-    domains, range_ = map_use_category_colors(df)
-    chart = (
-        alt.Chart(df, title=title)
-        .mark_bar()
-        .encode(
-            x=alt.X(Columns.CUSTOM_CATEGORY.name).title("Use Categories").sort(None),
-            y=alt.Y(
-                f"sum({ClassNames.VALUE.name})", axis=alt.Axis(format=NUMBER_FORMAT)
-            ).title(CARBON_EMIT_LABEL),
-            color=alt.Color(ClassNames.CATEGORY.name)
-            .sort(None)
-            .scale(domain=domains, range=range_),
-            tooltip=[
-                ClassNames.CATEGORY.name,
-                alt.Tooltip(f"sum({ClassNames.VALUE.name})", format=".2s"),
-            ],
-        )
-        .properties(width=250, height=220)
-        .configure_axisX(labelAngle=LABEL_ANGLE)
-    )
-
-    return chart
-
-
 def plot_elements(_df: pl.DataFrame, title: str = "", renderer="browser"):
     alt.renderers.enable(renderer)
     df = edit_breakdown_df(_df)

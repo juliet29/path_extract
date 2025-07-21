@@ -1,4 +1,3 @@
-from path_extract.BROWSER import BROWSER
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.study.dataframes import edit_breakdown_df, get_net_emissions
 import polars as pl
@@ -9,10 +8,12 @@ from path_extract.study.plots.constants import (
     HTML,
     NUMBER_FORMAT,
     POINT_SIZE,
+    save_fig,
+    BROWSER,
 )
 from typing import NamedTuple, TypedDict
 from prefixed import Float
-from path_extract.study.plots.theme import scape
+from path_extract.study.plots.theme import scape, category_pallete, FONT_COLOR
 
 
 from path_extract.study.plots.constants import RendererTypes, DEF_DIMENSIONS
@@ -30,7 +31,6 @@ EXPERIMENT_NAMES = "Experiment Names"
 
 class ExpeMetaData(NamedTuple):
     num: int
-
     name: str
 
 
@@ -67,16 +67,11 @@ def prep_df(project_name: ProjectNames, exps: list[ExpeMetaData]):
         )
     )
 
-    rprint(df)
+    # rprint(df)
     return df
 
-    # df = pl.DataFrame({EXP_NUMS: experiment_nums, EXP_NAMES: names, VAL: emissions})
-    # # TODO option to add names to the experiment numbers? / an additional column..
-    # rprint(df)
-    # return df
 
-
-def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
+def plot_comparison(df: pl.DataFrame, renderer=BROWSER, y_datum=150, dx_multiplier=1.5):
     alt.renderers.enable(renderer)  # TODO make this a base fx..
     # need to compute where the text should be.. => halfway between the two values..
 
@@ -94,17 +89,23 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
             .axis(labels=False)
             .title(EXPERIMENT_NAMES),
             y=alt.Y(f"{VAL}:Q").axis(format=NUMBER_FORMAT).title(CARBON_EMIT_LABEL),
+            color=alt.value(category_pallete[0]),
         )
         .properties(**DEF_DIMENSIONS)
     )
 
-    prc_change = chart.encode(
-        x=alt.datum(ALTERNATIVE),
-        y=alt.Y(f"{VAL}:Q").aggregate("mean"),
-        text=alt.Text("max(xchange)"),
-    ).mark_text(
-        dx=-2 * font_size,
-        fontSize=font_size_plus,
+    prc_change = (
+        chart.transform_calculate(FormatChange="datum.xchange + 'x difference'")
+        .encode(
+            x=alt.datum(ALTERNATIVE),
+            y=alt.value(y_datum),
+            text=alt.Text("FormatChange:N"),
+        )
+        .mark_text(
+            dx=dx_multiplier * font_size,
+            fontSize=font_size_plus,
+        )
+        .transform_filter((alt.datum.xchange != 0))
     )
 
     init_dx = font_size
@@ -113,9 +114,9 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
 
     label = (
         line.transform_calculate(
-            label_name="datum.name + ': '+ datum.formatted_val + ' kg-CO2-eq'"
+            label_name="split(datum.name + ':, '+ datum.formatted_val + ' kg-CO2-eq', ',')"
         )
-        .encode(text=alt.Text("label_name:N"))
+        .encode(text=alt.Text("label_name:N"), color=alt.value(FONT_COLOR))
         .mark_text(
             lineBreak=r"\n",
             align=text_align,
@@ -127,15 +128,39 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
 
     chart = line + prc_change + label
 
-    chart.show()
+    return chart
+
+
+def make_comparison_figure(
+    project_name: ProjectNames,
+    exp1_num: int,
+    exp2_num: int,
+    renderer: RendererTypes = BROWSER,
+    y_datum: int = 150,
+    dx_multiplier: float = 1.5,
+    exp1_name=BASELINE,
+    exp2_name=ALTERNATIVE,
+):
+    exp1 = ExpeMetaData(exp1_num, exp1_name)
+    exp2 = ExpeMetaData(exp2_num, exp2_name)
+
+    clmt_path = CLMTPath(project_name)
+    df = prep_df(project_name, [exp1, exp2])
+    chart = plot_comparison(df, renderer, y_datum, dx_multiplier)
+    if renderer == HTML:
+        fig_name = f"exp{exp1.num}_{exp2.num}_comparison.png"
+        save_fig(chart, clmt_path, fig_name)
+    else:
+        chart.show()
+
+    return chart
 
 
 if __name__ == "__main__":
-    alt.theme.enable("carbonwhite")
-    # alt.theme.enable("scape")
-    # chart.to_dict()
+    # alt.theme.enable("carbonwhite")
+    alt.theme.enable("scape")
 
-    as_designed = ExpeMetaData(0, BASELINE)
-    better_alt = ExpeMetaData(3, ALTERNATIVE)
-    df = prep_df("newtown_creek", [as_designed, better_alt])
-    plot_comparison(df)
+    # as_designed = ExpeMetaData(0, BASELINE)
+    # better_alt = ExpeMetaData(3, ALTERNATIVE)
+
+    make_comparison_figure("newtown_creek", 0, 3, renderer=BROWSER)

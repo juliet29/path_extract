@@ -1,7 +1,6 @@
 import altair as alt
 import polars as pl
 from rich import print as rprint
-from path_extract.BROWSER import BROWSER
 from path_extract.constants import Columns
 from enum import StrEnum
 from pathlib import Path
@@ -16,9 +15,12 @@ from path_extract.study.plots.constants import (
     HTML,
     NUMBER_FORMAT_3,
     get_exp_df,
+    BROWSER,
+    save_fig,
 )
 from path_extract.study.plots.constants import RendererTypes
 from path_extract.study.plots.data_waterfall import compare_two_experiments
+from path_extract.study.plots.theme import scape
 
 FINAL_VALUE = 0
 LABEL_ANGLE = -20
@@ -57,7 +59,7 @@ def prep_dataframe(
     return df2
 
 
-def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
+def plot_waterfall(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
     alt.renderers.enable(renderer)
     # values
     amount = alt.datum.amount
@@ -113,7 +115,9 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
         .encode(
             x=alt.X(
                 "label:O",
-                axis=alt.Axis(title=wfc.X_LABEL.value, labelAngle=LABEL_ANGLE),
+                axis=alt.Axis(
+                    title=wfc.X_LABEL.value, labelAngle=LABEL_ANGLE, labelFontSize=10
+                ),
                 sort=None,
             )
         )
@@ -149,7 +153,9 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
         text=alt.Text("format_sum_dec:N"),
         y="calc_sum_dec:Q",
     )
-    text_bar_values_mid_of_bar = base_chart.mark_text(baseline="middle").encode(
+    text_bar_values_mid_of_bar = base_chart.mark_text(
+        baseline="middle", fontSize=10
+    ).encode(
         text=alt.Text("calc_text_amount:N"),  #
         y="calc_center:Q",
         color=alt.value("white"),
@@ -170,7 +176,26 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
     return chart
 
 
+def make_waterfall_figure(
+    project_name: ProjectNames,
+    base_exp_num: int,
+    alt_exp_num: int,
+    renderer: RendererTypes = BROWSER,
+):
+    clmt_path = CLMTPath(project_name)
+    df = prep_dataframe(project_name, base_exp_num, alt_exp_num)
+    chart = plot_waterfall(df)
+    if renderer == HTML:
+        fig_name = f"exp{base_exp_num}_{alt_exp_num}_waterfall.png"
+        save_fig(chart, clmt_path, fig_name)
+    else:
+        chart.show()
+    return chart
+
+
 if __name__ == "__main__":
-    df = prep_dataframe("newtown_creek", 0, 1)
-    chart = make_waterfall_chart(df)
-    chart.show()
+    alt.theme.enable("scape")
+    make_waterfall_figure("newtown_creek", 0, 1)
+    # df = prep_dataframe("newtown_creek", 0, 1)
+    # chart = plot_waterfall(df)
+    # chart.show()

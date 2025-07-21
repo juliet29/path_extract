@@ -1,8 +1,8 @@
 from path_extract.extract.extract import create_csvs_for_project
+from path_extract.study.plots.categorical import plot_use_categories
 from path_extract.study.plots.plots import (
     plot_elements,
     plot_experiment_summary,
-    plot_use_categories,
 )
 from path_extract.study.dataframes import edit_breakdown_df
 from path_extract.constants import ExperimentInfo

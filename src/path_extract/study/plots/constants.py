@@ -4,7 +4,8 @@ from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.study.dataframes import edit_breakdown_df
 import polars as pl
 from rich import print as rprint
-import altair as alt 
+import altair as alt
+from path_extract.utils import get_path_files
 
 
 ## Markers
@@ -50,4 +51,18 @@ def print_whole_df(df, dfname=""):
         rprint(f"{dfname}: {df}")
 
 
+# Saving figs
+PPI = 200
+IMG_FORMAT = "png"
 
+
+def save_fig(chart: alt.Chart | alt.LayerChart | alt.HConcatChart | alt.ConcatChart, clmt_path: CLMTPath, fig_name: str):
+    chart.save(clmt_path.figures_path / fig_name, format=IMG_FORMAT, ppi=PPI)
+
+
+def clear_fig_path(project_name: ProjectNames):
+    clmt_path = CLMTPath(project_name)
+    files = get_path_files(clmt_path.figures_path)
+    for f in files:
+        f.unlink()
+    

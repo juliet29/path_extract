@@ -73,6 +73,7 @@ class Columns(
     VALUE_DIFF = "VALUE_DIFF"
     BASELINE = "BASELINE"
     ALT = "ALT"
+    CUSTOM_CATGEORY_LABEL = "CUSTOM_CATEGORY_LABEL"
 
 
 class ExperimentInfo(TypedDict):
