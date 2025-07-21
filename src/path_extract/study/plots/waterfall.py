@@ -13,7 +13,7 @@ from path_extract.study.dataframes import (
 )
 from path_extract.study.plots.constants import HTML
 from path_extract.study.plots.constants import RendererTypes
-from path_extract.study.plots.data_waterfall import compare_two_experiments
+from path_extract.study.plots.data_waterfall import compare_two_experiments, get_exp_df
 
 FINAL_VALUE = 0
 LABEL_ANGLE = -20
@@ -24,7 +24,7 @@ class wfc(StrEnum):  # WaterfallColumns
     AMOUNT = "amount"
     LABEL = "label"
     BEGIN = "Baseline"
-    END = "Final"
+    END = "Alternative"
     X_LABEL = "Elements"
     Y_LABEL = "Amount"
 
@@ -32,36 +32,26 @@ class wfc(StrEnum):  # WaterfallColumns
 def prep_dataframe(
     project_name: ProjectNames, baseline_exp_num: int, alternative_exp_num: int
 ):
-    clmt_path = CLMTPath(project_name)
-    baseline = edit_breakdown_df(clmt_path.read_csv(baseline_exp_num))
-    alternative = edit_breakdown_df(clmt_path.read_csv(alternative_exp_num))
     df = (
-        compare_two_experiments(baseline, alternative)
+        compare_two_experiments(project_name, baseline_exp_num, alternative_exp_num)
         .rename(
             # NOTE: this is the point where can make decisions about what goes on the axis..
             {Columns.ELEMENT: wfc.LABEL, Columns.VALUE_DIFF: wfc.AMOUNT}
         )
         .select(wfc.LABEL, wfc.AMOUNT)
     )
+    baseline = get_exp_df(project_name, baseline_exp_num)
     init = pl.DataFrame(
         {wfc.LABEL: wfc.BEGIN.value, wfc.AMOUNT: get_net_emissions(baseline)}
     )
     end = pl.DataFrame({wfc.LABEL: wfc.END.value, wfc.AMOUNT: FINAL_VALUE})
-    rprint(df, init, end)
 
     df2 = pl.concat([init, df, end])
-    rprint(df2)
+    # rprint(df2)
 
     return df2
 
 
-# class Schema(pa.DataFrameModel):
-#     state: str
-#     city: str
-#     price: int = pa.Field(in_range={"min_value": 5, "max_value": 20})
-
-
-# @pa.check_types
 def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
     alt.renderers.enable(renderer)
     # values
@@ -82,6 +72,21 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
         + calc_amount
     )
 
+    format_sum_dec = alt.expr.if_(
+        alt.datum.calc_sum_dec != "",
+        alt.expr.format(alt.datum.calc_sum_dec, NUMBER_FORMAT),
+        "",
+    )
+    format_sum_inc = alt.expr.if_(
+        alt.datum.calc_sum_inc != "",
+        alt.expr.format(alt.datum.calc_sum_inc, NUMBER_FORMAT),
+        "",
+    )
+    format_text_amount = alt.expr.if_(
+        alt.datum.calc_text_amount != 0,
+        alt.expr.format(alt.datum.calc_text_amount, NUMBER_FORMAT),
+        "",
+    )
     # The "base_chart" defines the transform_window, transform_calculate, and X axis
     base_chart = (
         alt.Chart(df)
@@ -104,6 +109,11 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
                 window_sum_amount > calc_prev_sum, window_sum_amount, ""
             ),
         )
+        .transform_calculate(
+            format_sum_dec=format_sum_dec,
+            format_sum_inc=format_sum_inc,
+            format_text_amount=format_text_amount,
+        )
         .encode(
             x=alt.X(
                 "label:O",
@@ -112,6 +122,8 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
             )
         )
     )
+
+    rprint(base_chart)
 
     color_coding = (
         alt.when((label == wfc.BEGIN.value) | (label == wfc.END.value))
@@ -135,15 +147,16 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
 
     # Add values as text
     text_pos_values_top_of_bar = base_chart.mark_text(baseline="bottom", dy=-4).encode(
-        text=alt.Text("calc_sum_inc:N", format=NUMBER_FORMAT),
+        text=alt.Text("format_sum_inc:N"),
         y="calc_sum_inc:Q",
     )
+
     text_neg_values_bot_of_bar = base_chart.mark_text(baseline="top", dy=4).encode(
-        text=alt.Text("calc_sum_dec:N", format=NUMBER_FORMAT),
+        text=alt.Text("format_sum_dec:N"),
         y="calc_sum_dec:Q",
     )
     text_bar_values_mid_of_bar = base_chart.mark_text(baseline="middle").encode(
-        text=alt.Text("calc_text_amount:N", format=NUMBER_FORMAT),
+        text=alt.Text("format_text_amount:N"),  #
         y="calc_center:Q",
         color=alt.value("white"),
     )
@@ -153,7 +166,7 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
             bar,
             rule,
             text_pos_values_top_of_bar,
-            text_neg_values_bot_of_bar,
+            # text_neg_values_bot_of_bar,
             text_bar_values_mid_of_bar,
         )
         .properties(width=800, height=450)
@@ -164,6 +177,6 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
 
 
 if __name__ == "__main__":
-    df = prep_dataframe("newtown_creek", 0, 3)
+    df = prep_dataframe("pier_6", 1, 0)
     chart = make_waterfall_chart(df)
     chart.show()

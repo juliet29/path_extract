@@ -6,7 +6,8 @@ from path_extract.study.plots.data_compare import (
     check_elements,
     check_sums,
     get_diff,
-    print_names_ordered, calc_diff
+    print_names_ordered,
+    calc_diff,
 )
 
 import polars as pl
@@ -130,9 +131,7 @@ def secondary_extend(intermed: pl.DataFrame, base: pl.DataFrame, alt: pl.DataFra
         .with_columns(pl.col(Columns.VALUE.name).alias(Columns.VALUE_ALT.name))
         .with_columns(pl.lit(0, dtype=pl.Int64).alias(Columns.VALUE.name))
     )
-    return intermed.extend(df_to_add)
-
-
+    return intermed.extend(df_to_add).fill_null(0)
 
 
 def compare_two_experiments(
@@ -155,18 +154,16 @@ def compare_two_experiments(
 
     # rprint(d)
 
-    return calc_diff(df, val1_col=Columns.VALUE.name, val2_col=Columns.VALUE_ALT.name)
+    with_diff = calc_diff(
+        df, val1_col=Columns.VALUE.name, val2_col=Columns.VALUE_ALT.name
+    )
+    return get_diff(with_diff).sort(
+        by=[Columns.CUSTOM_CATEGORY.name, Columns.VALUE_DIFF.name, Columns.ELEMENT.name]
+    )
 
 
 if __name__ == "__main__":
-    # TODO make test -> typical use case
-    # df = read_csv(SAMPLE_CLMT_PATH.get_csv(0))
-    # d = edit_breakdown_df(df)
-    # rprint(d)
-
-    # compare two experiments
-    # clmt_path = CLMTPath("pier_6")
-    # baseline = edit_breakdown_df(clmt_path.read_csv(0))
-    # alternative = edit_breakdown_df(clmt_path.read_csv(1))
     d = compare_two_experiments("pier_6", 1, 0)
+    rprint(get_diff(d))
+    d = compare_two_experiments("pier_6", 0, 1)
     rprint(get_diff(d))
