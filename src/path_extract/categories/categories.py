@@ -2,7 +2,7 @@ from typing import Literal
 from enum import Enum
 from path_extract.vega_colors import vega_colors
 
-
+# TODO why is this a tuple?
 class UseCategories(Enum):
     PRESERVED_PLANTING = (0,)  # "Preserved Planting / Restoration"
     DEMO = (1,)  # "Demolition"

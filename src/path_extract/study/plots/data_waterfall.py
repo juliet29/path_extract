@@ -1,5 +1,5 @@
 from path_extract.constants import Columns
-from path_extract.study.plots.constants import get_exp_df
+from path_extract.study.plots.constants import get_exp_df, print_whole_df
 from path_extract.utils import set_difference
 from path_extract.study.plots.data_compare import (
     get_names,
@@ -83,7 +83,7 @@ def compare_two_experiments(
 
 
 if __name__ == "__main__":
-    d = compare_two_experiments("pier_6", 1, 0)
-    rprint(get_diff(d))
-    d = compare_two_experiments("pier_6", 0, 1)
-    rprint(get_diff(d))
+    # d = compare_two_experiments("pier_6", 1, 0)
+    # rprint(get_diff(d))
+    d = compare_two_experiments("pier_6", 2,1)
+    print_whole_df(get_diff(d))

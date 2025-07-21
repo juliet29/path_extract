@@ -12,6 +12,8 @@ from path_extract.study.plots.constants import (
 )
 from typing import NamedTuple, TypedDict
 from prefixed import Float
+from path_extract.study.plots.theme import scape
+
 
 from path_extract.study.plots.constants import RendererTypes, DEF_DIMENSIONS
 
@@ -28,6 +30,7 @@ EXPERIMENT_NAMES = "Experiment Names"
 
 class ExpeMetaData(NamedTuple):
     num: int
+
     name: str
 
 
@@ -95,17 +98,13 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
         .properties(**DEF_DIMENSIONS)
     )
 
-
-    prc_change = (
-        chart.encode(
-            x=alt.datum(ALTERNATIVE),
-            y=alt.Y(f"{VAL}:Q").aggregate("mean"),
-            text=alt.Text("max(xchange)"),
-        )
-        .mark_text(
-            dx=-2*font_size,
-            fontSize=font_size_plus,
-        )
+    prc_change = chart.encode(
+        x=alt.datum(ALTERNATIVE),
+        y=alt.Y(f"{VAL}:Q").aggregate("mean"),
+        text=alt.Text("max(xchange)"),
+    ).mark_text(
+        dx=-2 * font_size,
+        fontSize=font_size_plus,
     )
 
     init_dx = font_size
@@ -126,15 +125,15 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER):
         )
     )
 
-    chart = line +  prc_change  + label
+    chart = line + prc_change + label
 
     chart.show()
 
 
 if __name__ == "__main__":
-    # as_designed = ExpeMetaData(1, BASELINE)
-    # better_alt = ExpeMetaData(0, ALTERNATIVE)
-    # df = prep_df("pier_6", [as_designed, better_alt])
+    alt.theme.enable("carbonwhite")
+    # alt.theme.enable("scape")
+    # chart.to_dict()
 
     as_designed = ExpeMetaData(0, BASELINE)
     better_alt = ExpeMetaData(3, ALTERNATIVE)
