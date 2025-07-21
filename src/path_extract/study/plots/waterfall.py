@@ -11,9 +11,14 @@ from path_extract.study.dataframes import (
     edit_breakdown_df,
     get_net_emissions,
 )
-from path_extract.study.plots.constants import HTML
+from path_extract.study.plots.constants import (
+    CARBON_EMIT_LABEL,
+    HTML,
+    NUMBER_FORMAT_3,
+    get_exp_df,
+)
 from path_extract.study.plots.constants import RendererTypes
-from path_extract.study.plots.data_waterfall import compare_two_experiments, get_exp_df
+from path_extract.study.plots.data_waterfall import compare_two_experiments
 
 FINAL_VALUE = 0
 LABEL_ANGLE = -20
@@ -63,14 +68,11 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
     # Define frequently referenced/long expressions
     calc_prev_sum = alt.expr.if_(label == wfc.END.value, 0, window_sum_amount - amount)
     calc_amount = alt.expr.if_(label == wfc.END.value, window_sum_amount, amount)
-    calc_text_amount = (
-        alt.expr.if_(
-            (label != wfc.BEGIN.value) & (label != wfc.END.value) & calc_amount > 0,
-            "+",
-            "",
-        )
-        + calc_amount
-    )
+    calc_text_amount = alt.expr.if_(
+        (label != wfc.BEGIN.value) & (label != wfc.END.value) & calc_amount > 0,
+        "+",
+        "",
+    ) + alt.expr.format(calc_amount, NUMBER_FORMAT)
 
     format_sum_dec = alt.expr.if_(
         alt.datum.calc_sum_dec != "",
@@ -80,11 +82,6 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
     format_sum_inc = alt.expr.if_(
         alt.datum.calc_sum_inc != "",
         alt.expr.format(alt.datum.calc_sum_inc, NUMBER_FORMAT),
-        "",
-    )
-    format_text_amount = alt.expr.if_(
-        alt.datum.calc_text_amount != 0,
-        alt.expr.format(alt.datum.calc_text_amount, NUMBER_FORMAT),
         "",
     )
     # The "base_chart" defines the transform_window, transform_calculate, and X axis
@@ -112,7 +109,6 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
         .transform_calculate(
             format_sum_dec=format_sum_dec,
             format_sum_inc=format_sum_inc,
-            format_text_amount=format_text_amount,
         )
         .encode(
             x=alt.X(
@@ -123,8 +119,6 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
         )
     )
 
-    rprint(base_chart)
-
     color_coding = (
         alt.when((label == wfc.BEGIN.value) | (label == wfc.END.value))
         .then(alt.value("#878d96"))
@@ -134,7 +128,7 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
     )
 
     bar = base_chart.mark_bar(size=45).encode(
-        y=alt.Y("calc_prev_sum:Q", title=wfc.Y_LABEL.value),
+        y=alt.Y("calc_prev_sum:Q").title(CARBON_EMIT_LABEL).axis(format=NUMBER_FORMAT),
         y2=alt.Y2("window_sum_amount:Q"),
         color=color_coding,
     )
@@ -156,7 +150,7 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
         y="calc_sum_dec:Q",
     )
     text_bar_values_mid_of_bar = base_chart.mark_text(baseline="middle").encode(
-        text=alt.Text("format_text_amount:N"),  #
+        text=alt.Text("calc_text_amount:N"),  #
         y="calc_center:Q",
         color=alt.value("white"),
     )
@@ -166,7 +160,7 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
             bar,
             rule,
             text_pos_values_top_of_bar,
-            # text_neg_values_bot_of_bar,
+            text_neg_values_bot_of_bar,
             text_bar_values_mid_of_bar,
         )
         .properties(width=800, height=450)
@@ -177,6 +171,6 @@ def make_waterfall_chart(df: pl.DataFrame, renderer: RendererTypes = BROWSER):
 
 
 if __name__ == "__main__":
-    df = prep_dataframe("pier_6", 1, 0)
+    df = prep_dataframe("newtown_creek", 0, 1)
     chart = make_waterfall_chart(df)
     chart.show()
