@@ -34,7 +34,10 @@ def saginaw_figs():
 
 
 def bpcr_figs():
-    pass
+    clear_fig_path("bpcr")
+    make_categorical_figure("bpcr", 0, HTML)
+    make_categorical_figure("bpcr", 1, HTML)
+
 
 
 def newtown_creek_figs():
@@ -49,6 +52,5 @@ def newtown_creek_figs():
 
 if __name__ == "__main__":
     alt.theme.enable("scape")
-    # saginaw_figs()
-    # pier_6_figs()
-    newtown_creek_figs()
+    bpcr_figs()
+    

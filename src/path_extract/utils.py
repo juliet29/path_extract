@@ -10,7 +10,7 @@ def get_path_subdirectories(path: Path):
 
 
 def get_path_files(path: Path):
-    return [i for i in path.iterdir() if i.is_file()]
+    return [i for i in path.iterdir() if i.is_file() and not i.stem.startswith(".") ] # ignore hidden files.. 
 
 
 def chain_flatten(lst: Iterable[Iterable[T]]) -> list[T]:

@@ -36,7 +36,7 @@ class wfc(StrEnum):  # WaterfallColumns
     Y_LABEL = "Amount"
 
 
-def prep_dataframe(
+def prep_df(
     project_name: ProjectNames, baseline_exp_num: int, alternative_exp_num: int
 ):
     df = (
@@ -183,7 +183,7 @@ def make_waterfall_figure(
     renderer: RendererTypes = BROWSER,
 ):
     clmt_path = CLMTPath(project_name)
-    df = prep_dataframe(project_name, base_exp_num, alt_exp_num)
+    df = prep_df(project_name, base_exp_num, alt_exp_num)
     chart = plot_waterfall(df)
     if renderer == HTML:
         fig_name = f"exp{base_exp_num}_{alt_exp_num}_waterfall.png"

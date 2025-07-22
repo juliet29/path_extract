@@ -53,7 +53,7 @@ if __name__ == "__main__":
     else:
         project = "newtown_creek"
     rprint(f"project to process: {project}")
-    clmt_path = CLMTPath(
-        project
-    )  # TODO fix the literal.. => do some checks on the class
-    create_csvs_for_project(clmt_path)
+    # clmt_path = CLMTPath(
+    #     project
+    # )  # TODO fix the literal.. => do some checks on the class
+    # create_csvs_for_project(clmt_path)
