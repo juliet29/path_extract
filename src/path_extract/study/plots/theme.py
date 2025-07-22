@@ -2,8 +2,8 @@ import altair as alt
 
 CLEARVIEW = "ClearviewText"
 FONT = f'{CLEARVIEW}, system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular", sans-serif'
-FONT_SIZE = 18
-LABEL_FONT_SIZE = 10
+FONT_SIZE = 14
+LABEL_FONT_SIZE = 12
 FONT_COLOR = "#161616"
 LABEL_COLOR = "#525252"
 DEF_WIDTH = 350
@@ -27,12 +27,13 @@ def scape() -> alt.theme.ThemeConfig:
                 "labelFont": FONT,
                 "labelFontWeight": 400,
                 "titleColor": FONT_COLOR,
-                "titleFontWeight": 600,
-                "titleFontSize": LABEL_FONT_SIZE,
+                "titleFontWeight": 400,
+                "titleFontSize": FONT_SIZE,
+                "titleFont": FONT
             },
             "axisX": {"titlePadding": 10},
             "axisY": {"titlePadding": 2.5},
-            "text": {"font": FONT, "fontSize": FONT_SIZE, "fontWeight": "bold"},
+            "text": {"font": FONT, "fontSize": FONT_SIZE},
             "range": {
                 "ordinal": {"scheme": "teals"},
                 "category": category_pallete,

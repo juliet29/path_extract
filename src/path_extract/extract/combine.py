@@ -55,12 +55,15 @@ def combine_bpcr_projects():
     clmt_path = CLMTPath(BPCR).input_path
     make_exp(["soils", "planting", "paving", "tree_removal"], 0)
     make_exp(["soils", "planting_and_hardscape", "tree_removal"], 1)
+    make_exp(["planting_base"], 2)
+    make_exp(["planting_prop"], 3)
 
     # choose the ones that would like and make experiment
     pass
 
 
 if __name__ == "__main__":
+    # read_bpcr_projects_to_csv()
     combine_bpcr_projects()
     # df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
     # rprint(df)
