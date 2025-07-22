@@ -87,7 +87,7 @@ def make_pier_6_pie(
     )
     pie_worse_alt = plot_pie(prep_df("pier_6", 0), title=ALTERNATIVE, renderer=renderer)
 
-    chart = pie_as_designed | pie_worse_alt
+    chart = pie_worse_alt | pie_as_designed 
 
     if renderer == HTML:
         fig_name = f"exp{1}_{0}_pie.png"

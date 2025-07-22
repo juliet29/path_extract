@@ -1,5 +1,5 @@
 $SOURCE_FOLDER_ROOT = 'r:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects'
-$CLMT_PILOT_FOLDER_INPUTS = 'C:\Users\juliet.intern\_SCAPECode\pathfinder\inputs\250701_CLMT_Pilot_Sprint'
+$CLMT_PILOT_FOLDER_INPUTS = 'C:\Users\juliet.intern\_SCAPECode\path_extract\inputs\250701_CLMT_Pilot_Sprint'
 $INFO_JSON = 'info.json'
 $TEXT_FOLDER = 'text'
 $HTML_FOLDER = 'html'

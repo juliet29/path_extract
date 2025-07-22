@@ -10,17 +10,27 @@ from path_extract.study.plots.theme import scape
 
 
 def pier_6_figs():
+    worse_alt = 0
+    as_designed = 1
+    landscape_scope = 2
     clear_fig_path("pier_6")
-    make_categorical_figure("pier_6", 0, HTML)
-    make_categorical_figure("pier_6", 1, HTML)
-    make_waterfall_figure("pier_6", 1, 0, HTML)
+    make_categorical_figure("pier_6", worse_alt, HTML)
+    make_categorical_figure("pier_6", as_designed, HTML)
+    make_categorical_figure("pier_6", landscape_scope, HTML)
+    make_waterfall_figure("pier_6", as_designed, worse_alt, HTML)
     make_pier_6_pie(HTML)
-    make_comparison_figure("pier_6", 1, 0, renderer=HTML)
+    make_comparison_figure("pier_6", as_designed, worse_alt, renderer=HTML)
 
 
 def saginaw_figs():
-    clear_fig_path("saginaw")
-    make_categorical_figure("saginaw", 0, HTML)
+    proj_name = "saginaw"
+    as_designed = 0
+    worse_alt = 1
+    clear_fig_path(proj_name)
+    make_categorical_figure(proj_name, as_designed, HTML)
+    make_categorical_figure(proj_name, worse_alt, HTML)
+    make_waterfall_figure(proj_name, as_designed, worse_alt, HTML)
+    make_comparison_figure(proj_name, as_designed, worse_alt, renderer=HTML)
 
 
 def bpcr_figs():
@@ -31,13 +41,14 @@ def newtown_creek_figs():
     clear_fig_path("newtown_creek")
     make_categorical_figure("newtown_creek", 0, HTML)
     make_categorical_figure("newtown_creek", 3, HTML)
-    # make_waterfall_figure("newtown_creek", 0, 1, HTML)
-    # make_waterfall_figure("newtown_creek", 1, 2, HTML)
+    make_waterfall_figure("newtown_creek", 0, 1, HTML)
+    make_waterfall_figure("newtown_creek", 0, 2, HTML)
     make_waterfall_figure("newtown_creek", 0, 3, HTML)
     make_comparison_figure("newtown_creek", 0, 3, renderer=HTML)
 
 
 if __name__ == "__main__":
     alt.theme.enable("scape")
-    pier_6_figs()
-    
+    # saginaw_figs()
+    # pier_6_figs()
+    newtown_creek_figs()

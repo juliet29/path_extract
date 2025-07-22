@@ -1,5 +1,5 @@
 . .\setup.ps1
-$SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\pathfinder\src\path_extract"
+$SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\path_extract\src\path_extract"
 
 
 # $pier_6 = @{
@@ -39,21 +39,54 @@ $SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\pathfinder\src\path_extract"
 #     New-Setup "Saginaw" "$value\Saginaw Riverfront Park-Page {0}.txt" $value $i;
 # }
 
+# function ReadSaginaw {
+#     ## Saginaw. 
+#     $Folder_Name = "Pathfinder_Data"
+#     $saginaw = @{
+#         0 = 'reuse'
+#         1 = 'import'
+#     }
+#     New-Setup "Saginaw" "$Folder_Name\OPT 1-reuse of soil\Saginaw Riverfront Park-Page {0}.txt" $saginaw[0] 0;
+#     New-Setup "Saginaw" "$Folder_Name\OPT 2-importing soil\pg{0}.txt" $saginaw[1] 1;
+#     $path = "$SRC_PATH\extract\extract.py"
+#     uv run "$SRC_PATH\extract\extract.py" "saginaw"
+# }
 
-
-## Newtown Creek Complete.. 
-$Folder_Name = "250715_Study"
-$newtown_creek = @{
-    0 = 'baseline'
-    1 = 'depth_reduction'
-    2 = 'area_reduction'
-    3 = 'depth_area_reduction'
+function ReadSaginaw {
+    # $SHome = "P:\2433 - Saginaw Riverfront Park\03_Research\07_CLMT\Pathfinder\OPT 2-importing soil"
+    # $SDest = "R:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects\Saginaw\Pathfinder_Data\OPT 2-importing soil"
+    # Copy-Item "$Shome\Pg1.txt" $TextDestPath\pg1.txt
+    # Copy-Item "$Shome\pg2.txt" $TextDestPath\pg2.txt
+    ## Saginaw. 
+    $Folder_Name = "Pathfinder_Data"
+    $saginaw = @{
+        0 = 'reuse'
+        1 = 'import'
+    }
+    New-Setup "Saginaw" "$Folder_Name\OPT 1-reuse of soil\Saginaw Riverfront Park-Page {0}.txt" $saginaw[0] 0;
+    New-Setup "Saginaw" "$Folder_Name\OPT 2-importing soil\pg{0}.txt" $saginaw[1] 1;
+    $path = "$SRC_PATH\extract\extract.py"
+    uv run "$SRC_PATH\extract\extract.py" "saginaw"
 }
-New-Setup "Newtown Creek" "Newtown-Creek-page_{0}.txt" $newtown_creek[0] 0;
-New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study 1- Depth-Reduction-page_{0}.txt" $newtown_creek[1] 1;
-New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-2-Area-Reduction-page_{0}.txt" $newtown_creek[2] 2;
-New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-3-Depth+Area-Reduction-page_{0}.txt" $newtown_creek[3] 3;
-uv run "$SRC_PATH\extract\extract.py" "newtown_creek"
+
+ReadSaginaw
+
+# Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+
+# TODO -> add to function.. 
+## Newtown Creek Complete.. 
+# $Folder_Name = "250715_Study"
+# $newtown_creek = @{
+#     0 = 'baseline'
+#     1 = 'depth_reduction'
+#     2 = 'area_reduction'
+#     3 = 'depth_area_reduction'
+# }
+# New-Setup "Newtown Creek" "Newtown-Creek-page_{0}.txt" $newtown_creek[0] 0;
+# New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study 1- Depth-Reduction-page_{0}.txt" $newtown_creek[1] 1;
+# New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-2-Area-Reduction-page_{0}.txt" $newtown_creek[2] 2;
+# New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-3-Depth+Area-Reduction-page_{0}.txt" $newtown_creek[3] 3;
+# uv run "$SRC_PATH\extract\extract.py" "newtown_creek"
 
 
 # "R:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects\Newtown Creek\250715_Study\Newtown-Pave-Study-2-Area-Reduction-page_2.txt"t"
