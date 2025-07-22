@@ -63,7 +63,7 @@ def combine_bpcr_projects():
 
 
 if __name__ == "__main__":
-    # read_bpcr_projects_to_csv()
+    read_bpcr_projects_to_csv()
     combine_bpcr_projects()
     # df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
     # rprint(df)

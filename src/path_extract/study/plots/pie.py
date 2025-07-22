@@ -1,5 +1,5 @@
 from path_extract.project_paths import CLMTPath, ProjectNames
-from path_extract.study.plots.comparison import rprint
+from path_extract.study.plots.dot_compare import rprint
 from path_extract.study.plots.constants import (
     BROWSER,
     HTML,

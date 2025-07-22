@@ -1,7 +1,7 @@
 from path_extract.categories.categories import UseCategories
 from path_extract.study.plots.constants import HTML, clear_fig_path
 from path_extract.study.plots.categorical import make_categorical_figure
-from path_extract.study.plots.comparison import make_comparison_figure
+from path_extract.study.plots.dot_compare import make_comparison_figure
 from path_extract.study.plots.stacked_compare import make_stack_compare_figure
 from path_extract.study.plots.waterfall import make_waterfall_figure
 from path_extract.study.plots.pie import make_pier_6_pie
@@ -55,6 +55,7 @@ def bpcr_figs():
     make_categorical_figure("bpcr", 0, HTML)
     make_categorical_figure("bpcr", 1, HTML)
     make_stack_compare_figure(proj_name, 2, 3, HTML, filter_categ=None)
+    make_waterfall_figure(proj_name, 2,3, HTML)
 
 
 def newtown_creek_figs():
@@ -82,4 +83,5 @@ def newtown_creek_figs():
 
 if __name__ == "__main__":
     alt.theme.enable("scape")
+    #pier_6_figs()
     bpcr_figs()

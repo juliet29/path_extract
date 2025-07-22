@@ -10,7 +10,15 @@ DEF_WIDTH = 350
 DEF_HEIGHT = 280
 
 
-category_pallete = ["#5c898a", "#022B3A", "#52AA5E", "#976391", "#F7996E"]
+category_pallete = [
+    "#5c898a",
+    "#022B3A",
+    "#52AA5E",
+    "#976391",
+    "#F7996E",
+    "#B28B84",
+    "#6D696A",
+]
 
 
 @alt.theme.register("scape", enable=True)
@@ -29,7 +37,7 @@ def scape() -> alt.theme.ThemeConfig:
                 "titleColor": FONT_COLOR,
                 "titleFontWeight": 400,
                 "titleFontSize": FONT_SIZE,
-                "titleFont": FONT
+                "titleFont": FONT,
             },
             "axisX": {"titlePadding": 10},
             "axisY": {"titlePadding": 2.5},

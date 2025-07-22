@@ -39,6 +39,8 @@ def include_use_categories(df: pl.DataFrame):
     check_assign_dict()
     pairs = create_pairs(assign_dict)
     # rprint(pairs)
+    # TODO raise exception if a new category is found.. 
+    
     d = (
         df.with_columns(
             (
