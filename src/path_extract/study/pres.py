@@ -1,5 +1,6 @@
 from path_extract.data.categories.use_categories import UseCategories
 from path_extract.plots.breakdown.categories import make_categorical_figure
+from path_extract.plots.breakdown.elements import make_element_figure
 from path_extract.plots.helpers.constants import HTML, clear_fig_path
 from path_extract.plots.dot_compare import make_comparison_figure
 from path_extract.plots.stacked_compare import make_stack_compare_figure
@@ -79,6 +80,7 @@ def newtown_creek_figs():
         "newtown_creek", as_designed, both, renderer=HTML, filter_categ=categ
     )
     make_comparison_figure("newtown_creek", as_designed, both, renderer=HTML)
+    make_element_figure("newtown_creek", 0, HTML)
 
 
 if __name__ == "__main__":

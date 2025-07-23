@@ -1,16 +1,30 @@
 from path_extract.constants import ClassNames, Columns
 from path_extract.data.dataframes import edit_breakdown_df
+from path_extract.project_paths import CLMTPath, ProjectNames
+from path_extract.data.dataframes import edit_breakdown_df
+from path_extract.plots.helpers.constants import (
+    BROWSER,
+    CARBON_EMIT_LABEL,
+    HTML,
+    LABEL_ANGLE,
+    NUMBER_FORMAT,
+    RendererTypes,
+    get_exp_df,
+    save_fig,
+)
 
 
 import altair as alt
 import polars as pl
 
-from path_extract.plots.breakdown.color_category_map import map_use_category_colors_to_elements
+from path_extract.plots.breakdown.color_category_map import (
+    map_use_category_colors_to_elements,
+)
+from path_extract.plots.breakdown.categories import prep_df
 
 
-def plot_elements(_df: pl.DataFrame, title: str = "", renderer="browser"):
+def plot_elements(df: pl.DataFrame, title: str = "", renderer="browser"):
     alt.renderers.enable(renderer)
-    df = edit_breakdown_df(_df)
     domains, range_ = map_use_category_colors_to_elements(df)
 
     chart = (
@@ -33,3 +47,25 @@ def plot_elements(_df: pl.DataFrame, title: str = "", renderer="browser"):
     )
 
     return chart
+
+
+def make_element_figure(
+    project_name: ProjectNames,  # noqa: F821
+    exp_num: int,
+    renderer: RendererTypes = BROWSER,
+):
+    clmt_path = CLMTPath(project_name)
+    df = prep_df(project_name, exp_num)
+    chart = plot_elements(df, renderer=renderer)
+    if renderer == HTML:
+        fig_name = f"exp{exp_num}_elements.png"
+        save_fig(chart, clmt_path, fig_name)
+    else:
+        chart.show()
+
+    return chart
+
+
+if __name__ == "__main__":
+    alt.theme.enable("scape")
+    make_element_figure("newtown_creek", 0)
