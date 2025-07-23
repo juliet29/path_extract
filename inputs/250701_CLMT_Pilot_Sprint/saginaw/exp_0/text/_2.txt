@@ -404,10 +404,16 @@
                                 <span>89,017 kgCO?e</span>
                             </td>
                         </tr>
+                                        <tr class="">
+                            <td class="element-name">Removal of Site Soil (off-haul)</td>
+                            <td class="element-co2 emit ">
+                                <span>22,596 kgCO?e</span>
+                            </td>
+                        </tr>
                                         <tr class="sub-totals ">
                             <td>Subtotal</td>
                             <td class="emit ">
-                                102,646 kgCO?e
+                                125,242 kgCO?e
                             </td>
                         </tr>
                         <tr class="category-header">
@@ -479,13 +485,13 @@
                         <tr class="">
                             <td class="element-name">EPDM Safety Surface</td>
                             <td class="element-co2 emit ">
-                                <span>2,748,000 kgCO?e</span>
+                                <span>1,966,437 kgCO?e</span>
                             </td>
                         </tr>
                                         <tr class="sub-totals ">
                             <td>Subtotal</td>
                             <td class="emit ">
-                                2,748,000 kgCO?e
+                                1,966,437 kgCO?e
                             </td>
                         </tr>
                         <tr class="category-header">
@@ -512,7 +518,7 @@
                         <tr class="type-totals ">
                             <td>Total Embodied Carbon</td>
                             <td class=" ">
-                                5,785,975 kgCO?e
+                                5,027,008 kgCO?e
                             </td>
                         </tr>
                         <tr class="type-header ">
@@ -734,7 +740,7 @@
                     <tr class="totals">
                         <td style="border-bottom: none;">Net Impact over 60 Years</td>
                         <td style="border-bottom: none;" class="net-total emit ">
-                            7,883,834 kgCO?e
+                            7,124,867 kgCO?e
                         </td>
                     </tr>
                         <tr class="section-header mt-2">

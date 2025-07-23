@@ -38,13 +38,14 @@ function ReadSaginaw {
     $saginaw = @{
         0 = 'reuse'
         1 = 'import'
+        2 = 'import_long'
     }
-    New-Setup "Saginaw" "$Folder_Name\OPT 1-reuse of soil\Saginaw Riverfront Park-Page {0}.txt" $saginaw[0] 0;
-    New-Setup "Saginaw" "$Folder_Name\OPT 2-importing soil\pg{0}.txt" $saginaw[1] 1
+    New-Setup "Saginaw" "$Folder_Name\OPT 1-reuse of soil\pg{0}.txt" $saginaw[0] 0;
+    New-Setup "Saginaw" "$Folder_Name\OPT 2-importing soil-subregional distance\pg{0}.txt" $saginaw[1] 1
+    New-Setup "Saginaw" "$Folder_Name\OPT3-importing soil-long distance\pg{0}.txt" $saginaw[2] 2
     uv run "$SRC_PATH\extract\extract.py" "saginaw"
 }
 
-# ReadSaginaw
 
 function ReadNewtownCreek {
     $Folder_Name = "250722_Study"
@@ -67,7 +68,8 @@ function ReadNewtownCreek {
 #### ----------------- MAIN --------------------
 . .\setup.ps1
 $SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\path_extract\src\path_extract"
-ReadNewtownCreek
+# ReadNewtownCreek
+ReadSaginaw
 
 
 # "R:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects\Newtown Creek\250715_Study\Newtown-Pave-Study-2-Area-Reduction-page_2.txt"t"

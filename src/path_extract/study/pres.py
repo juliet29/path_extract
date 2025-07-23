@@ -18,45 +18,46 @@ def pier_6_figs():
     landscape_scope = 2
     categ1 = UseCategories.SUBSTRUCTURE
     categ2 = UseCategories.HARDSCAPE
-    proj_name = "pier_6"
-    clear_fig_path(proj_name)
-    make_categorical_figure(proj_name, worse_alt, HTML)
-    make_categorical_figure(proj_name, as_designed, HTML)
-    make_categorical_figure(proj_name, landscape_scope, HTML)
+    proj = "pier_6"
+    clear_fig_path(proj)
+    make_categorical_figure(proj, worse_alt, HTML)
+    make_categorical_figure(proj, as_designed, HTML)
+    make_categorical_figure(proj, landscape_scope, HTML)
 
     make_stack_compare_figure(
-        proj_name, as_designed, worse_alt, renderer=HTML, filter_categ=categ1
+        proj, as_designed, worse_alt, renderer=HTML, filter_categ=categ1
     )
 
     make_pier_6_pie(HTML)
 
-    make_comparison_figure(proj_name, as_designed, worse_alt, renderer=HTML)
+    make_comparison_figure(proj, as_designed, worse_alt, renderer=HTML)
 
 
 def saginaw_figs():
-    proj_name = "saginaw"
+    proj = "saginaw"
     as_designed = 0
     worse_alt = 1
-    categ1 = None  # UseCategories.DEMO
+    even_worse_alt = 2
 
-    clear_fig_path(proj_name)
-    make_categorical_figure(proj_name, as_designed, HTML)
-    make_categorical_figure(proj_name, worse_alt, HTML)
+    clear_fig_path(proj)
+    make_categorical_figure(proj, as_designed, HTML)
+    make_element_figure(proj)
+    # make_categorical_figure(proj, worse_alt, HTML)
 
     make_stack_compare_figure(
-        proj_name, as_designed, worse_alt, HTML, filter_categ=categ1
+        proj, as_designed, worse_alt, HTML, filter_categ=categ1
     )
 
-    make_comparison_figure(proj_name, as_designed, worse_alt, renderer=HTML)
+    make_comparison_figure(proj, as_designed, worse_alt, renderer=HTML)
 
 
 def bpcr_figs():
-    proj_name = "bpcr"
+    proj = "bpcr"
     clear_fig_path("bpcr")
     make_categorical_figure("bpcr", 0, HTML)
     make_categorical_figure("bpcr", 1, HTML)
-    make_stack_compare_figure(proj_name, 2, 3, HTML, filter_categ=None)
-    make_waterfall_figure(proj_name, 2, 3, HTML)
+    make_stack_compare_figure(proj, 2, 3, HTML, filter_categ=None)
+    make_waterfall_figure(proj, 2, 3, HTML)
 
 
 def newtown_creek_figs():
