@@ -2,10 +2,8 @@ from typing import Literal, TypedDict
 
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.data.dataframes import edit_breakdown_df
-import polars as pl
-from rich import print as rprint
 import altair as alt
-from path_extract.utils import get_path_files
+from path_extract.file_utils import get_path_files
 
 
 ## Markers
@@ -13,12 +11,13 @@ POINT_SIZE = 1000
 
 
 ## Axes
-LABEL_ANGLE = -20
+DIAGONAL_LABEL_ANGLE = -20 # chart..configure_axisX(labelAngle=0)
+HORIZONTAL_LABEL_ANGLE = 0
 NUMBER_FORMAT = ".2s"
 NUMBER_FORMAT_3 = ".3s"
-CARBON_EMIT_LABEL = "Equivalent Carbon Emissions [kg-Co2-e]"
-AS_DESIGNED = "As Designed"
-ALTERNATIVE = "Alternative"
+
+# AS_DESIGNED = "As Designed"
+# ALTERNATIVE = "Alternative"
 
 
 # Size of the plot
@@ -46,18 +45,13 @@ def get_exp_df(
     return edit_breakdown_df(init_df)
 
 
-def print_whole_df(df, dfname=""):
-    with pl.Config(tbl_rows=-1):
-        rprint(f"{dfname}: {df}")
-
-
 # Saving figs
 PPI = 200
 IMG_FORMAT = "png"
 
 
 def save_fig(
-    chart: alt.Chart | alt.LayerChart | alt.HConcatChart | alt.ConcatChart,
+    chart: alt.Chart | alt.LayerChart | alt.HConcatChart | alt.ConcatChart | alt.FacetChart,
     clmt_path: CLMTPath,
     fig_name: str,
 ):
@@ -69,3 +63,10 @@ def clear_fig_path(project_name: ProjectNames):
     files = get_path_files(clmt_path.figures_path)
     for f in files:
         f.unlink()
+
+
+# asxis label names
+CARBON_EMIT_LABEL = "Equivalent Carbon Emissions [kg-Co2-e]"
+AS_DESIGNED = "As Designed"
+ALTERNATIVE = "Alternative"
+EXPERIMENT_NAMES = "Experiment Names"

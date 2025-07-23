@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Literal
 from path_extract.file_utils import read_csv
 from path_extract.paths import PATH_TO_FIGURES, PATH_TO_INPUTS
-from path_extract.utils import get_path_subdirectories
+from path_extract.file_utils import get_path_subdirectories
 from enum import StrEnum, Enum
 
 # TODO move clmt pilot stuff to folder.. / make super object if have many ..
@@ -84,18 +84,11 @@ class CLMTPath:
         # TODO wrapper function to test for existence..
         return self.get_experiment_path(experiment_num) / HTML(datatype.value)
 
-    def get_csv(
-        self, experiment_num: int, datatype: DataType = DataType.BREAKDOWN
-    ):
+    def get_csv(self, experiment_num: int, datatype: DataType = DataType.BREAKDOWN):
         return self.get_experiment_path(experiment_num) / CSV(datatype.value)
 
-        
-    def read_csv(
-        self, experiment_num: int, datatype: DataType = DataType.BREAKDOWN
-    ):
+    def read_csv(self, experiment_num: int, datatype: DataType = DataType.BREAKDOWN):
         return read_csv(self.get_csv(experiment_num, datatype))
-        
-        
 
     @property
     def get_all_experiment_nums(self):

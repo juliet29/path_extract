@@ -4,8 +4,8 @@ from enum import Enum
 # TODO why is this a tuple?
 class UseCategories(Enum):
     PRESERVED_PLANTING = (0,)  # "Preserved Planting / Restoration"
-    DEMO = (1,)  # "Demolition"
-    PREP = (2,)  # "Preparation"
+    DEMOLITION = (1,)  # "Demolition"
+    SITE_PREPARATION = (2,)  # "Preparation"
     SUBSTRUCTURE = (3,)  # "Substructure"
     HARDSCAPE = (4,)  # "Hardscape"
     NEW_PLANTING = (5,)  # "New Planting"  # TODO 'on-structure'

@@ -1,10 +1,10 @@
+from path_extract.plots.helpers.constants import CARBON_EMIT_LABEL
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.data.dataframes import edit_breakdown_df, get_net_emissions
 import polars as pl
 from rich import print as rprint
 import altair as alt
 from path_extract.plots.helpers.constants import (
-    CARBON_EMIT_LABEL,
     HTML,
     NUMBER_FORMAT,
     POINT_SIZE,
@@ -131,7 +131,7 @@ def plot_comparison(df: pl.DataFrame, renderer=BROWSER, y_datum=150, dx_multipli
     return chart
 
 
-def make_comparison_figure(
+def make_dot_comparison_figure(
     project_name: ProjectNames,
     exp1_num: int,
     exp2_num: int,
@@ -163,4 +163,4 @@ if __name__ == "__main__":
     # as_designed = ExpeMetaData(0, BASELINE)
     # better_alt = ExpeMetaData(3, ALTERNATIVE)
 
-    make_comparison_figure("newtown_creek", 0, 3, renderer=BROWSER)
+    make_dot_comparison_figure("newtown_creek", 0, 3, renderer=BROWSER)

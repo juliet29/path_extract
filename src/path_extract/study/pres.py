@@ -1,13 +1,17 @@
+from typing import Callable, get_args
 from path_extract.data.categories.use_categories import UseCategories
 from path_extract.plots.breakdown.categories import make_categorical_figure
 from path_extract.plots.breakdown.elements import make_element_figure
+from path_extract.plots.element_compare import make_element_compare_figure
 from path_extract.plots.helpers.constants import HTML, clear_fig_path
-from path_extract.plots.dot_compare import make_comparison_figure
+from path_extract.plots.dot_compare import make_dot_comparison_figure
 from path_extract.plots.stacked_compare import make_stack_compare_figure
 from path_extract.plots.waterfall import make_waterfall_figure
 from path_extract.plots.pie import make_pier_6_pie
 import altair as alt
 from path_extract.plots.helpers.theme import scape
+from path_extract.project_paths import ProjectNames
+import sys
 
 # TODO: make function to reset figure paths..
 
@@ -15,7 +19,9 @@ from path_extract.plots.helpers.theme import scape
 def pier_6_figs():
     worse_alt = 0
     as_designed = 1
-    landscape_scope = 2
+    landscape_only_as_designed = 2
+    landscape_only_worse = 3 # TODO! 
+
     categ1 = UseCategories.SUBSTRUCTURE
     categ2 = UseCategories.HARDSCAPE
     proj = "pier_6"
@@ -24,6 +30,17 @@ def pier_6_figs():
     make_categorical_figure(proj, as_designed, HTML)
     make_categorical_figure(proj, landscape_scope, HTML)
 
+    make_element_figure(
+        proj_name,
+        as_designed,
+        renderer=HTML,
+        filter_categories=[
+            UseCategories.SUBSTRUCTURE,
+            UseCategories.HARDSCAPE,
+        ],
+    )
+
+    # sheet pile.. 
     make_stack_compare_figure(
         proj, as_designed, worse_alt, renderer=HTML, filter_categ=categ1
     )
@@ -80,12 +97,39 @@ def newtown_creek_figs():
     make_stack_compare_figure(
         "newtown_creek", as_designed, both, renderer=HTML, filter_categ=categ
     )
-    make_comparison_figure("newtown_creek", as_designed, both, renderer=HTML)
-    make_element_figure("newtown_creek", 0, HTML)
+    make_dot_comparison_figure("newtown_creek", as_designed, both, renderer=HTML)
+    make_element_figure(
+        "newtown_creek",
+        0,
+        renderer=HTML,
+        filter_categories=[
+            UseCategories.NEW_PLANTING,
+            UseCategories.HARDSCAPE,
+        ],
+    )
+
+
+fig_dict: dict[ProjectNames, Callable[[], None]] = {
+    "pier_6": pier_6_figs,
+    "bpcr": bpcr_figs,
+    "saginaw": saginaw_figs,
+    "newtown_creek": newtown_creek_figs,
+}
 
 
 if __name__ == "__main__":
     alt.theme.enable("scape")
     # pier_6_figs()
     # bpcr_figs()
-    newtown_creek_figs()
+    poss_projects = ["pier_6", "newtown_creek", "bpcr", "saginaw"]
+    n = len(sys.argv)
+    if n == 2:
+        project = sys.argv[1]
+        print(f"Prepareing figures for `{project}`")
+    else:
+        raise Exception(f"Choose a project in {poss_projects}!")
+
+    assert project in poss_projects
+    fx = fig_dict[project]  # type: ignore
+    fx()
+    # rprint(f"project to process: {project}")

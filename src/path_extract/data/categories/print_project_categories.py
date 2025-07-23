@@ -7,7 +7,7 @@ from path_extract.utils import chain_flatten
 from path_extract.file_utils import read_csv
 import polars as pl
 
-from path_extract.utils import get_path_subdirectories
+from path_extract.file_utils import get_path_subdirectories
 
 # TODO get list of all categories from all projects
 # map them to new categories associated with the use

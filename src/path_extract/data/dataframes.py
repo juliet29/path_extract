@@ -36,12 +36,14 @@ def include_use_categories(df: pl.DataFrame):
     pairs = create_pairs(assign_dict)
     # rprint(pairs)
     # TODO raise exception if a new category is found..
+    # awant to raise error when not in df
+    # rprint("assign dict keys", assign_dict.values())
 
     d = (
         df.with_columns(
             (
                 pl.coalesce(
-                    # this syntax should allow to fail smoothly if element is NOT in dataframe..
+                    
                     pl.when(pl.col(Columns.CATEGORY.name) == cond).then(
                         pl.lit(result.name)
                     )
