@@ -1,16 +1,7 @@
-from pathlib import Path
 from typing import Iterable, TypeVar
 from itertools import chain
 
 T = TypeVar("T")
-
-
-def get_path_subdirectories(path: Path):
-    return [i for i in path.iterdir() if i.is_dir]
-
-
-def get_path_files(path: Path):
-    return [i for i in path.iterdir() if i.is_file() and not i.stem.startswith(".") ] # ignore hidden files.. 
 
 
 def chain_flatten(lst: Iterable[Iterable[T]]) -> list[T]:

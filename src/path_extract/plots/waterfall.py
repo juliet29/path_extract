@@ -5,13 +5,13 @@ from path_extract.constants import Columns
 from enum import StrEnum
 from pathlib import Path
 
+from path_extract.data.columns import CARBON_EMIT_LABEL
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.data.dataframes import (
     edit_breakdown_df,
     get_net_emissions,
 )
 from path_extract.plots.helpers.constants import (
-    CARBON_EMIT_LABEL,
     HTML,
     NUMBER_FORMAT_3,
     get_exp_df,

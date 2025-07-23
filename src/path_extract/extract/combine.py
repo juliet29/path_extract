@@ -3,7 +3,7 @@
 # create a master csv..
 from path_extract.extract.breakdown import read_breakdown
 from path_extract.project_paths import CLMTPath, EXP, CSV
-from path_extract.utils import get_path_files
+from path_extract.file_utils import get_path_files
 from rich import print as rprint
 from path_extract.file_utils import read_csv
 import polars as pl

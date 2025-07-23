@@ -1,10 +1,10 @@
+from path_extract.data.columns import CARBON_EMIT_LABEL
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.data.dataframes import edit_breakdown_df, get_net_emissions
 import polars as pl
 from rich import print as rprint
 import altair as alt
 from path_extract.plots.helpers.constants import (
-    CARBON_EMIT_LABEL,
     HTML,
     NUMBER_FORMAT,
     POINT_SIZE,

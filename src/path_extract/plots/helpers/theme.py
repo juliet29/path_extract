@@ -19,6 +19,27 @@ category_pallete = [
     "#B28B84",
     "#6D696A",
 ]
+scape_categ_pallete = [
+    "#008080",
+    "#007373",
+    "#006666",
+    "#005959",
+    "#004c4c",
+    "#004040",
+    "#003434",
+    "#002929",
+]
+
+brown_pallete = [
+"#008080",
+"#3c8570",
+"#5e8764",
+"#7a895e",
+"#938960",
+"#a7896b",
+"#b58b7c",
+"#bc8f8f",
+]
 
 
 @alt.theme.register("scape", enable=True)
@@ -48,6 +69,10 @@ def scape() -> alt.theme.ThemeConfig:
                 "sequential": {"scheme": "teals"},
                 "diverging": {"scheme": "brownbluegreen"},
             },  # type: ignore
-            "legend": {"labelFont": FONT, "labelFontSize": LABEL_FONT_SIZE},
+            "legend": {
+                "labelFont": FONT,
+                "labelFontSize": LABEL_FONT_SIZE,
+                "labelLimit": 500,
+            },
         }
     }

@@ -4,10 +4,10 @@ import polars as pl
 
 from path_extract.data.categories.use_categories import UseCategories
 from path_extract.constants import Columns
+from path_extract.data.columns import CARBON_EMIT_LABEL
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.plots.helpers.constants import (
     BROWSER,
-    CARBON_EMIT_LABEL,
     NUMBER_FORMAT,
     RendererTypes,
     HTML,
@@ -17,14 +17,13 @@ from path_extract.data.data_waterfall import compare_two_experiments
 
 # from path_extract.plots.helpers.theme import scape
 from rich import print as rprint
-from altair_transform import extract_data
 
 
 def prep_df(
     project_name: ProjectNames,
     base_exp_num: int,
     alt_exp_num: int,
-    filter_categ: UseCategories = None,
+    filter_categ: UseCategories | None = None,
 ):
     df = compare_two_experiments(project_name, base_exp_num, alt_exp_num)
 
@@ -121,7 +120,7 @@ def make_stack_compare_figure(
     base_exp_num: int,
     alt_exp_num: int,
     renderer: RendererTypes = BROWSER,
-    filter_categ: UseCategories = UseCategories.HARDSCAPE,
+    filter_categ: UseCategories | None = None,
     chart_fx: CHART_GRAPH_FX = stacked_graph,
 ):
     alt.renderers.enable(renderer)

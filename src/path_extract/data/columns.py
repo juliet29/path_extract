@@ -1,0 +1,27 @@
+SECTION = "SECTION"
+TYPE = "TYPE"
+CATEGORY = "CATEGORY"
+ELEMENT = "ELEMENT"
+
+
+VALUE = "VALUE"
+VALUE_ALT = "VALUE_ALT"
+VALUE_DIFF = "VALUE_DIFF"
+UNIT = "UNITS"
+
+
+CUSTOM_CATEGORY = "CUSTOM_CATEGORY"
+CUSTOM_CATGEORY_LABEL = "CUSTOM_CATEGORY_LABEL"
+
+NAME = "NAMES"
+
+
+VAL = "value"
+FORMATTED_VALUE = "formatted_val"
+X_CHANGE = "xchange"
+
+# asxis label names
+CARBON_EMIT_LABEL = "Equivalent Carbon Emissions [kg-Co2-e]"
+AS_DESIGNED = "As Designed"
+ALTERNATIVE = "Alternative"
+EXPERIMENT_NAMES = "Experiment Names"

@@ -5,7 +5,7 @@ from path_extract.data.dataframes import edit_breakdown_df
 import polars as pl
 from rich import print as rprint
 import altair as alt
-from path_extract.utils import get_path_files
+from path_extract.file_utils import get_path_files
 
 
 ## Markers
@@ -16,9 +16,9 @@ POINT_SIZE = 1000
 LABEL_ANGLE = -20
 NUMBER_FORMAT = ".2s"
 NUMBER_FORMAT_3 = ".3s"
-CARBON_EMIT_LABEL = "Equivalent Carbon Emissions [kg-Co2-e]"
-AS_DESIGNED = "As Designed"
-ALTERNATIVE = "Alternative"
+
+# AS_DESIGNED = "As Designed"
+# ALTERNATIVE = "Alternative"
 
 
 # Size of the plot

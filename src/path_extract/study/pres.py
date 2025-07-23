@@ -1,6 +1,7 @@
 from path_extract.data.categories.use_categories import UseCategories
 from path_extract.plots.breakdown.categories import make_categorical_figure
 from path_extract.plots.breakdown.elements import make_element_figure
+from path_extract.plots.element_compare import make_element_compare_figure
 from path_extract.plots.helpers.constants import HTML, clear_fig_path
 from path_extract.plots.dot_compare import make_comparison_figure
 from path_extract.plots.stacked_compare import make_stack_compare_figure
@@ -52,11 +53,12 @@ def saginaw_figs():
 
 def bpcr_figs():
     proj_name = "bpcr"
-    clear_fig_path("bpcr")
-    make_categorical_figure("bpcr", 0, HTML)
-    make_categorical_figure("bpcr", 1, HTML)
+    clear_fig_path(proj_name)
+    make_categorical_figure(proj_name, 0, HTML)
+    make_categorical_figure(proj_name, 1, HTML)
     make_stack_compare_figure(proj_name, 2, 3, HTML, filter_categ=None)
     make_waterfall_figure(proj_name, 2, 3, HTML)
+    make_element_compare_figure("bpcr", 0, renderer=HTML)
 
 
 def newtown_creek_figs():

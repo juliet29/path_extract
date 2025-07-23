@@ -12,8 +12,8 @@ from rich import print as rprint
 AssignDict = dict[UseCategories, list[PathFinderCategories]]
 
 assign_dict: AssignDict = {
-    UseCategories.DEMO: ["Demolition Site Preparation"],
-    UseCategories.PREP: ["Soil Amendments"],
+    UseCategories.DEMOLITION: ["Demolition Site Preparation"],
+    UseCategories.SITE_PREPARATION: ["Soil Amendments"],
     UseCategories.PRESERVED_PLANTING: [
         "Ecosystem Restoration",
         "Trees Existing To Protect",
@@ -46,6 +46,7 @@ assign_dict: AssignDict = {
     ],
     UseCategories.OPERATIONS: ["Landscape Water Use"],
 }
+# TODO can actually export image of all pathfinder categories! 
 
 # checks -> all categories are used, none are used twice
 def check_assign_dict():
@@ -61,8 +62,7 @@ def check_assign_dict():
     # check nothing occurs twice with counter..
 
 
-
-def create_pairs(mapping: dict[Enum, list[str]]):
+def create_pairs(mapping: dict[UseCategories, list[PathFinderCategories]]):
     lst = []
     for key, value in mapping.items():
         for element in value:
@@ -70,7 +70,6 @@ def create_pairs(mapping: dict[Enum, list[str]]):
     return lst
     # rprint(UseCategories["OPERATIONS"])
 
+
 if __name__ == "__main__":
     check_assign_dict()
-
-

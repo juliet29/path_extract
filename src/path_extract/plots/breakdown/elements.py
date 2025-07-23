@@ -1,10 +1,10 @@
 from path_extract.constants import ClassNames, Columns
+from path_extract.data.columns import CARBON_EMIT_LABEL
 from path_extract.data.dataframes import edit_breakdown_df
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.data.dataframes import edit_breakdown_df
 from path_extract.plots.helpers.constants import (
     BROWSER,
-    CARBON_EMIT_LABEL,
     HTML,
     LABEL_ANGLE,
     NUMBER_FORMAT,
