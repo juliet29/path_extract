@@ -20,7 +20,7 @@ def pier_6_figs():
     worse_alt = 0
     as_designed = 1
     landscape_only_as_designed = 2
-    landscape_only_worse = 3 # TODO! 
+    landscape_only_worse = 3  # TODO!
 
     categ1 = UseCategories.SUBSTRUCTURE
     categ2 = UseCategories.HARDSCAPE
@@ -40,14 +40,14 @@ def pier_6_figs():
         ],
     )
 
-    # sheet pile.. 
+    # sheet pile..
     make_stack_compare_figure(
         proj, as_designed, worse_alt, renderer=HTML, filter_categ=categ1
     )
 
     make_pier_6_pie(HTML)
 
-    make_comparison_figure(proj, as_designed, worse_alt, renderer=HTML)
+    # make_comparison_figure(proj, as_designed, worse_alt, renderer=HTML)
 
 
 def saginaw_figs():
@@ -58,14 +58,19 @@ def saginaw_figs():
 
     clear_fig_path(proj)
     make_categorical_figure(proj, as_designed, HTML)
-    make_element_figure(proj)
+    make_element_figure(
+        proj,
+        as_designed,
+        HTML,
+        filter_categories=[UseCategories.SITE_PREPARATION, UseCategories.DEMOLITION],
+    )
     # make_categorical_figure(proj, worse_alt, HTML)
 
-    make_stack_compare_figure(
-        proj, as_designed, worse_alt, HTML, filter_categ=categ1
-    )
+    make_stack_compare_figure(proj, as_designed, worse_alt, HTML)
 
-    make_comparison_figure(proj, as_designed, worse_alt, renderer=HTML)
+    make_stack_compare_figure(proj, worse_alt, even_worse_alt, HTML)
+
+    # make_comparison_figure(proj, as_designed, worse_alt, renderer=HTML)
 
 
 def bpcr_figs():
