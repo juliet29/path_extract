@@ -1,7 +1,3 @@
-. .\setup.ps1
-$SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\path_extract\src\path_extract"
-
-
 # $pier_6 = @{
 #     0 = 'EDC original scope'
 #     1 = 'Entire project'
@@ -31,26 +27,6 @@ $SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\path_extract\src\path_extract"
 # }
 
 
-# $SAGINAW = @{
-#     0 = 'Baseline'
-# }
-# for (($i = 0);  ($i -lt $SAGINAW.Count);, ($i++)){
-#     $value = $SAGINAW[$i]
-#     New-Setup "Saginaw" "$value\Saginaw Riverfront Park-Page {0}.txt" $value $i;
-# }
-
-# function ReadSaginaw {
-#     ## Saginaw. 
-#     $Folder_Name = "Pathfinder_Data"
-#     $saginaw = @{
-#         0 = 'reuse'
-#         1 = 'import'
-#     }
-#     New-Setup "Saginaw" "$Folder_Name\OPT 1-reuse of soil\Saginaw Riverfront Park-Page {0}.txt" $saginaw[0] 0;
-#     New-Setup "Saginaw" "$Folder_Name\OPT 2-importing soil\pg{0}.txt" $saginaw[1] 1;
-#     $path = "$SRC_PATH\extract\extract.py"
-#     uv run "$SRC_PATH\extract\extract.py" "saginaw"
-# }
 
 function ReadSaginaw {
     # $SHome = "P:\2433 - Saginaw Riverfront Park\03_Research\07_CLMT\Pathfinder\OPT 2-importing soil"
@@ -64,29 +40,34 @@ function ReadSaginaw {
         1 = 'import'
     }
     New-Setup "Saginaw" "$Folder_Name\OPT 1-reuse of soil\Saginaw Riverfront Park-Page {0}.txt" $saginaw[0] 0;
-    New-Setup "Saginaw" "$Folder_Name\OPT 2-importing soil\pg{0}.txt" $saginaw[1] 1;
-    $path = "$SRC_PATH\extract\extract.py"
+    New-Setup "Saginaw" "$Folder_Name\OPT 2-importing soil\pg{0}.txt" $saginaw[1] 1
     uv run "$SRC_PATH\extract\extract.py" "saginaw"
 }
 
-ReadSaginaw
+# ReadSaginaw
 
-# Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+function ReadNewtownCreek {
+    $Folder_Name = "250722_Study"
+    $newtown_creek = @{
+        0 = 'baseline'
+        1 = 'depth_reduction'
+        2 = 'area_reduction'
+        3 = 'depth_area_reduction'
+    }
+    New-Setup "Newtown Creek" "Newtown-Creek-page_{0}.txt" $newtown_creek[0] 0;
+    New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study 1- Depth-Reduction-page_{0}.txt" $newtown_creek[1] 1;
+    New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-2-Area-Reduction-page_{0}.txt" $newtown_creek[2] 2;
+    New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-3-Depth+Area-Reduction-page_{0}.txt" $newtown_creek[3] 3;
+    uv run "$SRC_PATH\extract\extract.py" "newtown_creek"
 
-# TODO -> add to function.. 
-## Newtown Creek Complete.. 
-# $Folder_Name = "250715_Study"
-# $newtown_creek = @{
-#     0 = 'baseline'
-#     1 = 'depth_reduction'
-#     2 = 'area_reduction'
-#     3 = 'depth_area_reduction'
-# }
-# New-Setup "Newtown Creek" "Newtown-Creek-page_{0}.txt" $newtown_creek[0] 0;
-# New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study 1- Depth-Reduction-page_{0}.txt" $newtown_creek[1] 1;
-# New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-2-Area-Reduction-page_{0}.txt" $newtown_creek[2] 2;
-# New-Setup "Newtown Creek" "$Folder_Name\Newtown-Pave-Study-3-Depth+Area-Reduction-page_{0}.txt" $newtown_creek[3] 3;
-# uv run "$SRC_PATH\extract\extract.py" "newtown_creek"
+    
+}
+
+
+#### ----------------- MAIN --------------------
+. .\setup.ps1
+$SRC_PATH = "C:\Users\juliet.intern\_SCAPECode\path_extract\src\path_extract"
+ReadNewtownCreek
 
 
 # "R:\00-WORKSTREAMS\CLMT\CLMT Pilot Projects\Newtown Creek\250715_Study\Newtown-Pave-Study-2-Area-Reduction-page_2.txt"t"

@@ -6,11 +6,11 @@ from enum import StrEnum
 from pathlib import Path
 
 from path_extract.project_paths import CLMTPath, ProjectNames
-from path_extract.study.dataframes import (
+from path_extract.data.dataframes import (
     edit_breakdown_df,
     get_net_emissions,
 )
-from path_extract.study.plots.constants import (
+from path_extract.plots.helpers.constants import (
     CARBON_EMIT_LABEL,
     HTML,
     NUMBER_FORMAT_3,
@@ -18,9 +18,9 @@ from path_extract.study.plots.constants import (
     BROWSER,
     save_fig,
 )
-from path_extract.study.plots.constants import RendererTypes
-from path_extract.study.plots.data_waterfall import compare_two_experiments
-from path_extract.study.plots.theme import scape
+from path_extract.plots.helpers.constants import RendererTypes
+from path_extract.data.data_waterfall import compare_two_experiments
+from path_extract.plots.helpers.theme import scape
 
 FINAL_VALUE = 0
 LABEL_ANGLE = -20

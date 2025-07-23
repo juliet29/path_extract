@@ -2,10 +2,10 @@ from typing import Callable
 import altair as alt
 import polars as pl
 
-from path_extract.categories.categories import UseCategories
+from path_extract.data.categories.use_categories import UseCategories
 from path_extract.constants import Columns
 from path_extract.project_paths import CLMTPath, ProjectNames
-from path_extract.study.plots.constants import (
+from path_extract.plots.helpers.constants import (
     BROWSER,
     CARBON_EMIT_LABEL,
     NUMBER_FORMAT,
@@ -13,9 +13,9 @@ from path_extract.study.plots.constants import (
     HTML,
     save_fig,
 )
-from path_extract.study.plots.data_waterfall import compare_two_experiments
+from path_extract.data.data_waterfall import compare_two_experiments
 
-# from path_extract.study.plots.theme import scape
+# from path_extract.plots.helpers.theme import scape
 from rich import print as rprint
 from altair_transform import extract_data
 

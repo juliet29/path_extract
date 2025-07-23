@@ -1,6 +1,5 @@
 from typing import Literal
 from enum import Enum
-from path_extract.vega_colors import vega_colors
 
 # TODO why is this a tuple?
 class UseCategories(Enum):

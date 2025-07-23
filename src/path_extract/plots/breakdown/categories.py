@@ -1,8 +1,8 @@
 from path_extract.constants import ClassNames, Columns
+from path_extract.plots.breakdown.color_category_map import map_use_category_colors
 from path_extract.project_paths import CLMTPath, ProjectNames
-from path_extract.study.dataframes import edit_breakdown_df
-from path_extract.study.plots.colors import map_use_category_colors
-from path_extract.study.plots.constants import (
+from path_extract.data.dataframes import edit_breakdown_df
+from path_extract.plots.helpers.constants import (
     BROWSER,
     CARBON_EMIT_LABEL,
     HTML,
@@ -13,7 +13,7 @@ from path_extract.study.plots.constants import (
     save_fig,
 )
 from rich import print as rprint
-from path_extract.study.plots.theme import scape
+from path_extract.plots.helpers.theme import scape
 
 
 import altair as alt

@@ -1,9 +1,9 @@
 from rich import print as rprint
-from path_extract.study.plots.data_compare import get_names
-from path_extract.study.plots.data_compare import get_expected_elements
-from path_extract.study.plots.data_waterfall import compare_two_experiments
+from path_extract.data.data_compare import get_names
+from path_extract.data.data_compare import get_expected_elements
+from path_extract.data.data_waterfall import compare_two_experiments
 from path_extract.utils import are_sets_equal
-from path_extract.study.plots.data_compare import (
+from path_extract.data.data_compare import (
     create_examples,
     compare_two_datafames_simple,
 )

@@ -1,9 +1,9 @@
 from path_extract.project_paths import CLMTPath, ProjectNames
-from path_extract.study.dataframes import edit_breakdown_df, get_net_emissions
+from path_extract.data.dataframes import edit_breakdown_df, get_net_emissions
 import polars as pl
 from rich import print as rprint
 import altair as alt
-from path_extract.study.plots.constants import (
+from path_extract.plots.helpers.constants import (
     CARBON_EMIT_LABEL,
     HTML,
     NUMBER_FORMAT,
@@ -13,10 +13,10 @@ from path_extract.study.plots.constants import (
 )
 from typing import NamedTuple, TypedDict
 from prefixed import Float
-from path_extract.study.plots.theme import scape, category_pallete, FONT_COLOR
+from path_extract.plots.helpers.theme import scape, category_pallete, FONT_COLOR
 
 
-from path_extract.study.plots.constants import RendererTypes, DEF_DIMENSIONS
+from path_extract.plots.helpers.constants import RendererTypes, DEF_DIMENSIONS
 
 EXP_NUM = "num"
 EXP_NAME = "name"

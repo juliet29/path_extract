@@ -1,6 +1,4 @@
-from path_extract.study.plots.colors import (
-    map_use_category_colors_to_elements,
-)
+from path_extract.plots.breakdown.elements import plot_elements
 from path_extract.extract.breakdown import read_breakdown
 from path_extract.constants import (
     ClassNames,
@@ -15,8 +13,6 @@ import altair as alt
 from path_extract.project_paths import (
     SAMPLE_CLMT_BREAKDOWN_HTML,
 )
-
-from path_extract.study.dataframes import edit_breakdown_df
 
 
 # group by category
@@ -69,33 +65,6 @@ def plot_experiment_summary(
 
 
 # TODO move this elsewhere..
-def plot_elements(_df: pl.DataFrame, title: str = "", renderer="browser"):
-    alt.renderers.enable(renderer)
-    df = edit_breakdown_df(_df)
-    domains, range_ = map_use_category_colors_to_elements(df)
-
-    chart = (
-        alt.Chart(df, title=title)
-        .mark_bar()
-        .encode(
-            x=alt.X(Columns.CUSTOM_CATEGORY.name).title("Category").sort(None),
-            y=alt.Y(f"sum({ClassNames.VALUE.name})").title(
-                "Equivalent Carbon Emissions [kg-Co2-e]"
-            ),
-            color=alt.Color(ClassNames.ELEMENT.name)
-            .sort(None)
-            .scale(domain=domains, range=range_),
-            tooltip=[
-                ClassNames.ELEMENT.name,
-                alt.Tooltip(ClassNames.VALUE.name, format=".2s"),
-            ],
-        )
-        # .facet(column=TableNames.CUSTOM_CATEGORY.name)
-    )
-
-    return chart
-
-
 if __name__ == "__main__":
     df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
     chart = plot_elements(df, "example")

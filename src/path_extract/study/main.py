@@ -1,13 +1,13 @@
 from path_extract.extract.extract import create_csvs_for_project
-from path_extract.study.plots.categorical import plot_use_categories
-from path_extract.study.plots.plots import (
+from path_extract.plots import (
     plot_elements,
     plot_experiment_summary,
 )
-from path_extract.study.dataframes import edit_breakdown_df
+from path_extract.data.dataframes import edit_breakdown_df
 from path_extract.constants import ExperimentInfo
 from path_extract.file_utils import read_csv
 from path_extract.file_utils import read_json
+from path_extract.plots.breakdown.categories import plot_use_categories
 from path_extract.project_paths import CLMTPath, get_exp_num_from_path, DataType
 
 import altair as alt

@@ -3,14 +3,13 @@ from rich import print as rprint
 from typing import TypeVar
 
 
-
-
 class NewCategories(StrEnum):
     STONE = "Stone or Gravel"
     WOOD = "Wood"
     STEEL = "Steel"
 
-# TODO move to json file? -> element -> category mapping 
+
+# TODO move to json file? -> element -> category mapping
 revised_categories = {
     NewCategories.STONE: [
         "Rip-rap (Armor Rock)",
@@ -24,17 +23,9 @@ revised_categories = {
 }
 
 # TODO map to pairs.. # TODO what if cant find?
-# TODO now this is overly general.. 
-TEnum = TypeVar('TEnum', bound=Enum)
-Tstr = TypeVar('Tstr', bound=str)
-
-def create_pairs(mapping:dict[TEnum, list[Tstr]]):
-    lst = []
-    for key, value in mapping.items():
-        for element in value:
-            lst.append((element, key))
-    return lst
+# TODO now this is overly general..
+TEnum = TypeVar("TEnum", bound=Enum)
+Tstr = TypeVar("Tstr", bound=str)
 
 if __name__ == "__main__":
-    r = create_pairs(revised_categories)
-    rprint(r)
+    pass

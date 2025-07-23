@@ -1,10 +1,12 @@
-
-from path_extract.categories.categories import pathfinder_categories, PathFinderCategories, UseCategories
+from enum import Enum
+from path_extract.data.categories.use_categories import (
+    pathfinder_categories,
+    PathFinderCategories,
+    UseCategories,
+)
 from path_extract.utils import chain_flatten, set_difference
 from collections import Counter
 from rich import print as rprint
-
-
 
 
 AssignDict = dict[UseCategories, list[PathFinderCategories]]
@@ -32,7 +34,9 @@ assign_dict: AssignDict = {
         "Lawn",
         "Trees",
     ],
-    UseCategories.GREEN_INFRA: ["Green Infrastructure"], # also on structure things.. green roof etc
+    UseCategories.GREEN_INFRA: [
+        "Green Infrastructure"
+    ],  # also on structure things.. green roof etc
     UseCategories.ACCESSORIES: [
         "Exterior Lighting",
         "Playground Athletic",
@@ -44,14 +48,12 @@ assign_dict: AssignDict = {
 }
 
 # checks -> all categories are used, none are used twice
-
-
 def check_assign_dict():
     values = chain_flatten([v for v in assign_dict.values()])
     for name, cnt in Counter(values).items():
         if cnt > 1:
             raise Exception(f"`{name}` occurs {cnt} times! It should only occur once!")
-        
+
     diff = set_difference(pathfinder_categories, values)
     if diff:
         raise Exception(f"Missing items: {diff}")
@@ -59,6 +61,16 @@ def check_assign_dict():
     # check nothing occurs twice with counter..
 
 
+
+def create_pairs(mapping: dict[Enum, list[str]]):
+    lst = []
+    for key, value in mapping.items():
+        for element in value:
+            lst.append((element, key))
+    return lst
+    # rprint(UseCategories["OPERATIONS"])
+
 if __name__ == "__main__":
     check_assign_dict()
-    # rprint(UseCategories["OPERATIONS"])
+
+

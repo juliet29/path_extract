@@ -1,6 +1,6 @@
 from path_extract.project_paths import CLMTPath, ProjectNames
-from path_extract.study.plots.dot_compare import rprint
-from path_extract.study.plots.constants import (
+from path_extract.plots.dot_compare import rprint
+from path_extract.plots.helpers.constants import (
     BROWSER,
     HTML,
     NUMBER_FORMAT,
@@ -13,7 +13,7 @@ from path_extract.study.plots.constants import (
 import polars as pl
 import altair as alt
 from path_extract.constants import Columns
-from path_extract.categories.categories import UseCategories
+from path_extract.data.categories.use_categories import UseCategories
 
 
 # add flag to infra elements..
@@ -87,7 +87,7 @@ def make_pier_6_pie(
     )
     pie_worse_alt = plot_pie(prep_df("pier_6", 0), title=ALTERNATIVE, renderer=renderer)
 
-    chart = pie_worse_alt | pie_as_designed 
+    chart = pie_worse_alt | pie_as_designed
 
     if renderer == HTML:
         fig_name = f"exp{1}_{0}_pie.png"
@@ -95,10 +95,8 @@ def make_pier_6_pie(
     else:
         chart.show()
 
-    return chart 
-
+    return chart
 
 
 if __name__ == "__main__":
     make_pier_6_pie()
-

@@ -1,11 +1,10 @@
 from path_extract.constants import Headings, Columns
+from path_extract.data.categories.assign import create_pairs
 from path_extract.file_utils import read_csv
 from path_extract.project_paths import CLMTPath
 import polars as pl
-from path_extract.study.plots.revised_categories import create_pairs
-from path_extract.categories.assign import assign_dict, check_assign_dict
-from path_extract.categories.categories import UseCategories
-
+from path_extract.data.categories.assign import assign_dict, check_assign_dict
+from path_extract.data.categories.use_categories import UseCategories
 
 
 def get_emissions_df(df: pl.DataFrame):
@@ -29,9 +28,6 @@ def get_emissions_df(df: pl.DataFrame):
         .drop(Columns.VALUE.name)
         .rename({Columns.VALUE_ALT.name: Columns.VALUE.name})
     )
-
-    # with pl.Config(tbl_rows=-1):
-    #     rprint(df[TableNames.ELEMENT.name].unique().sort())
     return d2
 
 
@@ -39,8 +35,8 @@ def include_use_categories(df: pl.DataFrame):
     check_assign_dict()
     pairs = create_pairs(assign_dict)
     # rprint(pairs)
-    # TODO raise exception if a new category is found.. 
-    
+    # TODO raise exception if a new category is found..
+
     d = (
         df.with_columns(
             (
@@ -68,18 +64,12 @@ def include_use_categories(df: pl.DataFrame):
 
 
 def edit_breakdown_df(df: pl.DataFrame):
-    
     df1 = get_emissions_df(df)
-    # df2 = reorganize_element_categories(df1)
     df2 = include_use_categories(df1)
     return df2
 
 
 def get_net_emissions(df: pl.DataFrame):
-    # TODO assert that have edited breakdown df..
-    # TODO write tests here!
-    # with pl.Config(tbl_rows=-1):
-    #     rprint(df)
     res = df[Columns.VALUE].sum()
     return res
 
@@ -95,4 +85,5 @@ if __name__ == "__main__":
     baseline = edit_breakdown_df(clmt_path.read_csv(0))
     alternative = edit_breakdown_df(clmt_path.read_csv(1))
     get_net_emissions(baseline)
+
     # compare_two_experiments(baseline, alternative)

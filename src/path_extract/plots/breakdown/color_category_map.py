@@ -1,5 +1,5 @@
 import polars as pl
-from path_extract.categories.categories import UseCategories
+from path_extract.data.categories.use_categories import UseCategories
 from path_extract.constants import ClassNames, Columns
 from path_extract.vega_colors import get_dict_of_colors
 from path_extract.vega_colors import VegaColors

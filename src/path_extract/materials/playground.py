@@ -4,7 +4,7 @@ import altair as alt
 from path_extract.materials.data import playground_alts
 from rich import print as rprint
 
-from path_extract.study.plots.constants import BROWSER, RendererTypes
+from path_extract.plots.helpers.constants import BROWSER, RendererTypes
 
 
 # original -> epdm safety surface..
