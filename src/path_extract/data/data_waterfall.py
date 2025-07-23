@@ -1,5 +1,6 @@
 from path_extract.constants import Columns
-from path_extract.plots.helpers.constants import get_exp_df, print_whole_df
+from path_extract.data.utils import print_whole_df
+from path_extract.plots.helpers.constants import get_exp_df
 from path_extract.utils import set_difference
 from path_extract.data.data_compare import (
     get_names,

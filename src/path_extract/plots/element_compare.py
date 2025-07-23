@@ -1,6 +1,6 @@
 from path_extract.constants import Columns
-from path_extract.data.columns import CARBON_EMIT_LABEL
-from path_extract.data.utils import add_category_label
+from path_extract.plots.helpers.constants import CARBON_EMIT_LABEL
+from path_extract.data.utils import add_category_label, print_whole_df
 from path_extract.project_paths import CLMTPath, ProjectNames
 from path_extract.data.dataframes import (
     UseCategories,
@@ -15,7 +15,6 @@ from path_extract.plots.helpers.constants import (
     NUMBER_FORMAT,
     POINT_SIZE,
     get_exp_df,
-    print_whole_df,
     save_fig,
     BROWSER,
 )

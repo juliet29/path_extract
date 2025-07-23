@@ -7,7 +7,6 @@ LABEL_FONT_SIZE = 12
 FONT_COLOR = "#161616"
 LABEL_COLOR = "#525252"
 DEF_WIDTH = 350
-DEF_HEIGHT = 280
 
 
 category_pallete = [
@@ -47,8 +46,8 @@ def scape() -> alt.theme.ThemeConfig:
     return {
         "config": {
             "view": {
-                "width": DEF_WIDTH,
-                "height": DEF_HEIGHT,
+                "width": 350,
+                "height": 280,
             },
             "axis": {
                 "labelColor": LABEL_COLOR,

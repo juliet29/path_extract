@@ -7,8 +7,8 @@ from path_extract.vega_colors import VegaColors
 
 use_category_map: dict[UseCategories, VegaColors] = {
     UseCategories.PRESERVED_PLANTING: "greens",
-    UseCategories.DEMO: "browns",  # orange
-    UseCategories.PREP: "yellowOrangeBrown",  # orange
+    UseCategories.DEMOLITION: "browns",  # orange
+    UseCategories.SITE_PREPARATION: "yellowOrangeBrown",  # orange
     UseCategories.SUBSTRUCTURE: "warmGreys",  # brown
     UseCategories.HARDSCAPE: "greys",  # grey
     UseCategories.NEW_PLANTING: "greens",
