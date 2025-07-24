@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Literal
 import altair as alt
 import polars as pl
 
@@ -26,11 +26,6 @@ KEY = "key"
 DATA = "data"
 
 
-def get_max_value(df: pl.DataFrame):
-    p = df.select([col.VALUE, col.VALUE_ALT]).max().max_horizontal().to_list()[0]
-    return p
-
-
 def prep_df(
     project_name: ProjectNames,
     base_exp_num: int,
@@ -38,50 +33,22 @@ def prep_df(
     filter_categories: list[UseCategories] = [],
     filter_elements: list[str] = [],
 ):
-    _df = compare_two_experiments(project_name, base_exp_num, alt_exp_num)
+    _df = compare_two_experiments(project_name, base_exp_num, alt_exp_num, True)
 
     # if filter_categories or filter_elements:
 
     df = filter_df(
         _df, filter_categories=filter_categories, filter_elements=filter_elements
     )
-    MIN_PERC = 0.05
-    max_val = get_max_value(df)
-    min_val = max_val * MIN_PERC
-    rprint(f"max_val: {max_val}, min_val: {min_val}")
-
-    # df_to_print = df.select(pl.exclude(col.SECTION))
-    # print_whole_df(df_to_print)
-    # agg_df = df_to_print.group_by(pl.col(col.CUSTOM_CATEGORY)).agg(
-    #     pl.col(col.CATEGORY).unique(),
-    #     pl.col(col.ELEMENT).unique(),
-    #     pl.col(col.VALUE).sum(),
-    #     pl.col(col.VALUE_ALT).sum(),
-    # )
-
-    # print_whole_df(agg_df)
-    # for ir in agg_df.iter_rows(named=True):
-    #     rprint(f"ir: {ir}")
-    # print_whole_df(
-    #     df_to_print.group_by(by=(pl.col(col.VALUE) > 0)).agg(p)
-    # )
-
-    # print_whole_df(df..sum())
-
-    comparison = pl.col(DATA) > min_val
+    # print_whole_df(df)
+    rprint(df.sum())
 
     d = df.unpivot(
         on=[col.VALUE, col.VALUE_ALT],
         index=[col.ELEMENT, col.CUSTOM_CATEGORY],
         variable_name=KEY,
         value_name=DATA,
-    ).with_columns(
-        pl.when(comparison).then(col.ELEMENT).otherwise(pl.lit("")).alias(SHOW_LABEL)
     )
-
-    # print_whole_df(d.select([col.ELEMENT, KEY, DATA, SHOW_LABEL]))
-    # return filtered_df
-
     return d
 
 
@@ -99,7 +66,7 @@ def stacked_graph(base: alt.Chart) -> alt.LayerChart | alt.FacetChart | alt.Char
     )
 
     total = (
-        base.transform_aggregate(total="sum(data)", groupby=["AxisName"])
+        base.transform_aggregate(total="sum(data)", groupby=["IsEmit", "AxisName"])
         .mark_text(dy=-10)
         .encode(
             text=alt.Text("total:Q").format(NUMBER_FORMAT),
@@ -108,18 +75,7 @@ def stacked_graph(base: alt.Chart) -> alt.LayerChart | alt.FacetChart | alt.Char
         )
     )
 
-    text = (
-        # val>, AxisName..
-        base.mark_text(dx=40, align="left", dy=10).encode(
-            # ONLY MARK those with certain height ..
-            y=alt.Y("sum(data):Q").stack("zero"),
-            x=alt.X("AxisName:N").sort(),  # n
-            detail="AxisName:N",  # f"{col.ELEMENT}:N",
-            text=alt.Text(f"{SHOW_LABEL}:N"),
-            color=f"{col.ELEMENT}:N",
-        )
-    )
-    chart = bar + total + text  # )  # .facet(column="AxisName:N")
+    chart = bar + total  # )  # .facet(column="AxisName:N")
 
     return chart.properties(width=700).configure_axisX(
         labelAngle=HORIZONTAL_LABEL_ANGLE
@@ -134,13 +90,11 @@ def simplifed_graph(base: alt.Chart) -> alt.LayerChart:
     bar = post_base.mark_bar().encode(
         x=alt.X("AxisName:N").sort().title("Scenarios"),
         y=alt.Y("sum(data):Q").axis(format=NUMBER_FORMAT).title(CARBON_EMIT_LABEL),
-        color=alt.Color(f"{col.CUSTOM_CATEGORY}:N").legend(labelLimit=500).sort(),
+        color=alt.Color("IsEmit:N").legend(labelLimit=500).sort(),
     )
 
     text = (
-        post_base.transform_aggregate(
-            Total="sum(data)", groupby=[f"{col.CUSTOM_CATEGORY}", "AxisName"]
-        )
+        post_base.transform_aggregate(Total="sum(data)", groupby=["IsEmit", "AxisName"])
         .encode(
             text=alt.Text("Total:Q").format(NUMBER_FORMAT),
             x=alt.X("AxisName:N").sort(),
@@ -169,30 +123,38 @@ def plot_stack_compare(df: pl.DataFrame, chart_fx: CHART_GRAPH_FX = stacked_grap
     base = alt.Chart(df).transform_calculate(
         AxisName=alt.expr.if_(
             alt.datum.key == Columns.VALUE.name, "As Designed", "Alternative"
-        )  # TODO give numbers so can sort by this explicitly..
+        ),
+        IsEmit=alt.expr.if_(alt.datum.data > 0, True, False),
     )
 
     return chart_fx(base)
 
 
-def make_stack_compare_figure(
+fx_dict = {"simple": simplifed_graph, "stacked": stacked_graph}
+
+
+def make_straight_compare_figure(
     project_name: ProjectNames,
     base_exp_num: int,
     alt_exp_num: int,
     renderer: RendererTypes = BROWSER,
     filter_categories: list[UseCategories] = [],
     filter_elements: list[str] = [],
-    chart_fx: CHART_GRAPH_FX = stacked_graph,
+    chart_fx_str: Literal["stacked", "simple"] = "stacked",
 ):
     alt.renderers.enable(renderer)
     clmt_path = CLMTPath(project_name)
     df = prep_df(
         project_name, base_exp_num, alt_exp_num, filter_categories, filter_elements
     )
+    chart_fx = fx_dict[chart_fx_str]
     chart = plot_stack_compare(df, chart_fx)
-    categ_names = "_".join([i.name for i in filter_categories])
+    categ_names = "_".join([i.name.lower() for i in filter_categories])
+    el_names = "_".join([i.lower() for i in filter_elements])
+    fx_type = "simple" if chart_fx_str == "simple" else "stacked"
+    fig_name = f"exp{base_exp_num}_{alt_exp_num}_{categ_names}_{el_names}_{fx_type}_straight_compare.png"
+    rprint(f"fig name: {fig_name}")
     if renderer == HTML:
-        fig_name = f"exp{base_exp_num}_{alt_exp_num}_{categ_names}_stack_compare.png"
         save_fig(chart, clmt_path, fig_name)
     else:
         chart.show()
@@ -201,21 +163,12 @@ def make_stack_compare_figure(
 
 if __name__ == "__main__":
     alt.theme.enable("scape")
-
-    # make_stack_compare_figure(
-    #     "bpcr",
-    #     2,
-    #     3,
-    #     renderer=BROWSER,
-    #     chart_fx=simplifed_graph,
-    # )
-    make_stack_compare_figure(
+    make_straight_compare_figure(
         "pier_6",
         2,
-        3,
+        4,
         renderer=BROWSER,
-        filter_elements=["Concrete Hardscape"],
-        # TODO plot simple 
+        # filter_elements=["Concrete Hardscape"],
+        # chart_fx_str="simple",
+        # TODO plot simple
     )
-
-    # rprint("Hello!")

@@ -25,7 +25,8 @@ def filter_df(
 ):
     categ_expr = pl.col(col.CUSTOM_CATEGORY).is_in([i.name for i in filter_categories])
 
-    element_expr = pl.col(col.ELEMENT).str.contains_any([i for i in filter_elements])
+    # TODO add categories properly, here, temp chamge 
+    element_expr = pl.col(col.CATEGORY).str.contains_any([i for i in filter_elements])
 
     if filter_categories and filter_elements:
         return df.filter(categ_expr & element_expr)  # .filter(element_expr)

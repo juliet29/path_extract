@@ -5,7 +5,11 @@ from path_extract.plots.breakdown.elements import make_element_figure
 from path_extract.plots.element_compare import make_element_compare_figure
 from path_extract.plots.helpers.constants import HTML, clear_fig_path
 from path_extract.plots.dot_compare import make_dot_comparison_figure
-from path_extract.plots.stacked_compare import make_stack_compare_figure
+from path_extract.plots.stacked_compare import (
+    make_stack_compare_figure,
+    simplifed_graph,
+)
+from path_extract.plots.straight_compare import make_straight_compare_figure
 from path_extract.plots.waterfall import make_waterfall_figure
 from path_extract.plots.pie import make_pier_6_pie
 import altair as alt
@@ -20,18 +24,17 @@ def pier_6_figs():
     worse_alt = 0
     as_designed = 1
     landscape_only_as_designed = 2
-    landscape_only_worse = 3  # TODO!
+    landscape_no_reuse = 3  # TODO!
+    landscape_only_no_woodland = 4
 
-    categ1 = UseCategories.SUBSTRUCTURE
-    categ2 = UseCategories.HARDSCAPE
     proj = "pier_6"
     clear_fig_path(proj)
     make_categorical_figure(proj, worse_alt, HTML)
     make_categorical_figure(proj, as_designed, HTML)
-    make_categorical_figure(proj, landscape_scope, HTML)
+    make_categorical_figure(proj, landscape_only_as_designed, HTML)
 
     make_element_figure(
-        proj_name,
+        proj,
         as_designed,
         renderer=HTML,
         filter_categories=[
@@ -40,10 +43,60 @@ def pier_6_figs():
         ],
     )
 
-    # sheet pile..
+    # sheet pile.
     make_stack_compare_figure(
-        proj, as_designed, worse_alt, renderer=HTML, filter_categ=categ1
+        proj,
+        as_designed,
+        worse_alt,
+        renderer=HTML,
+          filter_categories=[UseCategories.SUBSTRUCTURE, UseCategories.HARDSCAPE],
+        # TODO plot simple
     )
+    
+    make_straight_compare_figure(
+        proj,
+        as_designed,
+        worse_alt,
+        renderer=HTML,
+          filter_categories=[UseCategories.SUBSTRUCTURE, UseCategories.HARDSCAPE],
+        # TODO plot simple
+    )
+
+    # asphalt
+    make_straight_compare_figure(
+        proj,
+        landscape_only_as_designed,
+        landscape_no_reuse,
+        renderer=HTML,
+        filter_elements=["Concrete Hardscape"],
+    )
+
+    make_straight_compare_figure(
+        proj,
+        landscape_only_as_designed,
+        landscape_no_reuse,
+        renderer=HTML,
+        filter_elements=["Concrete Hardscape"],
+        chart_fx_str="simple",
+    )
+
+    # woodlands
+    make_straight_compare_figure(
+        proj,
+        landscape_only_as_designed,
+        landscape_only_no_woodland,
+        renderer=HTML,
+    )
+
+    make_straight_compare_figure(
+        proj,
+        landscape_only_as_designed,
+        landscape_only_no_woodland,
+        renderer=HTML,
+        chart_fx_str="simple",
+    )
+
+    #
 
     make_pier_6_pie(HTML)
 
@@ -58,6 +111,8 @@ def saginaw_figs():
 
     clear_fig_path(proj)
     make_categorical_figure(proj, as_designed, HTML)
+    make_categorical_figure(proj, worse_alt, HTML)
+
     make_element_figure(
         proj,
         as_designed,
@@ -75,11 +130,32 @@ def saginaw_figs():
 
 def bpcr_figs():
     proj = "bpcr"
+    as_designed = 0
     clear_fig_path("bpcr")
-    make_categorical_figure("bpcr", 0, HTML)
-    make_categorical_figure("bpcr", 1, HTML)
-    make_stack_compare_figure(proj, 2, 3, HTML, filter_categ=None)
+    make_categorical_figure("bpcr", as_designed, HTML)
+
+    make_stack_compare_figure(
+        "bpcr",
+        2,
+        3,
+        HTML,
+        chart_fx=simplifed_graph,
+    )
+
     make_waterfall_figure(proj, 2, 3, HTML)
+    make_element_figure(
+        proj,
+        as_designed,
+        HTML,
+        filter_categories=[
+            UseCategories.NEW_PLANTING,
+            UseCategories.NEW_PLANTING,
+            UseCategories.DEMOLITION,
+            UseCategories.SITE_PREPARATION,
+        ],
+    )
+
+    make_element_compare_figure("bpcr", 0, renderer=HTML)
 
 
 def newtown_creek_figs():

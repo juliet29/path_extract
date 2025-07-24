@@ -52,7 +52,7 @@ def secondary_extend(intermed: pl.DataFrame, base: pl.DataFrame, alt: pl.DataFra
 
 
 def compare_two_experiments(
-    project_name: ProjectNames, base_exp_num: int, alt_exp_num: int
+    project_name: ProjectNames, base_exp_num: int, alt_exp_num: int, ALL=False
 ):
     base = get_exp_df(project_name, base_exp_num)
     alt = get_exp_df(project_name, alt_exp_num)
@@ -68,6 +68,14 @@ def compare_two_experiments(
     check_sums(
         df, base, alt, val1_col=Columns.VALUE.name, val2_col=Columns.VALUE_ALT.name
     )
+
+    if ALL:
+        return df.sort(
+            by=[
+                Columns.CUSTOM_CATEGORY.name,
+                Columns.ELEMENT.name,
+            ]  # TODO sort by use category..
+        )
 
     # rprint(d)
 

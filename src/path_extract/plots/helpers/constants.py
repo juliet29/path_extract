@@ -1,6 +1,6 @@
 from typing import Literal, TypedDict
 
-from path_extract.project_paths import CLMTPath, ProjectNames
+from path_extract.project_paths import CLMTPath, DataType, ProjectNames
 from path_extract.data.dataframes import edit_breakdown_df
 import altair as alt
 from path_extract.file_utils import get_path_files
@@ -16,9 +16,12 @@ HORIZONTAL_LABEL_ANGLE = 0
 NUMBER_FORMAT = ".2s"
 NUMBER_FORMAT_3 = ".3s"
 
-# AS_DESIGNED = "As Designed"
-# ALTERNATIVE = "Alternative"
-
+# asxis label names
+CARBON_EMIT_LABEL = "Equivalent Carbon Emissions [kg-Co2-e]"
+AS_DESIGNED = "As Designed"
+ALTERNATIVE = "Alternative"
+EXPERIMENT_NAMES = "Experiment Names"
+AXIS_NAMES = "Axis Names"
 
 # Size of the plot
 class Dimensions(TypedDict):
@@ -44,6 +47,14 @@ def get_exp_df(
     init_df = clmt_path.read_csv(exp_num)
     return edit_breakdown_df(init_df)
 
+def get_exp_df_overview(
+    project_name: ProjectNames,
+    exp_num: int,
+):
+    clmt_path = CLMTPath(project_name)
+    init_df = clmt_path.read_csv(exp_num, DataType.OVERVIEW)
+    return init_df
+
 
 # Saving figs
 PPI = 200
@@ -65,8 +76,4 @@ def clear_fig_path(project_name: ProjectNames):
         f.unlink()
 
 
-# asxis label names
-CARBON_EMIT_LABEL = "Equivalent Carbon Emissions [kg-Co2-e]"
-AS_DESIGNED = "As Designed"
-ALTERNATIVE = "Alternative"
-EXPERIMENT_NAMES = "Experiment Names"
+
