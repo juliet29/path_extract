@@ -4,7 +4,7 @@ from bs4.element import PageElement, Tag
 from pathlib import Path
 import polars as pl
 from rich import print as rprint
-from path_extract.project_paths import SAMPLE_CLMT_OVERVIEW_HTML
+from path_extract.examples import SAMPLE_CLMT_OVERVIEW_HTML
 from path_extract.constants import Emissions, Area, overview_map, ClassNames, Columns
 from typing import NamedTuple
 from path_extract.extract.helpers import ValueAndUnit, Comparison

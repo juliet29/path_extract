@@ -1,6 +1,5 @@
 from path_extract.constants import Headings, Columns
 from path_extract.data.categories.assign import create_pairs
-from path_extract.file_utils import read_csv
 from path_extract.project_paths import CLMTPath
 import polars as pl
 from path_extract.data.categories.assign import assign_dict, check_assign_dict

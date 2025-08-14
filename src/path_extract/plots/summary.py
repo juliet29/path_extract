@@ -10,7 +10,7 @@ import polars as pl
 import altair as alt
 
 
-from path_extract.project_paths import (
+from path_extract.examples import (
     SAMPLE_CLMT_BREAKDOWN_HTML,
 )
 

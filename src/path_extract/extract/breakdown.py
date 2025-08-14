@@ -9,11 +9,12 @@ from path_extract.extract.helpers import (
     get_element_value,
     is_element_row,
 )
-from path_extract.project_paths import SAMPLE_CLMT_BREAKDOWN_HTML
+from typing import IO, TypeAlias, Union
+
+# from path_extract.project_paths import SAMPLE_CLMT_BREAKDOWN_HTML
 from path_extract.constants import ClassNames, Columns, Headings
 from pathlib import Path
 import polars as pl
-from rich import print as rprint
 
 from collections import Counter
 
@@ -22,17 +23,28 @@ MAIN_WRAPPER = "main-wrapper"
 SCORECARD = "score-card"
 
 
-def read_breakdown(path: Path) -> pl.DataFrame:
-    assert path.exists()
+IncomingMarkup: TypeAlias = Union[str, bytes, IO[str], IO[bytes]]
 
-    with open(path, "r") as file:
-        soup = BeautifulSoup(
-            file,
+def read_breakdown(
+    path: Path | None = None, file_contents: IncomingMarkup | None = None
+) -> pl.DataFrame:
+    def get_soup(file_data):
+        return BeautifulSoup(
+            file_data,
             features="html.parser",
             # features="html5lib",
             from_encoding="utf-8",
             parse_only=SoupStrainer(class_=SCORECARD),
-        )  # TODO use soup strainer .. this can also check the html, if the soup is empty, then fail immediately
+        )
+
+    if path:
+        assert path.exists()
+        with open(path, "r") as file:
+            soup = get_soup(file)
+    elif file_contents:
+        soup = get_soup(file_contents)
+    else:
+        raise Exception("Need either a path or file contents!")
 
     all_rows = [i for i in soup.find_all("tr") if isinstance(i, Tag)]
 
@@ -100,8 +112,8 @@ def get_breakdown_comparison(df):
     return Comparison(embodied, biogenic)
 
 
-if __name__ == "__main__":
-    df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
-    rprint(df)
-    # f = get_breakdown_comparison(df)
-    # rprint(f)
+# if __name__ == "__main__":
+#     df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
+#     rprint(df)
+# f = get_breakdown_comparison(df)
+# rprint(f)

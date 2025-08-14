@@ -6,6 +6,8 @@ __pycache__/
 # Environments
 .env
 .venv
+.bat
+env.ps1
 
 # Distribution / packaging
 .Python

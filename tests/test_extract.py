@@ -1,10 +1,8 @@
 import pytest
 import polars as pl
 
-from path_extract.constants import (
-    ClassNames,
-    Headings, Emissions, Area
-)
+from path_extract.examples import SAMPLE_CLMT_BREAKDOWN_HTML, SAMPLE_CLMT_OVERVIEW_HTML
+from path_extract.constants import ClassNames, Headings, Emissions, Area
 from path_extract.extract.breakdown import read_breakdown
 from path_extract.extract.overview import read_overview
 from path_extract.extract.helpers import is_element_row, is_header_of_class_type
@@ -13,7 +11,7 @@ from rich import print as rprint
 from bs4 import BeautifulSoup
 from bs4.element import PageElement, Tag
 
-from path_extract.project_paths import SAMPLE_CLMT_BREAKDOWN_HTML, CLMTPath, SAMPLE_CLMT_OVERVIEW_HTML
+from path_extract.project_paths import CLMTPath, DataType
 
 
 # @pytest.mark.skip("Trivial")
@@ -75,23 +73,32 @@ def test_read_breakdown():
 
 
 def test_clmt_paths():
-    pier_6_paths = CLMTPath("pier_6")   
-    overview_html = pier_6_paths.get_html(0, "Overview")
+    pier_6_paths = CLMTPath("pier_6")
+    overview_html = pier_6_paths.get_html(0, DataType.OVERVIEW)
     assert overview_html.exists()
+
 
 def test_read_breakdown_real_case():
     df = read_breakdown(SAMPLE_CLMT_BREAKDOWN_HTML)
-    assert len(df) > 1
-    # TODO check that has correct columns 
+    assert len(df) > 1 #TODO could get info about how long this is supposed to be?
+    # TODO check that has correct columns
+
+def test_read_breakdown_with_file_contents():
+    with open(SAMPLE_CLMT_BREAKDOWN_HTML, "r") as file:
+        df = read_breakdown(file_contents=file)
+    assert len(df) > 1 
+
+
 
 
 
 def test_read_overview():
     df = read_overview(SAMPLE_CLMT_OVERVIEW_HTML)
     assert len(df) > 1
-    # TODO check that has correct columns 
+    # TODO check that has correct columns
     # keys = [i.name for i in Emissions] + [i.name for i in Area]
     # assert sorted(keys) == sorted(list(result.keys()))
+
 
 if __name__ == "__main__":
     test_read_breakdown()
